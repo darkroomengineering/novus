@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
+import { VisualEditing } from "@sanity/visual-editing/react-router";
 
-export function DisablePreviewMode() {
+export function SanityVisualEditing() {
+  return (
+    <>
+      <VisualEditing />
+      <DisablePreviewMode />
+    </>
+  );
+}
+
+function DisablePreviewMode() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {

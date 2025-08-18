@@ -1,8 +1,8 @@
 import type { Route } from "./+types/home";
 import type { SanityDocument } from "@sanity/client";
 import { useQuery } from "@sanity/react-loader";
-import { loadQuery } from "../../sanity/loader";
-import { previewContext } from "../../sanity/preview";
+import { loadQuery } from "~/sanity/loader";
+import { previewContext } from "~/sanity/preview";
 
 const query = `*[_type == "page"][0]{title, description}`;
 type Response = SanityDocument<{ title?: string; description?: string }>;

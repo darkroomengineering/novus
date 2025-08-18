@@ -9,9 +9,9 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import { SanityVisualEditing } from "~/components/SanityVisualEditing";
+import { SanityVisualEditing } from "~/sanity/components/visual-editing";
 import { previewContext } from "~/sanity/preview";
-import "./app.css";
+import "./styles/app.css";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

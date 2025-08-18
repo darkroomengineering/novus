@@ -20,7 +20,7 @@ async function previewContext(
   const previewSession = await getSession(headers.get("Cookie"));
 
   const preview =
-    previewSession.get("projectId") === process.env.PUBLIC_SANITY_PROJECT_ID;
+    previewSession.get("projectId") === import.meta.env.VITE_SANITY_PROJECT_ID;
 
   return {
     preview,

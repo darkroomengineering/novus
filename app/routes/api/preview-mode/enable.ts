@@ -1,7 +1,7 @@
 import { redirect } from "react-router";
 import { validatePreviewUrl } from "@sanity/preview-url-secret";
-import { client } from "../../../../sanity/client";
-import { commitSession, getSession } from "../../../../sanity/preview";
+import { client } from "~/sanity/client";
+import { commitSession, getSession } from "~/sanity/preview";
 
 export async function loader({ request }: { request: Request }) {
   if (!process.env.SANITY_VIEWER_TOKEN) {

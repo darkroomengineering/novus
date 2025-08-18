@@ -9,11 +9,13 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "@react-router/node": "^7.7.1",
     "@react-router/serve": "^7.7.1",
     "@sanity/client": "^7.8.2",
     "@sanity/preview-url-secret": "^2.1.14",
     "@sanity/react-loader": "^1.11.18",
+    "@sanity/vision": "^4.4.1",
     "@sanity/visual-editing": "^3.0.3",
     "isbot": "^5.1.27",
     "react": "^19.1.0",
