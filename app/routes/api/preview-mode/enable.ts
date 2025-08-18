@@ -22,7 +22,7 @@ export async function loader({ request }: { request: Request }) {
   }
 
   const session = await getSession(request.headers.get("Cookie"));
-  session.set("projectId", process.env.PUBLIC_SANITY_PROJECT_ID);
+  session.set("projectId", import.meta.env.VITE_SANITY_PROJECT_ID);
 
   return redirect(redirectTo, {
     headers: {

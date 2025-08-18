@@ -20,6 +20,7 @@
     "@sanity/react-loader": "^1.11.18",
     "@sanity/vision": "^4.4.1",
     "@sanity/visual-editing": "^3.0.3",
+    "groq": "^4.4.1",
     "isbot": "^5.1.27",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

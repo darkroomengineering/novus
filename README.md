@@ -95,9 +95,9 @@ This project includes Sanity CMS integration with Visual Editing capabilities.
 
 2. Update the `.env` file with your Sanity project details:
    ```
-   PUBLIC_SANITY_PROJECT_ID="your-project-id"
-   PUBLIC_SANITY_DATASET="production"
-   PUBLIC_SANITY_STUDIO_URL="https://your-project.sanity.studio"
+   VITE_SANITY_PROJECT_ID="your-project-id"
+   VITE_SANITY_DATASET="production"
+   VITE_SANITY_STUDIO_URL="https://your-project.sanity.studio"
    SANITY_VIEWER_TOKEN="your-viewer-token"
    ```
 

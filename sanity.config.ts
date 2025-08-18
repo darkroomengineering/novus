@@ -3,7 +3,7 @@ import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 
-import { structure, defaultDocumentNode } from "./sanity/structur";
+import { structure, defaultDocumentNode } from "./sanity/struct";
 import { schemas } from "./sanity/schemas";
 
 export default defineConfig({

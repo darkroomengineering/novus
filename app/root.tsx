@@ -5,13 +5,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useRouteLoaderData,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import { SanityVisualEditing } from "~/sanity/components/visual-editing";
 import { previewContext } from "~/sanity/preview";
 import "./styles/app.css";
+import type { PropsWithChildren } from "react";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -29,18 +29,10 @@ export const links: Route.LinksFunction = () => [
 export async function loader({ request }: Route.LoaderArgs) {
   const { preview } = await previewContext(request.headers);
 
-  const ENV = {
-    PUBLIC_SANITY_PROJECT_ID: process.env.PUBLIC_SANITY_PROJECT_ID,
-    PUBLIC_SANITY_DATASET: process.env.PUBLIC_SANITY_DATASET,
-    PUBLIC_SANITY_STUDIO_URL: process.env.PUBLIC_SANITY_STUDIO_URL,
-  };
-
-  return { preview, ENV };
+  return { preview };
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
-  const { preview, ENV } = useRouteLoaderData("root");
-
+export function Layout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <head>
@@ -50,22 +42,23 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
         <ScrollRestoration />
         <Scripts />
-        {preview && <SanityVisualEditing />}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(ENV)}`,
-          }}
-        />
+        {children}
       </body>
     </html>
   );
 }
 
-export default function App() {
-  return <Outlet />;
+export default function App({ loaderData }: Route.ComponentProps) {
+  const { preview } = loaderData;
+  
+  return (
+    <>
+      <Outlet />
+      {preview && <SanityVisualEditing />}
+    </>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
