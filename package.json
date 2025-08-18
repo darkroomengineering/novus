@@ -6,7 +6,10 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "sanity:typegen": "bun sanity:extract && bun sanity:generate",
+    "sanity:extract": "bun --bun sanity schema extract --path ./sanity/types/schema.json",
+    "sanity:generate": "bun --bun sanity typegen generate --config-path ./sanity/types/gen-config.json"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
