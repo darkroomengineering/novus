@@ -4,6 +4,9 @@ import { useQuery } from "@sanity/react-loader";
 import { loadQuery } from "~/sanity/loader";
 import { previewContext } from "~/sanity/preview";
 import { homeQuery } from "~/sanity/queries";
+import { useMemo, useRef } from "react";
+import { usePresenceAnimation } from "~/hooks/use-presence-animation";
+import { animate, createTimeline, type Scope } from "animejs";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const { options } = await previewContext(request.headers);
@@ -22,38 +25,55 @@ export function meta({ loaderData }: Route.MetaArgs) {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
+  // NOTE: When animating and keeping a page mounted, the loaderData will get undefined.
+  const memoizedLoaderData = useMemo(() => loaderData, [])
   const { data, encodeDataAttribute } = useQuery(
     homeQuery,
     {},
-    { initial: loaderData }
+    { initial: memoizedLoaderData }
   );
 
-  if (!data) {
-    return (
-      <div className="max-w-4xl mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-4">Welcome to React Router!</h1>
-        <p className="text-lg text-gray-600">
-          No homepage content found. Please create a "home" document in your Sanity Studio.
-        </p>
-      </div>
-    );
-  }
+  const rootRef = useRef<HTMLDivElement>(null)
+  const scopeRef = useRef<Scope>(null)
+  usePresenceAnimation({
+    enter: () => {
+      animate('#root', {
+        opacity: [0, 1],
+        duration: 1000,
+        easing: "easeInOut"
+      })
+
+      return () => scopeRef.current?.revert()
+    },
+    exit: (safeToRemove) => {
+      const tl = createTimeline({onComplete: safeToRemove});
+      tl.set("#root", {position: "absolute", left: 0, width: "100%"})
+      tl.add('#root', {
+          opacity: [1, 0],
+          duration: 1000,
+          easing: "easeInOut",
+          onComplete: safeToRemove
+        })
+
+        return () => tl.revert()
+    }
+  })
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div id="root" className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100" ref={rootRef}>
       <div className="max-w-4xl mx-auto p-6">
         <header className="text-center mb-12">
           <h1 
             className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             data-sanity={encodeDataAttribute(["title"])}
           >
-            {data.title}
+            {data?.title}
           </h1>
             <p 
               className="text-xl text-gray-700 leading-relaxed max-w-2xl mx-auto"
               data-sanity={encodeDataAttribute(["description"])}
             >
-              {data.description}
+              {data?.description}
             </p>
         </header>
         

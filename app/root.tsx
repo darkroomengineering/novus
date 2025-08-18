@@ -54,10 +54,10 @@ export default function App({ loaderData }: Route.ComponentProps) {
   const { preview } = loaderData;
   
   return (
-    <>
-      <Outlet />
-      {preview && <SanityVisualEditing />}
-    </>
+      <>
+        <Outlet />
+        {preview && <SanityVisualEditing />}
+      </>
   );
 }
 
