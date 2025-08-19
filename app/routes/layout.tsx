@@ -7,6 +7,7 @@ export default function RootLayout() {
 		<header>
 			<Link to="/">Home</Link>
 			<Link to="/about">About</Link>
+			<Link to="/other">Other</Link>
 		</header>
 		<AnimationOutlet />
 		</>

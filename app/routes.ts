@@ -5,6 +5,7 @@ export default [
   layout("./routes/layout.tsx", [
     index("./routes/home.tsx"),
     route("about", "./routes/about.tsx"),
+    route("other", "./routes/other.tsx"),
   ]),
   route('studio/*', './routes/studio.tsx'),
   // API Routes
