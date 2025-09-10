@@ -3,6 +3,7 @@ import { createCookieSessionStorage } from 'react-router';
 
 export const PREVIEW_SESSION_NAME = '__sanity_preview'
 
+// This is the session storage for the sanity preview
 const {getSession, commitSession, destroySession} = createCookieSessionStorage({
   cookie: {
     httpOnly: true,

@@ -2,24 +2,28 @@ import {useEffect, useState} from 'react'
 
 export function ExitPreview() {
   const [inIframe, setInIframe] = useState(true)
+  
   useEffect(() => {
     setInIframe(window.self !== window.top)
   }, [])
 
-  return inIframe ? null : (
-    <div className="pointer-events-none fixed inset-0 flex h-screen w-screen items-end justify-end p-2">
+  if (inIframe) return null
+
+  return (
       <form
-        className="pointer-events-auto"
+        className="absolute inset-x-0 bottom-0 w-full bg-black/10 flex justify-center items-center gap-1 z-50 pointer-events-auto text-sm py-1"
         action="/api/preview"
         method="POST"
       >
+        <p>
+          You are currently in preview mode:
+        </p>
         <button
-          className="bg-black p-4 leading-none font-bold text-white"
           type="submit"
+          className="underline"
         >
           Exit Preview Mode
         </button>
       </form>
-    </div>
   )
 }

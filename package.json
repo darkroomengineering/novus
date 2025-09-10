@@ -8,8 +8,8 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "sanity:typegen": "bun sanity:extract && bun sanity:generate",
-    "sanity:extract": "bun --bun sanity schema extract --path ./integrations/sanity/types/schema.json",
-    "sanity:generate": "bun --bun sanity typegen generate --config-path ./integrations/sanity/types/gen-config.json"
+    "sanity:extract": "bun --bun sanity schema extract --path ./lib/types/sanity/schema.json",
+    "sanity:generate": "bun --bun sanity typegen generate --config-path ./lib/types/sanity/gen-config.json"
   },
   "dependencies": {
     "@react-router/node": "^7.8.2",

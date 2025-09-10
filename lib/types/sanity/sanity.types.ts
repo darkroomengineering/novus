@@ -143,10 +143,10 @@ export type SanityAssetSourceData = {
 
 export type AllSanitySchemaTypes = Home | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./app/sanity/queries.ts
-// Variable: homeQuery
+// Source: ./app/routes/home.tsx
+// Variable: HOME_QUERY
 // Query: *[_type == 'home'][0]
-export type HomeQueryResult = {
+export type HOME_QUERYResult = {
   _id: string;
   _type: "home";
   _createdAt: string;
@@ -160,6 +160,6 @@ export type HomeQueryResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == 'home'][0]": HomeQueryResult;
+    "*[_type == 'home'][0]": HOME_QUERYResult;
   }
 }
