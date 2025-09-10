@@ -1,37 +1,41 @@
-import { animate, JSAnimation } from "animejs";
 import { usePresenceAnimation } from "#/hooks/use-presence-animation";
+import { animate } from "motion";
+import { type AnimationPlaybackControlsWithThen } from "motion/react";
 import { useLocation } from "react-router";
 
 export default function OtherPage() {
 	const { pathname } = useLocation()
+	
 	usePresenceAnimation({
 		enter: () => {	
 			const animation = animate("#other", {
 				opacity: [0, 1],
-				duration: 1000,
-				easing: "easeInOut"
+				}, {
+				duration: 1,
+				ease: "easeInOut"
 			})
-			return () => animation.revert()
+			return () => animation.cancel()
 		},
 		exit: (safeToRemove) => {
-			let animation: JSAnimation | undefined
+			let animation: AnimationPlaybackControlsWithThen | undefined
 			if (pathname === "/") {
 				animation = animate("#other", {
 				opacity: [1, 0],
-				duration: 1000,
-				easing: "easeInOut",
+				}, {
+				duration: 1,
+				ease: "easeInOut",
 				onComplete: safeToRemove
 			})
 		} else {
 			animation = animate("#other", {
 				opacity: [1, .4],
 				translateX: ["0%", "100%"],
-				duration: 1000,
-				easing: "easeInOut",
-				onComplete: safeToRemove
-			})
+			}, {
+				duration: 1,
+				ease: "easeInOut",
+				onComplete: safeToRemove})
 		}
-			return () => animation.revert()
+			return () => animation.cancel()
 		}
 	})
 

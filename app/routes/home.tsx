@@ -1,11 +1,12 @@
 import type { Route } from "./+types/home";
-import type { Home } from "#/integrations/sanity/types/sanity.types";
 import { useQuery } from "@sanity/react-loader";
 import { loadQuery } from "#/integrations/sanity/loader.server";
 import { useMemo, useRef } from "react";
 import { usePresenceAnimation } from "#/hooks/use-presence-animation";
-import { animate, createTimeline, type Scope } from "animejs";
 import { defineQuery } from "groq";
+import { createTimeline } from "#/integrations/motion";
+import { useAnimate } from "motion/react";
+import { animate } from "motion";
 
 export function meta({ loaderData }: Route.MetaArgs) {
   const title = loaderData?.data?.title || "New React Router App";
@@ -37,35 +38,35 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     {},
     { initial: memoizedLoaderData }
   );
-
-  const rootRef = useRef<HTMLDivElement>(null)
-  const scopeRef = useRef<Scope>(null)
+  
   usePresenceAnimation({
     enter: () => {
-      animate('#root', {
+      const animation = animate('#root', {
         opacity: [0, 1],
-        duration: 1000,
-        easing: "easeInOut"
-      })
+      }, {duration: 1, ease: "easeInOut"})
 
-      return () => scopeRef.current?.revert()
+      return () => animation.cancel()
     },
     exit: (safeToRemove) => {
-      const tl = createTimeline({onComplete: safeToRemove});
-      tl.set("#root", {position: "absolute", left: 0, width: "100%"})
+      
+      const tl = createTimeline();
+      tl.add("#root", {position: "absolute", left: 0, width: "100%"}, {duration: 0})
       tl.add('#root', {
           opacity: [1, 0],
-          duration: 1000,
-          easing: "easeInOut",
+        }, {
+          duration: 1,
+          ease: "easeInOut",
           onComplete: safeToRemove
         })
 
-        return () => tl.revert()
+        const animation = animate(tl.sequence)
+
+        return () => animation.cancel()
     }
   })
 
   return (
-    <div id="root" className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100" ref={rootRef}>
+    <div id="root" className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="max-w-4xl mx-auto p-6">
         <header className="text-center mb-12">
           <h1 

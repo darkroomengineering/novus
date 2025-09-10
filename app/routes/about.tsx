@@ -1,26 +1,29 @@
-import { createTimeline } from "animejs";
+import { createTimeline } from "#/integrations/motion";
 import { usePresenceAnimation } from "#/hooks/use-presence-animation";
+import { animate } from "motion";
 
 export default function AboutPage() {
 	usePresenceAnimation({
 		enter: () => {
 			const tl = createTimeline();
-			tl.add('#about', {
+			tl.add("#about", {
 				opacity: [0, 1],
-				duration: 1000,
-				easing: "easeInOut"
-			})
-			return () => tl.revert()
+			}, {duration: 1, ease: "easeInOut"})
+
+			const animation = animate(tl.sequence)
+
+			return () => animation.cancel()
 		},
 		exit: (safeToRemove) => {
-			const tl = createTimeline({onComplete: safeToRemove});
-			tl.set("#about", {position: "absolute", left: 0, width: "100%"})
-			tl.add('#about', {
+			const tl = createTimeline();
+			tl.add("#about", {position: "absolute", left: 0, width: "100%"}, {duration: 0})
+			tl.add("#about", {
 				opacity: [1, 0],
-				duration: 1000,
-				easing: "easeInOut"
-			})
-			return () => tl.revert()
+			}, {duration: 1, ease: "easeInOut", onComplete: safeToRemove})
+
+			const animation = animate(tl.sequence)
+
+			return () => animation.cancel()
 		}
 	})
 
