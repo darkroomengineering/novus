@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { AnimationOutlet } from "#/components/animation-outlet";
-import { lazy } from "react";
+import {VisualEditing} from '@sanity/visual-editing/react-router'
+import { lazy, Suspense } from "react";
 import { sanityContext } from "#/integrations/sanity/context";
 import { sanityMiddleware } from "#/integrations/sanity/middleware";
 import type { Route } from "./+types/layout";
@@ -27,7 +28,8 @@ export async function loader({context}: Route.LoaderArgs) {
 		}
 	}
 
-export default function RootLayout() {
+export default function RootLayout({loaderData}: Route.ComponentProps) {
+	const {sanity} = loaderData
 	return (
 		<>
 		<header>
@@ -36,6 +38,11 @@ export default function RootLayout() {
 			<Link to="/other">Other</Link>
 		</header>
 		<AnimationOutlet />
+		{sanity?.preview && <Suspense>
+			<VisualEditing />
+				<SanityLiveMode />
+				<ExitPreview />
+			</Suspense>}
 		</>
 	)
 }

@@ -8,5 +8,5 @@ export const viewClient = createClient({
   dataset,
   apiVersion,
   useCdn: false,
-  token: env.SANITY_READ_TOKEN,
+  token: env.SANITY_VIEWER_TOKEN,
 })

@@ -24,12 +24,12 @@ export const action: ActionFunction = async ({request}) => {
 
 // A `GET` request to this route will enter preview mode
 export const loader = async ({request}: Route.LoaderArgs) => {
-  if (!env.SANITY_READ_TOKEN) {
+  if (!env.SANITY_VIEWER_TOKEN) {
     throw new Response('Preview mode missing token', {status: 401})
   }
 
   const clientWithToken = client.withConfig({
-    token: env.SANITY_READ_TOKEN,
+    token: env.SANITY_VIEWER_TOKEN,
   })
 
 	console.log(request.url)

@@ -7,12 +7,6 @@ import { useMemo, useRef } from "react";
 import { usePresenceAnimation } from "#/hooks/use-presence-animation";
 import { animate, createTimeline, type Scope } from "animejs";
 
-export async function loader({ request, context }: Route.LoaderArgs) {
-  const { options } = await previewContext(request.headers);
-  const data = await loadQuery(homeQuery, {}, options);
-  return data;
-}
-
 export function meta({ loaderData }: Route.MetaArgs) {
   const title = loaderData?.data?.title || "New React Router App";
   const description = loaderData?.data?.description || "Welcome to React Router!";
@@ -22,6 +16,15 @@ export function meta({ loaderData }: Route.MetaArgs) {
     { name: "description", content: description },
   ];
 }
+
+export async function loader({ context }: Route.LoaderArgs) {
+  const data = await loadQuery({
+    query: homeQuery,
+    context,
+  });
+  return data;
+}
+
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   // NOTE: When animating and keeping a page mounted, the loaderData will get undefined.
