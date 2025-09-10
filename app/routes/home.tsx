@@ -1,14 +1,13 @@
 import type { Route } from "./+types/home";
-import type { Home } from "~/sanity/types/sanity.types";
+import type { Home } from "#/integrations/sanity/types/sanity.types";
 import { useQuery } from "@sanity/react-loader";
-import { loadQuery } from "~/sanity/loader";
-import { previewContext } from "~/sanity/preview";
+import { loadQuery } from "#/integrations/sanity/loader.server";
 import { homeQuery } from "~/sanity/queries";
 import { useMemo, useRef } from "react";
-import { usePresenceAnimation } from "~/hooks/use-presence-animation";
+import { usePresenceAnimation } from "#/hooks/use-presence-animation";
 import { animate, createTimeline, type Scope } from "animejs";
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request, context }: Route.LoaderArgs) {
   const { options } = await previewContext(request.headers);
   const data = await loadQuery(homeQuery, {}, options);
   return data;

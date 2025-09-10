@@ -1,5 +1,5 @@
 import { createTimeline } from "animejs";
-import { usePresenceAnimation } from "~/hooks/use-presence-animation";
+import { usePresenceAnimation } from "#/hooks/use-presence-animation";
 
 export default function AboutPage() {
 	usePresenceAnimation({

@@ -9,6 +9,5 @@ export default [
   ]),
   route('studio/*', './routes/studio.tsx'),
   // API Routes
-  route("api/preview-mode/enable", "./routes/api/preview-mode/enable.ts"),
-  route("api/preview-mode/disable", "./routes/api/preview-mode/disable.ts"),
+  route("api/preview", "./routes/api/preview.ts"),
 ] satisfies RouteConfig;

@@ -1,5 +1,5 @@
 import { animate, JSAnimation } from "animejs";
-import { usePresenceAnimation } from "~/hooks/use-presence-animation";
+import { usePresenceAnimation } from "#/hooks/use-presence-animation";
 import { useLocation } from "react-router";
 
 export default function OtherPage() {

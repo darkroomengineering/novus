@@ -3,31 +3,29 @@ import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 
-import { structure, defaultDocumentNode } from "./sanity/struct";
-import { schemas } from "./sanity/schemas";
+import { dataset, projectId, apiVersion, STUDIO_BASEPATH } from "~/sanity/project";
+import { structure } from "~/sanity/structure";
+import { types } from "~/sanity/types";
 
 export default defineConfig({
-  name: "default",
+  name: "novus",
   title: "Novus",
-  projectId: import.meta.env.VITE_SANITY_PROJECT_ID!,
-  dataset: import.meta.env.VITE_SANITY_DATASET!,
-  basePath: "/studio",
+  projectId,
+  dataset,
+  apiVersion,
+  basePath: STUDIO_BASEPATH,
   plugins: [
-    structureTool({structure, defaultDocumentNode}),
+    structureTool({structure}),
     presentationTool({
       previewUrl: {
-        origin: import.meta.env.SANITY_STUDIO_PREVIEW_ORIGIN || "http://localhost:5173",
-        preview: "/",
         previewMode: {
-          enable: "/api/preview-mode/enable",
-          disable: "/api/preview-mode/disable",
+          enable: "/api/preview",
         },
       },
     }),
     visionTool(),
-    // Add your other plugins here
   ],
   schema: {
-    types: schemas,
+    types,
   },
 });

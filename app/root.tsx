@@ -8,8 +8,6 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import { SanityVisualEditing } from "~/sanity/components/visual-editing";
-import { previewContext } from "~/sanity/preview";
 import "./styles/app.css";
 import type { PropsWithChildren } from "react";
 
@@ -25,12 +23,6 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
-
-export async function loader({ request }: Route.LoaderArgs) {
-  const { preview } = await previewContext(request.headers);
-
-  return { preview };
-}
 
 export function Layout({ children }: PropsWithChildren) {
   return (
@@ -50,15 +42,8 @@ export function Layout({ children }: PropsWithChildren) {
   );
 }
 
-export default function App({ loaderData }: Route.ComponentProps) {
-  const { preview } = loaderData;
-  
-  return (
-      <>
-        <Outlet />
-        {preview && <SanityVisualEditing />}
-      </>
-  );
+export default function App() {
+  return <Outlet />
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
