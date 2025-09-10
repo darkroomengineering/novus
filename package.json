@@ -7,6 +7,8 @@
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --write",
     "sanity:typegen": "bun sanity:extract && bun sanity:generate",
     "sanity:extract": "bun --bun sanity schema extract --path ./lib/types/sanity/schema.json",
     "sanity:generate": "bun --bun sanity typegen generate --config-path ./lib/types/sanity/gen-config.json"
@@ -29,6 +31,7 @@
     "valibot": "^1.1.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.2.2",
     "@react-router/dev": "^7.8.2",
     "@t3-oss/env-core": "^0.13.8",
     "@tailwindcss/vite": "^4.1.13",
@@ -37,6 +40,7 @@
     "@types/react-dom": "^19.1.9",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2",
+    "ultracite": "5.3.2",
     "vite": "^7.1.5",
     "vite-tsconfig-paths": "^5.1.4"
   },

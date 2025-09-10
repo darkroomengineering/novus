@@ -1,4 +1,4 @@
-import { defineField, defineType } from "sanity"
+import { defineField, defineType } from "sanity";
 
 export const home = defineType({
   name: "home",
@@ -10,7 +10,7 @@ export const home = defineType({
       title: "Title",
       type: "string",
       description: "Main heading for the homepage",
-      validation: Rule => Rule.required(),
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "description",
@@ -19,11 +19,10 @@ export const home = defineType({
       description: "Short description for SEO and social sharing",
     }),
   ],
-	preview: {
-		select: {
-			title: "title",
-			subtitle: "description",
-		},
-	}
-})
-
+  preview: {
+    select: {
+      title: "title",
+      subtitle: "description",
+    },
+  },
+});

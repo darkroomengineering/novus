@@ -3,7 +3,12 @@ import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 
-import { dataset, projectId, apiVersion, STUDIO_BASEPATH } from "~/sanity/project";
+import {
+  apiVersion,
+  dataset,
+  projectId,
+  STUDIO_BASEPATH,
+} from "~/sanity/project";
 import { structure } from "~/sanity/structure";
 import { types } from "~/sanity/types";
 
@@ -15,7 +20,7 @@ export default defineConfig({
   apiVersion,
   basePath: STUDIO_BASEPATH,
   plugins: [
-    structureTool({structure}),
+    structureTool({ structure }),
     presentationTool({
       previewUrl: {
         previewMode: {

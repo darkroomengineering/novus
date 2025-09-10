@@ -1,6 +1,6 @@
-import {createClient} from '@sanity/client'
+import { createClient } from "@sanity/client";
 
-import {apiVersion, dataset, projectId} from '~/sanity/project'
+import { apiVersion, dataset, projectId } from "~/sanity/project";
 
 // Base client setup
 export const client = createClient({
@@ -8,5 +8,5 @@ export const client = createClient({
   dataset,
   apiVersion,
   useCdn: true,
-  perspective: 'published',
-})
+  perspective: "published",
+});

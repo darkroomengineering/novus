@@ -1,25 +1,23 @@
-import type {
-  StructureResolver,
-} from 'sanity/structure'
+import type { StructureResolver } from "sanity/structure";
 
 export const structure: StructureResolver = (S) =>
   S.list()
-    .id('root')
-    .title('Content')
+    .id("root")
+    .title("Content")
     .items([
       // Singleton, home page curation
       S.listItem()
-        .id('home')
-        .schemaType('home')
-        .title('Home')
-        .child(S.editor().id('home').schemaType('home').documentId('home')),
+        .id("home")
+        .schemaType("home")
+        .title("Home")
+        .child(S.editor().id("home").schemaType("home").documentId("home")),
       // S.divider(),
       // Document lists
       // S.documentTypeListItem('record').title('Records').icon(Disc),
       // S.documentTypeListItem('artist').title('Artists').icon(Users),
       // S.divider(),
       // S.documentTypeListItem('genre').title('Genres').icon(Tags),
-    ])
+    ]);
 
 // export const defaultDocumentNode: DefaultDocumentNodeResolver = (
 //   S,
