@@ -143,7 +143,7 @@ export type SanityAssetSourceData = {
 
 export type AllSanitySchemaTypes = Home | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
-// Source: ./sanity/queries.ts
+// Source: ./app/sanity/queries.ts
 // Variable: homeQuery
 // Query: *[_type == 'home'][0]
 export type HomeQueryResult = {

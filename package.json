@@ -8,15 +8,15 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "sanity:typegen": "bun sanity:extract && bun sanity:generate",
-    "sanity:extract": "bun --bun sanity schema extract --path ./sanity/types/schema.json",
-    "sanity:generate": "bun --bun sanity typegen generate --config-path ./sanity/types/gen-config.json"
+    "sanity:extract": "bun --bun sanity schema extract --path ./integrations/sanity/types/schema.json",
+    "sanity:generate": "bun --bun sanity typegen generate --config-path ./integrations/sanity/types/gen-config.json"
   },
   "dependencies": {
     "@react-router/node": "^7.8.2",
-    "@react-router/serve": "^7.7.1",
+    "@react-router/serve": "^7.8.2",
     "@sanity/client": "^7.11.1",
     "@sanity/preview-url-secret": "^2.1.15",
-    "@sanity/react-loader": "^1.11.18",
+    "@sanity/react-loader": "^1.11.19",
     "@sanity/vision": "^4.8.0",
     "@sanity/visual-editing": "^3.0.5",
     "animejs": "^4.1.3",
@@ -26,7 +26,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router": "^7.8.2",
-    "sanity": "^4.4.1",
+    "sanity": "^4.8.0",
     "valibot": "^1.1.0"
   },
   "devDependencies": {

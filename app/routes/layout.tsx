@@ -2,8 +2,8 @@ import { Link } from "react-router";
 import { AnimationOutlet } from "#/components/animation-outlet";
 import {VisualEditing} from '@sanity/visual-editing/react-router'
 import { lazy, Suspense } from "react";
-import { sanityContext } from "#/integrations/sanity/context";
-import { sanityMiddleware } from "#/integrations/sanity/middleware";
+import { sanityContext } from "#/integrations/sanity/context.server";
+import { sanityMiddleware } from "#/integrations/sanity/middleware.server";
 import type { Route } from "./+types/layout";
 
 const SanityLiveMode = lazy(() =>

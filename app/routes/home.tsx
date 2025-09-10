@@ -2,10 +2,10 @@ import type { Route } from "./+types/home";
 import type { Home } from "#/integrations/sanity/types/sanity.types";
 import { useQuery } from "@sanity/react-loader";
 import { loadQuery } from "#/integrations/sanity/loader.server";
-import { homeQuery } from "~/sanity/queries";
 import { useMemo, useRef } from "react";
 import { usePresenceAnimation } from "#/hooks/use-presence-animation";
 import { animate, createTimeline, type Scope } from "animejs";
+import { defineQuery } from "groq";
 
 export function meta({ loaderData }: Route.MetaArgs) {
   const title = loaderData?.data?.title || "New React Router App";
@@ -17,9 +17,12 @@ export function meta({ loaderData }: Route.MetaArgs) {
   ];
 }
 
+
+const HOME_QUERY = defineQuery("*[_type == 'home'][0]")
+
 export async function loader({ context }: Route.LoaderArgs) {
   const data = await loadQuery({
-    query: homeQuery,
+    query: HOME_QUERY,
     context,
   });
   return data;
@@ -30,7 +33,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   // NOTE: When animating and keeping a page mounted, the loaderData will get undefined.
   const memoizedLoaderData = useMemo(() => loaderData, [])
   const { data, encodeDataAttribute } = useQuery(
-    homeQuery,
+    HOME_QUERY,
     {},
     { initial: memoizedLoaderData }
   );
