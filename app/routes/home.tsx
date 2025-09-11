@@ -29,11 +29,13 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   // NOTE: When animating and keeping a page mounted, the loaderData will get undefined.
   // biome-ignore lint/correctness/useExhaustiveDependencies: This is fine
   const memoizedLoaderData = useMemo(() => loaderData, []);
-  const { data, encodeDataAttribute } = useQuery(
+  const { data: _data, encodeDataAttribute } = useQuery(
     HOME_QUERY,
     {},
     { initial: memoizedLoaderData }
   );
+
+  const data = _data || loaderData?.data || memoizedLoaderData?.data;
 
   usePresenceAnimation({
     enter: () => {
@@ -62,11 +64,13 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         {
           duration: 1,
           ease: "easeInOut",
-          onComplete: safeToRemove,
         }
       );
 
       const animation = animate(tl.sequence);
+      animation.then(() => {
+        safeToRemove();
+      });
 
       return () => animation.cancel();
     },

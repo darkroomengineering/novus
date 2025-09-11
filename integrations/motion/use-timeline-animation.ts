@@ -6,8 +6,7 @@ import { createTimeline } from "./timeline";
 export function useTimelineAnimation(
   tlFn: (
     tl: ReturnType<typeof createTimeline>
-  ) => ReturnType<typeof createTimeline>,
-  deps: unknown[] = []
+  ) => ReturnType<typeof createTimeline>
 ) {
   const [scope, animate] = useAnimate();
   const [animation, setAnimation] = useState<AnimationPlaybackControlsWithThen>(
@@ -15,10 +14,7 @@ export function useTimelineAnimation(
   );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: Infinite loop with tlFn as dependency
-  const tl = useMemo(() => {
-    console.log("recreate timeline");
-    return tlFn(createTimeline());
-  }, [...deps]);
+  const tl = useMemo(() => tlFn(createTimeline()), []);
 
   useEffect(() => {
     const anim = animate(tl.sequence);

@@ -24,17 +24,23 @@ export default function AboutPage() {
       tl.add(
         "#about",
         { position: "absolute", left: 0, width: "100%" },
-        { duration: 0 }
+        { duration: 0, onComplete: () => console.log("onComplete") }
       );
       tl.add(
         "#about",
         {
           opacity: [1, 0],
         },
-        { duration: 1, ease: "easeInOut", onComplete: safeToRemove }
+        {
+          duration: 1,
+          ease: "easeInOut",
+        }
       );
 
       const animation = animate(tl.sequence);
+      animation.then(() => {
+        safeToRemove();
+      });
 
       return () => animation.cancel();
     },
@@ -42,8 +48,7 @@ export default function AboutPage() {
 
   return (
     <div id="about">
-      About
-      <ProgressAnimation />
+      <ProgressAnimation>About</ProgressAnimation>
     </div>
   );
 }

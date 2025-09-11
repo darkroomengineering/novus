@@ -1,13 +1,11 @@
 import { Lenis, useLenis } from "lenis/react";
-import { useState } from "react";
+import type { PropsWithChildren } from "react";
 import { useTimelineAnimation } from "#/integrations/motion/use-timeline-animation";
 
-export function ProgressAnimation() {
-  const [state, setState] = useState(0);
-
+export function ProgressAnimation({ children }: PropsWithChildren) {
   const [scope, animation] = useTimelineAnimation((tl) =>
     tl.add("#progress", {
-      opacity: [1, 0.5],
+      opacity: [1, 0],
     })
   );
 
@@ -21,16 +19,11 @@ export function ProgressAnimation() {
   return (
     <div ref={scope}>
       <Lenis root>
-        <div className="h-[200vh] bg-red-500" id="progress">
-          ProgressAnimation
-          <button
-            onClick={() => {
-              setState(state + 1);
-            }}
-            type="button"
-          >
-            State {state}
-          </button>
+        <div
+          className="h-[200vh] bg-gradient-to-b from-blue-500 to-purple-500"
+          id="progress"
+        >
+          {children}
         </div>
       </Lenis>
     </div>

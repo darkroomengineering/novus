@@ -31,7 +31,6 @@ export default function OtherPage() {
           {
             duration: 1,
             ease: "easeInOut",
-            onComplete: safeToRemove,
           }
         );
       } else {
@@ -44,10 +43,14 @@ export default function OtherPage() {
           {
             duration: 1,
             ease: "easeInOut",
-            onComplete: safeToRemove,
           }
         );
       }
+
+      animation.then(() => {
+        safeToRemove();
+      });
+
       return () => animation.cancel();
     },
   });
