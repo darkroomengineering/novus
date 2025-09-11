@@ -1,6 +1,7 @@
 import { animate } from "motion";
-import { usePresenceAnimation } from "#/hooks/use-presence-animation";
-import { createTimeline } from "#/integrations/motion";
+import { createTimeline } from "#/integrations/motion/timeline";
+import { usePresenceAnimation } from "#/integrations/motion/use-presence-animation";
+import { ProgressAnimation } from "~/components/progress-animation";
 
 export default function AboutPage() {
   usePresenceAnimation({
@@ -39,5 +40,10 @@ export default function AboutPage() {
     },
   });
 
-  return <div id="about">About</div>;
+  return (
+    <div id="about">
+      About
+      <ProgressAnimation />
+    </div>
+  );
 }

@@ -17,7 +17,8 @@
       },
       "style": {
         "noMagicNumbers": "off",
-        "useUnifiedTypeSignatures": "off"
+        "useUnifiedTypeSignatures": "off",
+        "useBlockStatements": "off"
       },
       "suspicious": {
         "noConsole": "off",

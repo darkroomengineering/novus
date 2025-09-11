@@ -1,7 +1,7 @@
 import { animate } from "motion";
 import type { AnimationPlaybackControlsWithThen } from "motion/react";
 import { useLocation } from "react-router";
-import { usePresenceAnimation } from "#/hooks/use-presence-animation";
+import { usePresenceAnimation } from "#/integrations/motion/use-presence-animation";
 
 export default function OtherPage() {
   const { pathname } = useLocation();

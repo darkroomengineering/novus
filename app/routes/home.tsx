@@ -2,8 +2,8 @@ import { useQuery } from "@sanity/react-loader";
 import { defineQuery } from "groq";
 import { animate } from "motion";
 import { useMemo } from "react";
-import { usePresenceAnimation } from "#/hooks/use-presence-animation";
-import { createTimeline } from "#/integrations/motion";
+import { createTimeline } from "#/integrations/motion/timeline";
+import { usePresenceAnimation } from "#/integrations/motion/use-presence-animation";
 import { loadQuery } from "#/integrations/sanity/loader.server";
 import type { Route } from "./+types/home";
 
