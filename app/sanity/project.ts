@@ -5,3 +5,4 @@ export const dataset = env.PUBLIC_SANITY_DATASET;
 export const apiVersion = env.PUBLIC_SANITY_API_VERSION;
 
 export const STUDIO_BASEPATH = "/studio";
+export const PROJECT_TITLE = "Novus";

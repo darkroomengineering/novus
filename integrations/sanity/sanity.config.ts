@@ -6,6 +6,7 @@ import { structureTool } from "sanity/structure";
 import {
   apiVersion,
   dataset,
+  PROJECT_TITLE,
   projectId,
   STUDIO_BASEPATH,
 } from "~/sanity/project";
@@ -13,8 +14,8 @@ import { structure } from "~/sanity/structure";
 import { types } from "~/sanity/types";
 
 export default defineConfig({
-  name: "novus",
-  title: "Novus",
+  name: PROJECT_TITLE.toLowerCase().replace(/ /g, "-"),
+  title: PROJECT_TITLE,
   projectId,
   dataset,
   apiVersion,
