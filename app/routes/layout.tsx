@@ -17,9 +17,7 @@ const ExitPreview = lazy(() =>
   }))
 );
 
-export const unstable_middleware: Route.unstable_MiddlewareFunction[] = [
-  sanityMiddleware,
-];
+export const middleware: Route.MiddlewareFunction[] = [sanityMiddleware];
 
 export function loader({ context }: Route.LoaderArgs) {
   const sanity = context.get(sanityContext);

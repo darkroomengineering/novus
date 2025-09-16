@@ -1,6 +1,6 @@
 import type { SanityQueries } from "@sanity/client";
 import * as queryStore from "@sanity/react-loader";
-import type { unstable_RouterContextProvider } from "react-router";
+import type { RouterContextProvider } from "react-router";
 import { env } from "#/lib/env";
 import { STUDIO_BASEPATH } from "~/sanity/project";
 import { client } from "./client";
@@ -18,7 +18,7 @@ queryStore.setServerClient(clientWithToken);
 type LoadQueryOptions<Q extends keyof SanityQueries> = {
   query: Q;
   params?: Parameters<typeof queryStore.loadQuery>[1];
-  context: Readonly<unstable_RouterContextProvider>;
+  context: Readonly<RouterContextProvider>;
 };
 
 export function loadQuery<Q extends keyof SanityQueries>({

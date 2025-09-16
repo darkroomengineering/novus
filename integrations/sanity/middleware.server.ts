@@ -5,7 +5,7 @@ import { sanityContext } from "./context.server";
 import { getSession } from "./session.server";
 
 // This is the middleware that is used to set the context for the sanity preview
-export const sanityMiddleware: Route.unstable_MiddlewareFunction = async ({
+export const sanityMiddleware: Route.MiddlewareFunction = async ({
   request,
   context,
 }) => {

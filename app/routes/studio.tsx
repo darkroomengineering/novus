@@ -14,12 +14,7 @@ export const meta: MetaFunction = () => [
 export default function StudioPage() {
   return (
     <Hydrated>
-      <Studio
-        config={config}
-        // To enable guests view-only access to your Studio,
-        // uncomment this line!
-        // unstable_noAuthBoundary
-      />
+      <Studio config={config} />
     </Hydrated>
   );
 }
