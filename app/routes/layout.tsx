@@ -1,7 +1,7 @@
 import { VisualEditing } from "@sanity/visual-editing/react-router";
 import { lazy, Suspense } from "react";
 import { Link } from "react-router";
-import { AnimationOutlet } from "#/components/animation-outlet";
+import { AnimatePresenceOutlet } from "#/integrations/motion/animate-presence-outlet";
 import { sanityContext } from "#/integrations/sanity/context.server";
 import { sanityMiddleware } from "#/integrations/sanity/middleware.server";
 import type { Route } from "./+types/layout";
@@ -35,7 +35,7 @@ export default function RootLayout({ loaderData }: Route.ComponentProps) {
         <Link to="/about">About</Link>
         <Link to="/other">Other</Link>
       </header>
-      <AnimationOutlet />
+      <AnimatePresenceOutlet />
       {sanity?.preview && (
         <Suspense>
           <VisualEditing />
