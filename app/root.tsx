@@ -8,7 +8,7 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import "./styles/app.css";
+import "#/styles/css/index.css";
 import type { PropsWithChildren } from "react";
 
 export const links: Route.LinksFunction = () => [

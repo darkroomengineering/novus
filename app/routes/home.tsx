@@ -78,7 +78,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100"
+      className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-100"
       id="root"
     >
       <div className="mx-auto max-w-4xl p-6">
