@@ -1,24 +1,10 @@
-import type { Config } from '../config'
-import { formatObject, scalingCalc } from './utils'
+import { colors, themes } from "../colors";
+import { easings } from "../easings";
+import { breakpoints, customSizes } from "../layout";
+import { fonts, typography } from "../typography";
+import { formatObject, scalingCalc } from "./utils";
 
-export function generateTailwind({
-  breakpoints,
-  colors,
-  customSizes,
-  easings,
-  fonts,
-  themes,
-  typography,
-}: Pick<
-  Config,
-  | 'breakpoints'
-  | 'colors'
-  | 'customSizes'
-  | 'easings'
-  | 'fonts'
-  | 'themes'
-  | 'typography'
->) {
+export function generateTailwind() {
   // Theme
   const theme = `/** Custom theme **/
 @theme {
@@ -36,58 +22,61 @@ export function generateTailwind({
   ${formatObject(customSizes, ([key]) => `--spacing-${key}: var(--${key});`)}
 
   --font-*: initial;
-  ${formatObject(fonts, ([name, variableName]) => `--font-${name}: var(${variableName});`)}
+  ${formatObject(fonts, ([name, font]) => `--font-${name}: "${font.name}";`)}
 
   --ease-*: initial;
   ${formatObject(easings, ([name, value]) => `--ease-${name}: ${value};`)}
-}`
+}`;
 
   // Theme overwrites
   const themeOverwrites = `
 /** Custom theme overwrites **/
 ${formatObject(
   themes,
-  ([name, value]) => `[data-theme=${name}] {
-  ${formatObject(value, ([key, value]) => `--color-${key}: ${value};`)}
+  ([name, values]) => `[data-theme=${name}] {
+  ${formatObject(values, ([color, value]) => `--color-${color}: ${value};`)}
 }`,
-  '\n'
+  "\n"
 )}
-  `
+  `;
 
   // Utilities
   const utilities = `
 /** Custom static utilities **/
 ${Object.entries(typography)
   .map(
-    ([name, value]) => `@utility ${name} {
-  ${Object.entries(value)
+    ([name, values]) => `@utility ${name} {
+  ${Object.entries(values)
     .filter((entry) => entry?.[0] && entry?.[1])
     .filter((entry) => entry !== undefined)
     .map(([key, value]) => {
-      if (key === 'font-size') {
-        if (typeof value === 'number') {
-          return `@apply stext-${value};`
+      if (key === "font-size") {
+        if (typeof value === "number") {
+          return `@apply dr-text-${value};`;
         }
+
+        if (typeof value !== "object")
+          throw new Error(`Invalid font size: ${value}`);
 
         return [
           `font-size: ${scalingCalc(value.mobile)};`,
           `@variant dt { font-size: ${scalingCalc(value.desktop)}; }`,
-        ].join('\n\t')
+        ].join("\n\t");
       }
 
-      if (typeof value === 'object') {
+      if (typeof value === "object") {
         return [
           `${key}: ${value.mobile};`,
           `@variant dt { ${key}: ${value.desktop}; }`,
-        ].join('\n\t')
+        ].join("\n\t");
       }
 
-      return `${key}: ${value};`
+      return `${key}: ${value};`;
     })
-    .join('\n\t')}
+    .join("\n\t")}
 }`
   )
-  .join('\n')}
+  .join("\n")}
 
 @utility desktop-only {
   @media (--mobile) {
@@ -123,7 +112,7 @@ ${Object.entries(typography)
 
 @utility dr-layout-grid-inner {
 	@apply dr-layout-block-inner dr-grid;
-}`
+}`;
 
   // Variants
   const variants = `
@@ -133,7 +122,7 @@ ${Object.keys(themes)
     (name) =>
       `@custom-variant ${name} (&:where([data-theme=${name}], [data-theme=${name} *]));`
   )
-  .join('\n')}`
+  .join("\n")}`;
 
-  return [theme, themeOverwrites, utilities, variants].join('\n')
+  return [theme, themeOverwrites, utilities, variants].join("\n");
 }

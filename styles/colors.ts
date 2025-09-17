@@ -1,11 +1,8 @@
 const colors = {
-  black: '#000000',
-  white: '#ffffff',
-  red: '#e30613',
-} as const
-
-const themeNames = ['light', 'dark', 'red'] as const
-const colorNames = ['primary', 'secondary', 'contrast'] as const
+  black: "#000000",
+  white: "#ffffff",
+  red: "#e30613",
+} as const;
 
 const themes = {
   light: {
@@ -23,12 +20,11 @@ const themes = {
     secondary: colors.black,
     contrast: colors.white,
   },
-} as const satisfies Themes
+} satisfies Themes;
 
-export { colors, themeNames, themes }
+const themeNames = Object.keys(themes) as (keyof typeof themes)[];
+
+export { colors, themeNames, themes };
 
 // UTIL TYPES
-type Themes = Record<
-  (typeof themeNames)[number],
-  Record<(typeof colorNames)[number], string>
->
+type Themes = Record<string, Record<string, string>>;

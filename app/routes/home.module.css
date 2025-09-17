@@ -1,0 +1,8 @@
+.home {
+	background-color: red;
+
+	@media (--desktop) {
+		background-color: blue;
+		width: device-vw(800);
+	}
+}

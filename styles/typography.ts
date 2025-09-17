@@ -1,36 +1,44 @@
-import type { CSSProperties } from 'react'
+import type { FontlessOptions } from "fontless";
+import type { CSSProperties } from "react";
 
 const fonts = {
-  mono: '--next-font-mono', // this should be the variable name defined in fonts.ts
-} as const
-
-const typography: TypeStyles = {
-  'test-mono': {
-    'font-family': `var(${fonts.mono})`,
-    'font-style': 'normal',
-    'font-weight': 400,
-    'line-height': '90%',
-    'letter-spacing': '0em',
-    'font-size': { mobile: 20, desktop: 24 },
+  "replica-mono-ll": {
+    name: "Replica Mono LL",
+    src: "/fonts/replica-mono-ll-regular.otf",
+    weight: "400",
+    style: "normal",
   },
-} as const
+} satisfies Fonts;
 
-export { fonts, typography }
+const typography = {
+  "test-replice": {
+    "font-family": "var(--font-replica-mono-ll)",
+    "font-style": "normal",
+    "font-weight": 400,
+    "line-height": "90%",
+    "letter-spacing": "0em",
+    "font-size": { mobile: 20, desktop: 24 },
+  },
+} satisfies TypeStyles<keyof typeof fonts>;
+
+export { fonts, typography };
 
 // UTIL TYPES
-type TypeStyles = Record<
+type TypeStyles<N extends string> = Record<
   string,
   {
-    'font-family': string
-    'font-style': CSSProperties['fontStyle']
-    'font-weight': CSSProperties['fontWeight']
-    'line-height':
+    "font-family": `var(--font-${N})`;
+    "font-style": CSSProperties["fontStyle"];
+    "font-weight": CSSProperties["fontWeight"];
+    "line-height":
       | `${number}%`
-      | { mobile: `${number}%`; desktop: `${number}%` }
-    'letter-spacing':
+      | { mobile: `${number}%`; desktop: `${number}%` };
+    "letter-spacing":
       | `${number}em`
-      | { mobile: `${number}em`; desktop: `${number}em` }
-    'font-feature-settings'?: string
-    'font-size': number | { mobile: number; desktop: number }
+      | { mobile: `${number}em`; desktop: `${number}em` };
+    "font-feature-settings"?: string;
+    "font-size": number | { mobile: number; desktop: number };
   }
->
+>;
+
+type Fonts = Record<string, NonNullable<FontlessOptions["families"]>[number]>;

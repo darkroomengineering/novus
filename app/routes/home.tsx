@@ -1,4 +1,5 @@
 import { useQuery } from "@sanity/react-loader";
+import cn from "clsx";
 import { defineQuery } from "groq";
 import { animate } from "motion";
 import { useMemo } from "react";
@@ -6,6 +7,7 @@ import { createTimeline } from "#/integrations/motion/timeline";
 import { usePresenceAnimation } from "#/integrations/motion/use-presence-animation";
 import { loadQuery } from "#/integrations/sanity/loader.server";
 import type { Route } from "./+types/home";
+import s from "./home.module.css";
 
 export function meta({ loaderData }: Route.MetaArgs) {
   const title = loaderData?.data?.title || "New React Router App";
@@ -78,11 +80,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
   return (
     <div
-      className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-100"
+      className={cn(
+        s.home,
+        "flex-1 bg-gradient-to-br from-blue-50 to-indigo-100"
+      )}
       id="root"
     >
-      <div className="mx-auto max-w-4xl p-6">
-        <header className="mb-12 text-center">
+      <div className="mx-auto max-w-4xl p-6 font-replica-mono-ll">
+        <header className="mb-12 bg-contrast text-center">
           <h1
             className="mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text font-bold text-5xl text-transparent"
             data-sanity={encodeDataAttribute(["title"])}

@@ -1,30 +1,22 @@
-import type { Config } from '../config'
-import { formatObject, scalingCalc } from './utils'
+import { colors } from "../colors";
+import { easings } from "../easings";
+import { customSizes, layout, screens } from "../layout";
+import { formatObject, scalingCalc } from "./utils";
 
-export function generateRoot({
-  breakpoints,
-  colors,
-  customSizes,
-  easings,
-  layout,
-  screens,
-}: Pick<
-  Config,
-  'breakpoints' | 'colors' | 'customSizes' | 'easings' | 'layout' | 'screens'
->) {
-  return `@custom-media --hover (hover: hover);
-@custom-media --mobile (width <= ${breakpoints.dt - 0.02}px);
-@custom-media --desktop (width >= ${breakpoints.dt}px);
-@custom-media --reduced-motion (prefers-reduced-motion: reduce);
-
+export function generateRoot() {
+  return `
 :root {
-	--device-width: ${screens.mobile.width};
-	--device-height: ${screens.mobile.height};
+  --mobile-width: ${screens.mobile.width};
+  --mobile-height: ${screens.mobile.height};
+  --desktop-width: ${screens.desktop.width};
+  --desktop-height: ${screens.desktop.height};
+	--device-width: var(--mobile-width);
+	--device-height: var(--mobile-height);
 	
 	${formatObject(layout, ([name, { mobile }]) => {
-    if (name === 'columns') return `--columns: ${mobile};`
+    if (name === "columns") return `--columns: ${mobile};`;
 
-    return `--${name}: ${scalingCalc(mobile)};`
+    return `--${name}: ${scalingCalc(mobile)};`;
   })}
 	
 	${formatObject(customSizes, ([name, { mobile }]) => `--${name}: ${scalingCalc(mobile)};`)}
@@ -37,21 +29,21 @@ export function generateRoot({
 	${formatObject(colors, ([name, value]) => `--color-${name}: ${value};`)}
 	
 	@variant dt {
-    --device-width: ${screens.desktop.width};
-    --device-height: ${screens.desktop.height};
+    --device-width: var(--desktop-width);
+    --device-height: var(--desktop-height);
 
     ${formatObject(
       layout,
       ([name, { desktop }]) => {
-        if (name === 'columns') return `--columns: ${desktop};`
+        if (name === "columns") return `--columns: ${desktop};`;
 
-        return `--${name}: ${scalingCalc(desktop)};`
+        return `--${name}: ${scalingCalc(desktop)};`;
       },
-      '\n\t\t'
+      "\n\t\t"
     )}
 
-    ${formatObject(customSizes, ([name, { desktop }]) => `--${name}: ${scalingCalc(desktop)};`, '\n\t\t')}
+    ${formatObject(customSizes, ([name, { desktop }]) => `--${name}: ${scalingCalc(desktop)};`, "\n\t\t")}
 	}
 }
-  `
+  `;
 }
