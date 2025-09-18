@@ -1,11 +1,12 @@
 import { Studio } from "#/integrations/sanity/components/studio";
-import type { Route } from "./+types/studio";
-
-export const meta: Route.MetaFunction = () => [
-  { title: "Sanity Studio" },
-  { name: "robots", content: "noindex" },
-];
+import { PROJECT_TITLE } from "~/sanity/project";
 
 export default function StudioPage() {
-  return <Studio />;
+  return (
+    <>
+      <title>{PROJECT_TITLE} Studio</title>
+      <meta content="noindex" name="robots" />
+      <Studio />
+    </>
+  );
 }

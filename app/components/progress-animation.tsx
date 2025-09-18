@@ -5,7 +5,7 @@ import { useTimelineAnimation } from "#/integrations/motion/use-timeline-animati
 export function ProgressAnimation({ children }: PropsWithChildren) {
   const [scope, animation] = useTimelineAnimation((tl) =>
     tl.add("#progress", {
-      opacity: [1, 0],
+      rotate: ["0deg", "360deg"],
     })
   );
 
@@ -19,10 +19,7 @@ export function ProgressAnimation({ children }: PropsWithChildren) {
   return (
     <div ref={scope}>
       <Lenis root>
-        <div
-          className="h-[200vh] bg-gradient-to-b from-blue-500 to-purple-500"
-          id="progress"
-        >
+        <div className="h-[200vh] bg-contrast" id="progress">
           {children}
         </div>
       </Lenis>

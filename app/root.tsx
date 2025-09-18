@@ -18,6 +18,13 @@ export function Layout({ children }: PropsWithChildren) {
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <title>Novus</title>
+        <meta
+          content="Novus a project by darkroom.engineering"
+          name="description"
+        />
+        <meta content="darkroom.engineering" name="author" />
+        <meta content="noindex" name="robots" />
         <Meta />
         <Links />
       </head>

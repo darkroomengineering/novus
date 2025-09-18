@@ -50,6 +50,7 @@ export default function AboutPage() {
     <div className="flex min-h-screen justify-center" id="about">
       <ProgressAnimation>
         <p className="dr-text-100 font-replica-mono-ll uppercase">About</p>
+        <p>Scroll progress animation with motion</p>
       </ProgressAnimation>
     </div>
   );

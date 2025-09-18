@@ -30,7 +30,7 @@ export default function RootLayout({ loaderData }: Route.ComponentProps) {
   const { sanity } = loaderData;
   return (
     <>
-      <header className="absolute top-0 left-0 flex flex-col">
+      <header className="fixed top-0 left-0 flex flex-col">
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
         <Link to="/other">Other</Link>

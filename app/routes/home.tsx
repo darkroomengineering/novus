@@ -10,14 +10,6 @@ import DarkroomLogo from "~/assets/svgs/darkroom-logo.svg?react";
 import type { Route } from "./+types/home";
 import s from "./home.module.css";
 
-export function meta({ loaderData }: Route.MetaArgs) {
-  const title = loaderData?.data?.title || "New React Router App";
-  const description =
-    loaderData?.data?.description || "Welcome to React Router!";
-
-  return [{ title }, { name: "description", content: description }];
-}
-
 const HOME_QUERY = defineQuery("*[_type == 'home'][0]");
 
 export async function loader({ context }: Route.LoaderArgs) {
@@ -78,29 +70,32 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   });
 
   return (
-    <main className={cn(s.home, "mx-auto flex h-screen flex-col")} id="root">
-      <div className="mb-12 bg-contrast text-center">
-        <h1 className="mb-6" data-sanity={encodeDataAttribute(["title"])}>
-          {data?.title}
-        </h1>
-        <p
-          className="mx-auto max-w-2xl text-gray-700 text-xl leading-relaxed"
-          data-sanity={encodeDataAttribute(["description"])}
-        >
-          {data?.description}
-        </p>
-      </div>
+    <>
+      <meta content={data?.description} name="description" />
+      <main className={cn(s.home, "mx-auto flex h-screen flex-col")} id="root">
+        <div className="mb-12 bg-contrast text-center">
+          <h1 className="mb-6" data-sanity={encodeDataAttribute(["title"])}>
+            {data?.title}
+          </h1>
+          <p
+            className="mx-auto max-w-2xl text-gray-700 text-xl leading-relaxed"
+            data-sanity={encodeDataAttribute(["description"])}
+          >
+            {data?.description}
+          </p>
+        </div>
 
-      <div className="dr-text-22 dr-gap-10 flex flex-1 flex-col justify-center font-replica-mono-ll uppercase leading-none">
-        <DarkroomLogo />
-        <p>
-          devs who care about..................................KERNING
-          <br />
-          designers...........................................who code
-        </p>
-        <div className={cn(s.lines, "dr-h-140 w-full")} />
-        <p>open source philosophy.........................©DRKRM-002025</p>
-      </div>
-    </main>
+        <div className="dr-text-22 dr-gap-10 flex flex-1 flex-col justify-center font-replica-mono-ll uppercase leading-none">
+          <DarkroomLogo />
+          <p>
+            devs who care about..................................KERNING
+            <br />
+            designers...........................................who code
+          </p>
+          <div className={cn(s.lines, "dr-h-140 w-full")} />
+          <p>open source philosophy.........................©DRKRM-002025</p>
+        </div>
+      </main>
+    </>
   );
 }
