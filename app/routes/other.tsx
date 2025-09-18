@@ -1,52 +1,44 @@
 import { animate } from "motion";
-import type { AnimationPlaybackControlsWithThen } from "motion/react";
-import { useLocation } from "react-router";
+import { createTimeline } from "#/integrations/motion/timeline";
 import { usePresenceAnimation } from "#/integrations/motion/use-presence-animation";
 
 export default function OtherPage() {
-  const { pathname } = useLocation();
-
   usePresenceAnimation({
     enter: () => {
-      const animation = animate(
+      const tl = createTimeline();
+      tl.add(
         "#other",
         {
+          x: ["100%", 0],
           opacity: [0, 1],
+        },
+        { duration: 1, ease: "easeInOut" }
+      );
+
+      const animation = animate(tl.sequence);
+
+      return () => animation.cancel();
+    },
+    exit: (safeToRemove) => {
+      const tl = createTimeline();
+      tl.add(
+        "#other",
+        { position: "absolute", left: "50%", x: "50%" },
+        { duration: 0, onComplete: () => console.log("onComplete") }
+      );
+      tl.add(
+        "#other",
+        {
+          x: ["0%", "100vw"],
+          opacity: [1, 0],
         },
         {
           duration: 1,
           ease: "easeInOut",
         }
       );
-      return () => animation.cancel();
-    },
-    exit: (safeToRemove) => {
-      let animation: AnimationPlaybackControlsWithThen | undefined;
-      if (pathname === "/") {
-        animation = animate(
-          "#other",
-          {
-            opacity: [1, 0],
-          },
-          {
-            duration: 1,
-            ease: "easeInOut",
-          }
-        );
-      } else {
-        animation = animate(
-          "#other",
-          {
-            opacity: [1, 0.4],
-            translateX: ["0%", "100%"],
-          },
-          {
-            duration: 1,
-            ease: "easeInOut",
-          }
-        );
-      }
 
+      const animation = animate(tl.sequence);
       animation.then(() => {
         safeToRemove();
       });
@@ -55,5 +47,9 @@ export default function OtherPage() {
     },
   });
 
-  return <div id="other">Other</div>;
+  return (
+    <div className="flex min-h-screen items-center justify-center" id="other">
+      <p className="dr-text-100 font-replica-mono-ll uppercase">Other</p>
+    </div>
+  );
 }

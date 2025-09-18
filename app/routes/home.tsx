@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { createTimeline } from "#/integrations/motion/timeline";
 import { usePresenceAnimation } from "#/integrations/motion/use-presence-animation";
 import { loadQuery } from "#/integrations/sanity/loader.server";
+import DarkroomLogo from "~/assets/svgs/darkroom-logo.svg?react";
 import type { Route } from "./+types/home";
 import s from "./home.module.css";
 
@@ -31,13 +32,11 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   // NOTE: When animating and keeping a page mounted, the loaderData will get undefined.
   // biome-ignore lint/correctness/useExhaustiveDependencies: This is fine
   const memoizedLoaderData = useMemo(() => loaderData, []);
-  const { data: _data, encodeDataAttribute } = useQuery(
+  const { data, encodeDataAttribute } = useQuery(
     HOME_QUERY,
     {},
     { initial: memoizedLoaderData }
   );
-
-  const data = _data || loaderData?.data || memoizedLoaderData?.data;
 
   usePresenceAnimation({
     enter: () => {
@@ -55,7 +54,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       const tl = createTimeline();
       tl.add(
         "#root",
-        { position: "absolute", left: 0, width: "100%" },
+        { position: "absolute", left: "50%", transform: "translateX(-50%)" },
         { duration: 0 }
       );
       tl.add(
@@ -79,65 +78,29 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   });
 
   return (
-    <div
-      className={cn(
-        s.home,
-        "flex-1 bg-gradient-to-br from-blue-50 to-indigo-100"
-      )}
-      id="root"
-    >
-      <div className="mx-auto max-w-4xl p-6 font-replica-mono-ll">
-        <header className="mb-12 bg-contrast text-center">
-          <h1
-            className="mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text font-bold text-5xl text-transparent"
-            data-sanity={encodeDataAttribute(["title"])}
-          >
-            {data?.title}
-          </h1>
-          <p
-            className="mx-auto max-w-2xl text-gray-700 text-xl leading-relaxed"
-            data-sanity={encodeDataAttribute(["description"])}
-          >
-            {data?.description}
-          </p>
-        </header>
-
-        <main className="rounded-xl bg-white p-8 shadow-lg">
-          <div className="prose prose-lg max-w-none">
-            <h2 className="mb-4 font-semibold text-2xl text-gray-800">
-              Getting Started
-            </h2>
-            <p className="mb-6 text-gray-600">
-              This is your homepage powered by Sanity CMS. You can edit the
-              title and description above directly in your Sanity Studio, and
-              the changes will appear here in real-time when preview mode is
-              enabled.
-            </p>
-
-            <div className="mt-8 grid gap-6 md:grid-cols-2">
-              <div className="rounded-lg bg-blue-50 p-6">
-                <h3 className="mb-2 font-semibold text-blue-800 text-lg">
-                  Visual Editing
-                </h3>
-                <p className="text-blue-700">
-                  Click on any content above to edit it directly in Sanity
-                  Studio.
-                </p>
-              </div>
-
-              <div className="rounded-lg bg-indigo-50 p-6">
-                <h3 className="mb-2 font-semibold text-indigo-800 text-lg">
-                  Preview Mode
-                </h3>
-                <p className="text-indigo-700">
-                  Enable preview mode to see draft content and use Visual
-                  Editing features.
-                </p>
-              </div>
-            </div>
-          </div>
-        </main>
+    <main className={cn(s.home, "mx-auto flex h-screen flex-col")} id="root">
+      <div className="mb-12 bg-contrast text-center">
+        <h1 className="mb-6" data-sanity={encodeDataAttribute(["title"])}>
+          {data?.title}
+        </h1>
+        <p
+          className="mx-auto max-w-2xl text-gray-700 text-xl leading-relaxed"
+          data-sanity={encodeDataAttribute(["description"])}
+        >
+          {data?.description}
+        </p>
       </div>
-    </div>
+
+      <div className="dr-text-22 dr-gap-10 flex flex-1 flex-col justify-center font-replica-mono-ll uppercase leading-none">
+        <DarkroomLogo />
+        <p>
+          devs who care about..................................KERNING
+          <br />
+          designers...........................................who code
+        </p>
+        <div className={cn(s.lines, "dr-h-140 w-full")} />
+        <p>open source philosophy.........................©DRKRM-002025</p>
+      </div>
+    </main>
   );
 }

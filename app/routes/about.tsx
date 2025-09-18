@@ -47,8 +47,10 @@ export default function AboutPage() {
   });
 
   return (
-    <div id="about">
-      <ProgressAnimation>About</ProgressAnimation>
+    <div className="flex min-h-screen justify-center" id="about">
+      <ProgressAnimation>
+        <p className="dr-text-100 font-replica-mono-ll uppercase">About</p>
+      </ProgressAnimation>
     </div>
   );
 }
