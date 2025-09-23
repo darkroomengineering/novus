@@ -80,6 +80,7 @@ export async function loadQuery<const QueryString extends keyof SanityQueries>({
     params,
     {
       ...options,
+      useCdn: options.perspective === "published",
       filterResponse: false,
       lastLiveEventId,
     }

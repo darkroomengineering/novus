@@ -1,5 +1,6 @@
 import { VisualEditing } from "@sanity/visual-editing/react-router";
 import { useEffect, useState } from "react";
+import s from "./preview.module.css";
 
 export default function SanityPreview() {
   return (
@@ -22,15 +23,18 @@ function ExitPreview() {
   }
 
   return (
-    <form
-      action="/api/preview"
-      className="pointer-events-auto fixed inset-x-0 bottom-0 z-50 flex w-full items-center justify-center gap-1 bg-black/10 py-1 text-sm"
-      method="POST"
-    >
-      <p>You are currently in preview mode:</p>
-      <button className="underline" type="submit">
-        Exit Preview Mode
-      </button>
+    <form action="/api/preview" className={s.form} method="POST">
+      <div className={s.container}>
+        <p className={s.text}>
+          D<span className={s.hiddenText}>raft </span>
+          <span className={s.hiddenText}>Content </span>A
+          <span className={s.hiddenText}>ctive</span>
+        </p>
+        <button className={s.button} type="submit">
+          <div className={s.line} />
+          <div className={s.line} />
+        </button>
+      </div>
     </form>
   );
 }

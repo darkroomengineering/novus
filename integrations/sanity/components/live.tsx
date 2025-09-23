@@ -1,6 +1,6 @@
 import type { LiveEvent } from "@sanity/client";
 import { CorsOriginError } from "@sanity/client";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   useLocation,
   useMatches,
@@ -19,6 +19,11 @@ export default function SanityLive({ token }: SanityLiveProps) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const revalidator = useRevalidator();
+  const [inIframe, setInIframe] = useState(true);
+
+  useEffect(() => {
+    setInIframe(window.self !== window.top);
+  }, []);
 
   const allTags = matches.flatMap((match) => {
     if (
@@ -76,6 +81,9 @@ export default function SanityLive({ token }: SanityLiveProps) {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: An effect event should not be a dependency, biome doesn't know that as the api is not in react yet
   useEffect(() => {
+    // If we are in the studio iframe it will reload preview on changes
+    if (inIframe) return;
+
     const subscription = client.live
       .events({ includeDrafts: !!token })
       .subscribe({
@@ -84,7 +92,7 @@ export default function SanityLive({ token }: SanityLiveProps) {
       });
 
     return () => subscription.unsubscribe();
-  }, [client, token]);
+  }, [client, token, inIframe]);
 
   return null;
 }

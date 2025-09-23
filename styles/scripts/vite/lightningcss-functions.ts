@@ -1,4 +1,8 @@
-import type { Function as LightningCssFunction } from "lightningcss";
+import type {
+  CustomAtRules,
+  Function as LightningCssFunction,
+  Visitor,
+} from "lightningcss";
 
 function buildFunction(
   args: LightningCssFunction["arguments"],
@@ -57,8 +61,9 @@ const functions: Record<
     ),
 };
 
-export function lightningcssFunctions() {
+export function lightningcssFunctions(): Visitor<CustomAtRules> {
   return {
+    // biome-ignore lint/style/useNamingConvention: This is the api my man
     FunctionExit: functions,
   };
 }

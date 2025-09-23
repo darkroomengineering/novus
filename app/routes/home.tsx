@@ -1,7 +1,6 @@
 import cn from "clsx";
 import { defineQuery } from "groq";
 import { animate } from "motion";
-import { redirect } from "react-router";
 import { createTimeline } from "#/integrations/motion/timeline";
 import { usePresenceAnimation } from "#/integrations/motion/use-presence-animation";
 import { loadQuery } from "#/integrations/sanity/sanity.server";
@@ -18,23 +17,10 @@ export async function loader({ context, request }: Route.LoaderArgs) {
     request,
   });
 
-  if (!data) {
-    throw redirect("/login");
-  }
-
   return { data, tags };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  // NOTE: When animating and keeping a page mounted, the loaderData will get undefined.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: This is fine
-  // const memoizedLoaderData = useMemo(() => loaderData, []);
-  // const { data, encodeDataAttribute } = useQuery(
-  //   HOME_QUERY,
-  //   {},
-  //   { initial: memoizedLoaderData.data }
-  // );
-
   const { data } = loaderData;
 
   usePresenceAnimation({
@@ -81,16 +67,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       <meta content={data?.description} name="description" />
       <main className={cn(s.home, "mx-auto flex h-screen flex-col")} id="root">
         <div className="mb-12 bg-contrast text-center">
-          <h1
-            className="mb-6"
-            // data-sanity={encodeDataAttribute(["title"])}
-          >
-            {data?.title}
-          </h1>
-          <p
-            className="mx-auto max-w-2xl text-gray-700 text-xl leading-relaxed"
-            // data-sanity={encodeDataAttribute(["description"])}
-          >
+          <h1 className="mb-6">{data?.title}</h1>
+          <p className="mx-auto max-w-2xl text-gray-700 text-xl leading-relaxed">
             {data?.description}
           </p>
         </div>
