@@ -1,4 +1,4 @@
-import * as Bun from "bun";
+import { writeFileSync } from "node:fs";
 import { generateMedia } from "./generate-media";
 import { generateRoot } from "./generate-root";
 import { generateScale } from "./generate-scale";
@@ -18,16 +18,8 @@ const tailwindcss = [banner, tailwind, scale];
 const rootcss = [banner, root];
 const mediacss = [banner, media];
 
-await Bun.write(
-  "./styles/css/generated/tailwind.css",
-  tailwindcss.join("\n\n")
-);
-await Bun.write("./styles/css/generated/root.css", rootcss.join("\n\n"));
-await Bun.write("./styles/css/generated/media.css", mediacss.join("\n\n"));
+writeFileSync("./styles/css/generated/tailwind.css", tailwindcss.join("\n\n"));
+writeFileSync("./styles/css/generated/root.css", rootcss.join("\n\n"));
+writeFileSync("./styles/css/generated/media.css", mediacss.join("\n\n"));
 
-console.log(
-  Bun.color("green", "ansi"),
-  "✓",
-  Bun.color("black", "ansi"),
-  "Style config generated successfully"
-);
+console.log("✓ Style config generated successfully");
