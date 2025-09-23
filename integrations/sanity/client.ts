@@ -2,7 +2,9 @@ import { createClient } from "@sanity/client";
 
 import { apiVersion, dataset, projectId } from "~/sanity/project";
 
-// Base client setup
+// ================================
+// Base client
+// ================================
 export const client = createClient({
   projectId,
   dataset,

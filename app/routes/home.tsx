@@ -5,7 +5,7 @@ import { animate } from "motion";
 import { useMemo } from "react";
 import { createTimeline } from "#/integrations/motion/timeline";
 import { usePresenceAnimation } from "#/integrations/motion/use-presence-animation";
-import { loadQuery } from "#/integrations/sanity/loader.server";
+import { loadQuery } from "#/integrations/sanity/sanity.server";
 import DarkroomLogo from "~/assets/svgs/darkroom-logo.svg?react";
 import type { Route } from "./+types/home";
 import s from "./home.module.css";

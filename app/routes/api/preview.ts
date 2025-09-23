@@ -3,10 +3,10 @@ import { type ActionFunction, data, redirect } from "react-router";
 
 import { client } from "#/integrations/sanity/client";
 import {
-  commitSession,
-  destroySession,
-  getSession,
-} from "#/integrations/sanity/session.server";
+  commitSanitySession,
+  destroySanitySession,
+  getSanitySession,
+} from "#/integrations/sanity/sanity.server";
 import { env } from "#/lib/env";
 import type { Route } from "./+types/preview";
 
@@ -16,11 +16,11 @@ export const action: ActionFunction = async ({ request }) => {
     return data({ message: "Method not allowed" }, 405);
   }
 
-  const session = await getSession(request.headers.get("Cookie"));
+  const session = await getSanitySession(request.headers.get("Cookie"));
 
   return redirect("/", {
     headers: {
-      "Set-Cookie": await destroySession(session),
+      "Set-Cookie": await destroySanitySession(session),
     },
   });
 };
@@ -46,14 +46,14 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
     throw new Response("Invalid secret", { status: 401 });
   }
 
-  const session = await getSession(request.headers.get("Cookie"));
+  const session = await getSanitySession(request.headers.get("Cookie"));
   session.set("projectId", client.config().projectId);
 
   console.log("set cookie");
 
   return redirect(redirectTo, {
     headers: {
-      "Set-Cookie": await commitSession(session),
+      "Set-Cookie": await commitSanitySession(session),
     },
   });
 };

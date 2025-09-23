@@ -1,8 +1,6 @@
-import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
-import { presentationTool } from "sanity/presentation";
-import { structureTool } from "sanity/structure";
 
+import { plugins } from "~/sanity/plugins";
 import {
   apiVersion,
   dataset,
@@ -10,7 +8,6 @@ import {
   projectId,
   STUDIO_BASEPATH,
 } from "~/sanity/project";
-import { structure } from "~/sanity/structure";
 import { types } from "~/sanity/types";
 
 export default defineConfig({
@@ -20,17 +17,7 @@ export default defineConfig({
   dataset,
   apiVersion,
   basePath: STUDIO_BASEPATH,
-  plugins: [
-    structureTool({ structure }),
-    presentationTool({
-      previewUrl: {
-        previewMode: {
-          enable: "/api/preview",
-        },
-      },
-    }),
-    visionTool(),
-  ],
+  plugins,
   schema: {
     types,
   },
