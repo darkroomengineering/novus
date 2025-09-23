@@ -17,7 +17,6 @@
     "@react-router/node": "^7.9.1",
     "@sanity/client": "^7.11.2",
     "@sanity/preview-url-secret": "^2.1.15",
-    "@sanity/react-loader": "^1.11.19",
     "@sanity/vision": "^4.9.0",
     "@sanity/visual-editing": "^3.0.5",
     "@t3-oss/env-core": "^0.13.8",

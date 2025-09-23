@@ -1,5 +1,9 @@
-import type { QueryOptions, SanityQueries } from "@sanity/client";
-import * as queryStore from "@sanity/react-loader";
+import type {
+  ClientReturn,
+  QueryOptions,
+  SanityQueries,
+  SyncTag,
+} from "@sanity/client";
 import {
   createContext,
   createCookieSessionStorage,
@@ -17,7 +21,12 @@ import { client } from "./client";
 export const sanityContext = createContext<{
   options: Pick<QueryOptions, "perspective" | "stega">;
   preview: boolean;
-}>({ options: { perspective: "published", stega: undefined }, preview: false });
+  token?: string;
+}>({
+  options: { perspective: "published", stega: undefined },
+  preview: false,
+  token: undefined,
+});
 
 // ================================
 // Server Session Storage
@@ -46,28 +55,53 @@ const serverClient = client.withConfig({
   stega: { studioUrl: STUDIO_BASEPATH },
 });
 
-queryStore.setServerClient(serverClient);
-
 // Override loadQuery to make it simpler to use
 type LoadQueryOptions<Q extends keyof SanityQueries> = {
   query: Q;
-  params?: Parameters<typeof queryStore.loadQuery>[1];
+  params?: Parameters<typeof serverClient.fetch>[1];
   context: Readonly<RouterContextProvider>;
+  request: Request;
 };
 
-export function loadQuery<Q extends keyof SanityQueries>({
+export async function loadQuery<const QueryString extends keyof SanityQueries>({
   query,
   params = {},
   context,
-}: LoadQueryOptions<Q>) {
+  request,
+}: LoadQueryOptions<QueryString>): Promise<{
+  data: ClientReturn<QueryString, unknown>;
+  tags?: SyncTag[];
+}> {
   const { options } = context.get(sanityContext);
-  return queryStore.loadQuery<SanityQueries[Q]>(query, params, options);
+  const lastLiveEventId = getLastLiveEventId(request);
+
+  const { result: data, syncTags: tags } = await serverClient.fetch(
+    query,
+    params,
+    {
+      ...options,
+      filterResponse: false,
+      lastLiveEventId,
+    }
+  );
+  return { data, tags };
+}
+
+function getLastLiveEventId(request: Request) {
+  const cookiesHeader = request.headers.get("Cookie");
+  const cookiesArray =
+    cookiesHeader?.split("; ").map((c) => c.split("=")) ?? [];
+  const cookiesRecord = Object.fromEntries(cookiesArray ?? []) as Record<
+    string,
+    string
+  >;
+  return cookiesRecord["sanity-live-event"];
 }
 
 // ================================
 // Middleware to activate preview mode
 // ================================
-export const sanityMiddleware: MiddlewareFunction = async ({
+export const sanityMiddleware: MiddlewareFunction<Response> = async ({
   request,
   context,
 }) => {
@@ -76,8 +110,9 @@ export const sanityMiddleware: MiddlewareFunction = async ({
 
   context.set(sanityContext, {
     preview,
+    token: preview ? env.SANITY_VIEWER_TOKEN : undefined,
     options: {
-      perspective: preview ? "previewDrafts" : "published",
+      perspective: preview ? "drafts" : "published",
       stega: preview
         ? { enabled: true, studioUrl: STUDIO_BASEPATH }
         : undefined,

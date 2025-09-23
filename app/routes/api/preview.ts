@@ -1,5 +1,5 @@
 import { validatePreviewUrl } from "@sanity/preview-url-secret";
-import { type ActionFunction, data, redirect } from "react-router";
+import { data, redirect } from "react-router";
 
 import { client } from "#/integrations/sanity/client";
 import {
@@ -11,7 +11,7 @@ import { env } from "#/lib/env";
 import type { Route } from "./+types/preview";
 
 // A `POST` request to this route will exit preview mode
-export const action: ActionFunction = async ({ request }) => {
+export async function action({ request }: Route.ActionArgs) {
   if (request.method !== "POST") {
     return data({ message: "Method not allowed" }, 405);
   }
@@ -23,10 +23,10 @@ export const action: ActionFunction = async ({ request }) => {
       "Set-Cookie": await destroySanitySession(session),
     },
   });
-};
+}
 
 // A `GET` request to this route will enter preview mode
-export const loader = async ({ request }: Route.LoaderArgs) => {
+export async function loader({ request }: Route.LoaderArgs) {
   if (!env.SANITY_VIEWER_TOKEN) {
     throw new Response("Preview mode missing token", { status: 401 });
   }
@@ -34,8 +34,6 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   const clientWithToken = client.withConfig({
     token: env.SANITY_VIEWER_TOKEN,
   });
-
-  console.log(request.url);
 
   const { isValid, redirectTo = "/" } = await validatePreviewUrl(
     clientWithToken,
@@ -49,11 +47,9 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   const session = await getSanitySession(request.headers.get("Cookie"));
   session.set("projectId", client.config().projectId);
 
-  console.log("set cookie");
-
   return redirect(redirectTo, {
     headers: {
       "Set-Cookie": await commitSanitySession(session),
     },
   });
-};
+}

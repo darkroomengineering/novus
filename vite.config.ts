@@ -4,7 +4,6 @@ import { type FontlessOptions, fontless } from "fontless";
 import { composeVisitors } from "lightningcss";
 import { defineConfig } from "vite";
 import svgr, { type VitePluginSvgrOptions } from "vite-plugin-svgr";
-// import babel from "vite-plugin-babel";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 import { lightningcssFunctions } from "./styles/scripts/vite/lightningcss-functions";
@@ -75,14 +74,6 @@ export default defineConfig({
     tailwindcss(),
     reactRouter(),
     tsconfigPaths(),
-    // React Compiler Config
-    // babel({
-    //   filter: /\.[jt]sx?$/,
-    //   babelConfig: {
-    //     presets: ["@babel/preset-typescript"],
-    //     plugins: ["babel-plugin-react-compiler"],
-    //   },
-    // }),
     svgr(svgrConfig),
     fontless(fontlessConfig),
     watchStyles(),

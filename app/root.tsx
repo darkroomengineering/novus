@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from "react";
 import {
   isRouteErrorResponse,
   Links,
@@ -9,8 +10,6 @@ import {
 
 import type { Route } from "./+types/root";
 import "#/styles/css/index.css";
-
-import type { PropsWithChildren } from "react";
 
 export function Layout({ children }: PropsWithChildren) {
   return (
@@ -29,9 +28,9 @@ export function Layout({ children }: PropsWithChildren) {
         <Links />
       </head>
       <body>
+        {children}
         <ScrollRestoration />
         <Scripts />
-        {children}
       </body>
     </html>
   );

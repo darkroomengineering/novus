@@ -7,7 +7,6 @@
         "@react-router/node": "^7.9.1",
         "@sanity/client": "^7.11.2",
         "@sanity/preview-url-secret": "^2.1.15",
-        "@sanity/react-loader": "^1.11.19",
         "@sanity/vision": "^4.9.0",
         "@sanity/visual-editing": "^3.0.5",
         "@t3-oss/env-core": "^0.13.8",
@@ -628,8 +627,6 @@
 
     "@sanity/comlink": ["@sanity/comlink@3.0.9", "", { "dependencies": { "rxjs": "^7.8.2", "uuid": "^11.1.0", "xstate": "^5.20.1" } }, "sha512-eF6dC1tolwhSn7x479ODSyQkSiaEDIMzL7urprzxURKfzDKqJIA8S0wexhAx53gHCF6/Odh/2IpMxf/n78U+QQ=="],
 
-    "@sanity/core-loader": ["@sanity/core-loader@1.8.18", "", { "dependencies": { "@sanity/client": "^7.8.2", "@sanity/comlink": "^3.0.9", "@sanity/presentation-comlink": "^1.0.29", "@sanity/visual-editing-csm": "^2.0.24" } }, "sha512-rDqYEWCAEpq5Cd1luNwRCjqHQdU1jImFoy5ed9tCl3KWomwfO13XdSVQ6aGUOOlxrg3FPioDZHzDJll5vOLZ5Q=="],
-
     "@sanity/descriptors": ["@sanity/descriptors@1.1.1", "", { "dependencies": { "sha256-uint8array": "^0.10.7" } }, "sha512-pTqpyLhH3z4NDhjKHyfL+quVN0ixA8NikcdqxRmL2iqPZuJavi81eKm631PaUqJGbY1kh1+vHnO1/GgWIcjgxw=="],
 
     "@sanity/diff": ["@sanity/diff@4.9.0", "", { "dependencies": { "@sanity/diff-match-patch": "^3.2.0" } }, "sha512-QggG/ySlHgOpvmOjHN54qXroR2tXCYBzn5iHIogCjWuuypZCUWNJdXQDhBHy8Wbc8AUKSCZgqfBSJ34kc28ygA=="],
@@ -671,8 +668,6 @@
     "@sanity/presentation-comlink": ["@sanity/presentation-comlink@1.0.29", "", { "dependencies": { "@sanity/comlink": "^3.0.9", "@sanity/visual-editing-types": "^1.1.6" }, "peerDependencies": { "@sanity/client": "^7.8.2" } }, "sha512-IPXRqlgDEmuGMfgeovyQqgVt9X49OlZs8gOdeKM7lSj/KIBzx/X+m6MtnDdUOZpYLqROF2mIbYTmyyo3PsNmkg=="],
 
     "@sanity/preview-url-secret": ["@sanity/preview-url-secret@2.1.15", "", { "dependencies": { "@sanity/uuid": "3.0.2" }, "peerDependencies": { "@sanity/client": "^7.8.2", "@sanity/icons": "*", "sanity": "*" }, "optionalPeers": ["@sanity/icons", "sanity"] }, "sha512-pHDZ6G1XeCco7wmlGNFeA5nOdtXK05imtEtUFHEIE/isZEFXL4V2AL2OGc/ktV9hWr7D9+w1kAI6PfE/SwXNVg=="],
-
-    "@sanity/react-loader": ["@sanity/react-loader@1.11.19", "", { "dependencies": { "@sanity/client": "^7.8.2", "@sanity/core-loader": "^1.8.18", "@sanity/visual-editing-csm": "^2.0.24" }, "peerDependencies": { "react": "^18.3 || ^19" } }, "sha512-vMsW9rWF9qeudCRi2L0MGEQyz6uQ8mOJxFIsRczNsVTcV7K16zDbfNVNeo3LmMyautaLEhftxj3gbo9AkG7rmw=="],
 
     "@sanity/runtime-cli": ["@sanity/runtime-cli@10.8.0", "", { "dependencies": { "@architect/hydrate": "^4.0.8", "@architect/inventory": "^4.0.9", "@oclif/core": "^4.5.2", "@oclif/plugin-help": "^6.2.32", "@sanity/blueprints-parser": "^0.2.1", "@sanity/client": "^7.8.2", "adm-zip": "^0.5.16", "array-treeify": "^0.1.5", "cardinal": "^2.1.1", "chalk": "^5.5.0", "eventsource": "^4.0.0", "find-up": "^7.0.0", "get-folder-size": "^5.0.0", "groq-js": "^1.18.0", "inquirer": "^12.9.2", "jiti": "^2.5.1", "mime-types": "^3.0.1", "ora": "^8.2.0", "tar-stream": "^3.1.7", "vite": "^7.1.2", "vite-tsconfig-paths": "^5.1.4", "ws": "^8.18.3", "xdg-basedir": "^5.1.0" }, "bin": { "sanity-run": "bin/run.js" } }, "sha512-FvKgV8HUnpWkwcG294XzOuW4ptRXVHVTe+lqfhqyqUODXU+/0dl55eyQjdV35gYxdXdnh60sI4Im727lstKatQ=="],
 

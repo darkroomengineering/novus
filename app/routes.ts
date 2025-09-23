@@ -15,4 +15,13 @@ export default [
   route("studio/*", "./routes/studio.tsx"),
   // API Routes
   route("api/preview", "./routes/api/preview.ts"),
+  // Fix chrome devtools json call
+  ...(import.meta.env.DEV
+    ? [
+        route(
+          ".well-known/appspecific/com.chrome.devtools.json",
+          "./routes/api/devtools.ts"
+        ),
+      ]
+    : []),
 ] satisfies RouteConfig;
