@@ -60,7 +60,9 @@ export function Preload() {
         object.visible = false;
       }
 
-      console.log(`WebGL: Preload took: ${(performance.now() - start).toFixed(1)}ms`);
+      if (process.env.NODE_ENV === "development") {
+        console.log(`WebGL: Preload took: ${(performance.now() - start).toFixed(1)}ms`);
+      }
     }
 
     void load();

@@ -2,25 +2,7 @@ import { useMediaQuery } from "hamo";
 import { useEffect, useState } from "react";
 import { breakpoints } from "~/styles/layout";
 
-// GPU detection stub — replace with real import when WebGL is ported
-interface GPUCapability {
-  hasWebGPU: boolean;
-  hasWebGL2: boolean;
-  hasWebGL1: boolean;
-  hasGPU: boolean;
-  preferredRenderer: string;
-  dpr: number;
-  isLowPower: boolean;
-}
-const detectGPUCapability = (): GPUCapability => ({
-  hasWebGPU: false,
-  hasWebGL2: false,
-  hasWebGL1: false,
-  hasGPU: false,
-  preferredRenderer: "none",
-  dpr: 1,
-  isLowPower: false,
-});
+import { detectGPUCapability, type GPUCapability } from "~/webgl/utils/gpu-detection";
 
 import { usePreferredReducedMotion } from "./use-sync-external";
 

@@ -4,7 +4,7 @@ import { Link as RRLink, useLocation } from "react-router";
 type RRLinkProps = ComponentProps<typeof RRLink>;
 
 interface CustomLinkProps extends Omit<RRLinkProps, "to"> {
-  href?: string;
+  href?: RRLinkProps["to"];
   onClick?: (e: MouseEvent<HTMLElement>) => void;
   scroll?: boolean;
 }
@@ -39,10 +39,10 @@ export function Link({
   }
 
   // External link
-  if (isExternalHref(href)) {
+  if (isExternalHref(href as string)) {
     return (
       <a
-        href={href}
+        href={href as string}
         target="_blank"
         rel="noopener noreferrer"
         data-external

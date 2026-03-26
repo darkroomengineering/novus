@@ -42,6 +42,7 @@ yarn-error.log*
 .vercel
 
 # tldr
+.tldrignore
 .tldr
 
 .eslintcache

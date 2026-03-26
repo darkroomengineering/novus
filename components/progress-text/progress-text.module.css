@@ -3,6 +3,7 @@
 
   .word {
     display: inline-block;
+    opacity: 0.33;
     transition: var(--transition);
   }
 }

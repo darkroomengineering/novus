@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "~/components/link";
 import { Wrapper } from "~/components/wrapper";
 
 export function meta() {
@@ -10,7 +10,7 @@ export default function NotFound() {
     <Wrapper className="items-center justify-center font-mono">
       <h1 className="text-[4rem]">404</h1>
       <p>Page Not Found</p>
-      <Link to="/" className="underline">
+      <Link href="/" className="underline">
         Go Home
       </Link>
     </Wrapper>

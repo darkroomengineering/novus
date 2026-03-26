@@ -86,14 +86,14 @@ function updateViewport() {
     const vw = document.documentElement.offsetWidth * 0.01;
     const dvh = window.innerHeight * 0.01;
     const svh = document.documentElement.clientHeight * 0.01;
-    const lvh = 1;
+    const lvh = dvh; // Approximation — use CSS lvh unit for accuracy
     const scrollbarWidth = getScrollbarWidth();
 
     // Set CSS custom properties
     document.documentElement.style.setProperty("--vw", `${Math.round(vw * 100) / 100}px`);
     document.documentElement.style.setProperty("--dvh", `${Math.round(dvh * 100) / 100}px`);
     document.documentElement.style.setProperty("--svh", `${Math.round(svh * 100) / 100}px`);
-    document.documentElement.style.setProperty("--lvh", "1vh");
+    document.documentElement.style.setProperty("--lvh", "1lvh");
     document.documentElement.style.setProperty(
       "--scrollbar-width",
       `${Math.round(scrollbarWidth * 100) / 100}px`,

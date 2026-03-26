@@ -90,9 +90,7 @@ export default function GlobalCanvas({
 }: GlobalCanvasProps) {
   const { isActivated, isActive, getWebGLTunnel, getDOMTunnel } = useWebGLStore();
   const [rendererType, setRendererType] = useState<"webgpu" | "webgl" | null>(null);
-
-  // Get device capabilities for renderer config
-  const capability = detectGPUCapability();
+  const [capability] = useState(() => detectGPUCapability());
 
   // Don't render anything until activated by <Wrapper webgl>
   if (!isActivated) {

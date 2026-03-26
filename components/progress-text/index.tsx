@@ -46,7 +46,9 @@ export function ProgressText({
   });
 
   if (typeof children !== "string") {
-    console.warn("ProgressText children should be a string");
+    if (process.env.NODE_ENV === "development") {
+      console.warn("ProgressText children should be a string");
+    }
     return children;
   }
 
@@ -67,7 +69,6 @@ export function ProgressText({
               if (!node) return;
               wordsRefs.current[index] = node;
             }}
-            style={{ opacity: 0.33 }}
           >
             {word}
           </span>{" "}

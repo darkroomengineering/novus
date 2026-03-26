@@ -1,6 +1,7 @@
 import cn from "clsx";
 import type { ComponentProps } from "react";
 import { breakpoints } from "~/styles/layout";
+import s from "./image.module.css";
 
 export interface ImageProps extends ComponentProps<"img"> {
   /** CSS object-fit property */
@@ -42,13 +43,10 @@ export function Image({
       sizes={finalSizes}
       style={{
         objectFit,
-        display: "block",
-        width: "100%",
-        height: "auto",
         ...(aspectRatio ? { aspectRatio } : {}),
         ...style,
       }}
-      className={cn(className)}
+      className={cn(s.image, className)}
       draggable={false}
       onDragStart={(e) => e.preventDefault()}
       {...props}

@@ -103,7 +103,7 @@ function useMarker({
 }
 
 function isNumber(value: unknown): value is number {
-  return typeof value === "number" || !Number.isNaN(value);
+  return typeof value === "number" && !Number.isNaN(value);
 }
 
 type TriggerPosition = "top" | "center" | "bottom" | number;
