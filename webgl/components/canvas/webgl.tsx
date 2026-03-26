@@ -46,8 +46,7 @@ export default function WebGLCanvas({
           precision: "highp",
           powerPreference: "high-performance",
           // Disable MSAA when DPR is high to avoid redundant work
-          antialias:
-            !postprocessing && (typeof window !== "undefined" ? window.devicePixelRatio < 2 : true),
+          antialias: !postprocessing && window.devicePixelRatio < 2,
           alpha,
           ...(postprocessing && { stencil: false, depth: false }),
         }}
@@ -57,9 +56,7 @@ export default function WebGLCanvas({
         frameloop="never"
         linear
         flat
-        {...(typeof document !== "undefined" && {
-          eventSource: document.documentElement,
-        })}
+        eventSource={document.documentElement}
         eventPrefix="client"
         resize={{ scroll: false, debounce: 500 }}
         style={{ pointerEvents: "all" }}
