@@ -98,10 +98,7 @@ export function Marquee({
     >
       {Array.from({ length: repeat }).map((_, i) => (
         <div
-          key={`marquee-item-${
-            // biome-ignore lint/suspicious/noArrayIndexKey: i can't come up with anything better tbh
-            i
-          }`}
+          key={`marquee-item-${i}`}
           className={s.inner}
           aria-hidden={i !== 0}
           data-nosnippet={i !== 0 ? "" : undefined}

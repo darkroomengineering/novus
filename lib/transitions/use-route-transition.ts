@@ -53,7 +53,7 @@ export function useRouteTransition(config: RouteTransitionConfig): {
       // First-load appear — fire initial() with synthetic info
       initialRef.current?.({ from: "", to: "", direction: "push" });
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   // Register exit + enter — runs once on mount (useLayoutEffect guarantees
   // registration completes before the parent's orchestration useEffect fires)
@@ -78,7 +78,7 @@ export function useRouteTransition(config: RouteTransitionConfig): {
       unregisterExit();
       unregisterEnter();
     };
-  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [id]);
 
   return {
     phase: context?.phase ?? "idle",

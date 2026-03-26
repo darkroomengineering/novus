@@ -265,7 +265,7 @@ export function TransitionRouter({
     // Bump generation to trigger orchestration effect
     transitionGenRef.current++;
     setTransitionGen(transitionGenRef.current);
-  }, [location.key]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [location.key]);
 
   // Keep prevOutletRef in sync on non-navigation renders.
   // ORDERING: must be declared AFTER the navigation detection effect
@@ -321,7 +321,7 @@ export function TransitionRouter({
     });
 
     return () => cancelAnimationFrame(rafId);
-  }, [appear, ready]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [appear, ready]);
 
   // ---------------------------------------------------------------------------
   // Orchestration (useEffect)
@@ -487,7 +487,7 @@ export function TransitionRouter({
       if (enterRafId !== undefined) cancelAnimationFrame(enterRafId);
       clearTimeout(timeoutIdRef.current);
     };
-  }, [transitionGen]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [transitionGen]);
 
   // Sync data attribute
   useEffect(() => {

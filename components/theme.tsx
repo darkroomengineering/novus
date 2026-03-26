@@ -40,7 +40,6 @@ export function ThemeProvider({
     setCurrentTheme(theme);
   }, [theme]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: reset theme on route change
   useEffect(() => {
     if (global) {
       document.documentElement.setAttribute("data-theme", currentTheme);
@@ -61,7 +60,6 @@ export function ThemeProvider({
     <>
       {global && (
         <script
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: FOUC prevention
           dangerouslySetInnerHTML={{
             __html: `document.documentElement.setAttribute('data-theme','${currentTheme}');`,
           }}

@@ -7,7 +7,6 @@ import { ThemeProvider } from "~/components/theme";
 import "~/styles/css/index.css";
 import "~/styles/css/media.css";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- types only generated for active appDirectory
 export const middleware = [passwordMiddleware] as any[];
 
 const GlobalCanvas = lazy(() => import("../webgl/components/global-canvas"));

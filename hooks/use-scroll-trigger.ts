@@ -300,7 +300,6 @@ export function useScrollTrigger(
     onLeave?.({ progress: clamp(0, progress, 1) });
   });
 
-  // eslint-disable-next-line no-unused-vars
   const [setProgress, _getProgress] = useLazyState<number>(
     Number.NaN,
     (progress: number, lastProgress: number | undefined) => {
@@ -366,6 +365,5 @@ export function useScrollTrigger(
 
   useTransform(update);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: necessary to run update on deps change
   useEffect(update, [update, ...deps]);
 }

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import s from "./studio.module.css";
 
 // Theatre.js CJS interop wraps the default export, so types don't match runtime
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type StudioInstance = any;
 
 function getProjectId(): string | undefined {

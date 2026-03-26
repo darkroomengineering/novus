@@ -7,9 +7,7 @@
   z-index: -1;
 
   canvas {
-    /* biome-ignore lint: ensure canvas fills container */
     width: 100% !important;
-    /* biome-ignore lint: ensure canvas fills container */
     height: 100% !important;
   }
 }

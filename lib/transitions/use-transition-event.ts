@@ -36,5 +36,5 @@ export function useTransitionEvent(config: TransitionEventConfig): void {
         enterCtx.done();
       },
     });
-  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [id]);
 }

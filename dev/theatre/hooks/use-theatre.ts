@@ -12,7 +12,6 @@ export function useTheatreObject(
 ) {
   const [object, setObject] = useState<ISheetObject>();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: this is fine
   useEffect(() => {
     if (!sheet) return;
 
@@ -70,7 +69,7 @@ export function useTheatre<Config extends UnknownShorthandCompoundProps>(
   const set = useCallback(
     (values: NonNullable<typeof object>["props"]) => {
       if (studio && object) {
-        // eslint-disable-next-line typescript-eslint/unbound-method
+        // eslint-disable-next-line typescript-eslint/unbound-method -- Theatre.js API
         studio.transaction(({ set }) => {
           set(object.props, {
             ...object.value,

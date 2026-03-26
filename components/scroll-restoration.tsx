@@ -1,8 +1,12 @@
 import { useEffect } from "react";
 
-export function ScrollRestoration({ type = "auto" }) {
+interface ScrollRestorationProps {
+  type?: ScrollRestoration;
+}
+
+export function ScrollRestoration({ type = "auto" }: ScrollRestorationProps) {
   useEffect(() => {
-    history.scrollRestoration = type as ScrollRestoration;
+    history.scrollRestoration = type;
     if (type === "manual") {
       window.scrollTo(0, 0);
     }
