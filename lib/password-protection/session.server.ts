@@ -16,16 +16,33 @@ function getSecrets(): [string] {
   return ["dev-only-insecure-secret"];
 }
 
-const { getSession, commitSession, destroySession } = createCookieSessionStorage<SessionData>({
-  cookie: {
-    name: "__site_password",
-    httpOnly: true,
-    maxAge: 60 * 60 * 24 * 7, // 1 week
-    path: "/",
-    sameSite: "lax",
-    secrets: getSecrets(),
-    secure: env.NODE_ENV === "production",
-  },
-});
+let _storage: ReturnType<typeof createCookieSessionStorage<SessionData>> | null = null;
 
-export { getSession, commitSession, destroySession };
+function getStorage() {
+  if (!_storage) {
+    _storage = createCookieSessionStorage<SessionData>({
+      cookie: {
+        name: "__site_password",
+        httpOnly: true,
+        maxAge: 60 * 60 * 24 * 7, // 1 week
+        path: "/",
+        sameSite: "lax",
+        secrets: getSecrets(),
+        secure: env.NODE_ENV === "production",
+      },
+    });
+  }
+  return _storage;
+}
+
+export function getSession(...args: Parameters<ReturnType<typeof createCookieSessionStorage<SessionData>>["getSession"]>) {
+  return getStorage().getSession(...args);
+}
+
+export function commitSession(...args: Parameters<ReturnType<typeof createCookieSessionStorage<SessionData>>["commitSession"]>) {
+  return getStorage().commitSession(...args);
+}
+
+export function destroySession(...args: Parameters<ReturnType<typeof createCookieSessionStorage<SessionData>>["destroySession"]>) {
+  return getStorage().destroySession(...args);
+}
