@@ -17,3 +17,6 @@
 
 # generated css
 styles/css/generated/
+
+# local scratchpad 
+.cursor/scratchpad.md
