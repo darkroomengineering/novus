@@ -5,13 +5,13 @@ export const env = createEnv({
   clientPrefix: "PUBLIC_",
 
   client: {
-    PUBLIC_BASE_URL: v.string(),
+    PUBLIC_BASE_URL: v.optional(v.string()),
 
     // Sanity
-    PUBLIC_SANITY_PROJECT_ID: v.string(),
-    PUBLIC_SANITY_DATASET: v.string(),
-    PUBLIC_SANITY_API_VERSION: v.string(),
-    PUBLIC_SANITY_STUDIO_URL: v.string(),
+    PUBLIC_SANITY_PROJECT_ID: v.optional(v.string()),
+    PUBLIC_SANITY_DATASET: v.optional(v.string()),
+    PUBLIC_SANITY_API_VERSION: v.optional(v.string()),
+    PUBLIC_SANITY_STUDIO_URL: v.optional(v.string()),
 
     // HubSpot
     // PUBLIC_HUBSPOT_PORTAL_ID: v.string(),

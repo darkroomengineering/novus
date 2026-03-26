@@ -6,7 +6,7 @@ export const env = createEnv({
     NODE_ENV: v.picklist(["development", "production", "test"]),
 
     // Sanity
-    SANITY_API_READ_TOKEN: v.string(),
+    SANITY_API_READ_TOKEN: v.optional(v.string()),
 
     // Shopify
     // SHOPIFY_STORE_DOMAIN: v.string(),
