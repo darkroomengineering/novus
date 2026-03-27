@@ -8,6 +8,7 @@ export const TranslationSchema = v.object({
   locale: v.object({
     lang: v.string(),
     dir: v.picklist(["ltr", "rtl"]),
+    basePath: v.optional(v.string(), "/"),
   }),
   home: v.object({
     meta: v.object({ title: v.string(), description: v.string() }),

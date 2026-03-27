@@ -54,6 +54,16 @@ translations/
 
 Every file must match the schema. The build validates all files before starting.
 
+#### `locale.basePath` — subpath deployments
+
+For sites that need a language under a subpath (e.g. `ca.example.com/fr`), set `basePath` in the locale:
+
+```json
+{ "locale": { "lang": "fr", "dir": "ltr", "basePath": "/fr" } }
+```
+
+This sets React Router's `basename`, so all `<Link>` and prerendered output will be prefixed automatically. Defaults to `"/"` when omitted.
+
 ### 4. Register the Vite plugin
 
 ```ts

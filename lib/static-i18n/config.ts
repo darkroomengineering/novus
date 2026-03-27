@@ -23,10 +23,13 @@ export function staticI18nConfig(options: {
   const lang = process.env.BUILD_LANG;
   if (!lang) return null;
 
+  const basename = process.env.BUILD_BASENAME || "/";
+
   return {
     ssr: false,
     prerender: options.prerender,
     buildDirectory: `dist/${lang}`,
     appDirectory: options.appDirectory,
+    ...(basename !== "/" && { basename }),
   } satisfies Config;
 }
