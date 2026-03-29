@@ -24,6 +24,9 @@ export const env = createEnv({
     // Turnstile
     // CLOUDFLARE_TURNSTILE_SECRET_KEY: v.string(),
 
+    // Static i18n
+    TRANSLATIONS_CDN: v.optional(v.pipe(v.string(), v.url())),
+
     // Password protection (optional)
     SITE_PASSWORD: v.optional(v.string()),
     SESSION_SECRET: v.optional(v.string()),
