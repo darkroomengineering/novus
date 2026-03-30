@@ -10,19 +10,29 @@ import type { Config } from "@react-router/dev/config";
  * - **Preview deploy** (no `BUILD_LANG`): SSR enabled so the root loader can
  *   fetch translations from CDN at runtime. No prerendering.
  *
+ * The optional `ssr` bag is only merged into the preview deploy config,
+ * keeping presets, middleware flags, and other SSR-specific config out
+ * of static builds.
+ *
  * ```ts
  * // react-router.config.ts
  * import { staticI18nConfig } from "./lib/static-i18n/config";
+ * import { vercelPreset } from "@vercel/react-router/vite";
  *
  * export default staticI18nConfig({
- *   appDirectory: "translated",
+ *   appDirectory: "app",
  *   prerender: ["/", "/about", "/contact"],
+ *   ssr: {
+ *     presets: [vercelPreset()],
+ *     future: { v8_middleware: true },
+ *   },
  * });
  * ```
  */
 export function staticI18nConfig(options: {
   appDirectory: string;
   prerender: string[];
+  ssr?: Omit<Config, "ssr" | "appDirectory">;
 }): Config {
   const lang = process.env.BUILD_LANG;
 
@@ -31,6 +41,7 @@ export function staticI18nConfig(options: {
     return {
       ssr: true,
       appDirectory: options.appDirectory,
+      ...options.ssr,
     } satisfies Config;
   }
 
