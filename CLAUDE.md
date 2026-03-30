@@ -61,11 +61,10 @@ import s from "./component.module.css";
 
 ### Environment Variables
 
-`PUBLIC_` prefix for client (`import.meta.env`), plain for server (`process.env`). Validated with t3-env + valibot.
+`PUBLIC_` prefix for client (`import.meta.env`), plain for server (`process.env`). Both validated in a single `env.ts` with t3-env + valibot. Vite tree-shakes server vars from the client bundle.
 
 ```tsx
-import { env } from "~/env"; // client
-import { env } from "~/env.server"; // server (.server.ts or loaders)
+import { env } from "~/env";
 ```
 
 ### Data Loading

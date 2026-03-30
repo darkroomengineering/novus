@@ -1,4 +1,4 @@
-import { env } from "~/env.server";
+import { env } from "~/env";
 import { client } from "./client";
 
 export const serverClient = client.withConfig({

@@ -1,5 +1,5 @@
 import { createCookieSessionStorage } from "react-router";
-import { env } from "~/env.server";
+import { env } from "~/env";
 
 type SessionData = {
   authenticated: boolean;

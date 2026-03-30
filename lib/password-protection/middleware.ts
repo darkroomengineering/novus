@@ -1,6 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import { redirect } from "react-router";
-import { env } from "~/env.server";
+import { env } from "~/env";
 import { getSession, commitSession } from "./session.server";
 
 function safeEqual(a: string, b: string): boolean {
