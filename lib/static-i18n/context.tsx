@@ -1,8 +1,8 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import type { ReactNode } from "react";
 import type { Translation } from "./schema";
 
-export const TranslationContext = createContext<Translation | null>(null);
+const TranslationContext = createContext<Translation | null>(null);
 
 export function TranslationProvider({
   value,
@@ -12,4 +12,12 @@ export function TranslationProvider({
   children: ReactNode;
 }) {
   return <TranslationContext value={value}>{children}</TranslationContext>;
+}
+
+export function useTranslation(): Translation {
+  const context = useContext(TranslationContext);
+  if (!context) {
+    throw new Error("useTranslation must be used within a TranslationProvider");
+  }
+  return context;
 }

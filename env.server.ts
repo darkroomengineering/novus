@@ -25,7 +25,11 @@ export const env = createEnv({
     // CLOUDFLARE_TURNSTILE_SECRET_KEY: v.string(),
 
     // Static i18n
+    TRANSLATIONS_DIR: v.optional(v.string()),
     TRANSLATIONS_CDN: v.optional(v.pipe(v.string(), v.url())),
+    // Injected by build.ts — do NOT set in .env
+    BUILD_LANG: v.optional(v.string()),
+    BUILD_BASENAME: v.optional(v.string()),
 
     // Password protection (optional)
     SITE_PASSWORD: v.optional(v.string()),

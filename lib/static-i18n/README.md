@@ -9,7 +9,7 @@ Build the same page as standalone static sites in multiple languages. One JSON p
 Create a folder (e.g. `translated/`) with your routes. Use `useTranslation()` for typed access:
 
 ```tsx
-import { useTranslation } from "~/lib/static-i18n";
+import { useTranslation } from "~/lib/static-i18n/context";
 
 export default function Home() {
   const t = useTranslation();
@@ -24,8 +24,10 @@ export default function Home() {
 The translated app's `root.tsx` loads translations and wraps children with `TranslationProvider`:
 
 ```tsx
+import { useEffect } from "react";
 import { Outlet } from "react-router";
-import { loadTranslation, TranslationProvider } from "~/lib/static-i18n";
+import { TranslationProvider } from "~/lib/static-i18n/context";
+import { loadTranslation } from "~/lib/static-i18n/loader.server";
 import type { Route } from "./+types/root";
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -81,7 +83,9 @@ export const TranslationSchema = v.object({
 
 ### 4. Add translation JSONs
 
-Put your JSON files anywhere in the project:
+Translation files live in `lib/static-i18n/translations/` by default. The loader bundles them via `import.meta.glob` at build time — no filesystem access at runtime, so it works on Vercel serverless and other platforms where `process.cwd()` doesn't resolve to the project root.
+
+Projects that move translations elsewhere should update the glob pattern in `loader.server.ts` to match. The build script (`build.ts`) uses `TRANSLATIONS_DIR` separately to locate files for validation.
 
 ```
 translations/
@@ -97,15 +101,20 @@ Every file must match the schema. The build validates all files before starting.
 
 ```ts
 // react-router.config.ts
-import { staticI18nConfig } from "./lib/static-i18n/config.ts";
+import { staticI18nConfig } from "./lib/static-i18n/config";
+import { vercelPreset } from "@vercel/react-router/vite";
 
 export default staticI18nConfig({
   appDirectory: "translated",
   prerender: ["/", "/about", "/contact"],
+  ssr: {
+    presets: [vercelPreset()],
+    future: { v8_middleware: true },
+  },
 });
 ```
 
-When `BUILD_LANG` is set, this produces a static SPA build with prerendering into `dist/<lang>/`. Otherwise it returns an SSR config for preview deploys (loader fetches from CDN at runtime).
+When `BUILD_LANG` is set, this produces a static SPA build with prerendering into `dist/<lang>/`. The `ssr` bag is only applied to preview deploys — static builds ignore it.
 
 ### 6. Build
 
@@ -129,7 +138,7 @@ Each ZIP contains `index.html` + `assets/` — host anywhere.
 
 1. **Validates** all JSONs against the valibot schema (fails fast before any builds)
 2. **Builds** each language in parallel via `BUILD_LANG=xx react-router build`
-3. **Root loader** reads the translation JSON from disk at build time, data is prerendered into static HTML
+3. **Root loader** reads the translation from the bundle (via `import.meta.glob`), data is prerendered into static HTML
 4. **Zips** each build output into `output/<lang>.zip`
 5. **Cleans up** intermediate build files
 
@@ -150,7 +159,9 @@ https://preview.example.com/?lang=fr
 https://preview.example.com/about?lang=de
 ```
 
-The loader fetches `${TRANSLATIONS_CDN}/${lang}.json` and renders with the live JSON. No rebuild needed. Schema validation is skipped for CDN fetches so translators can preview incomplete translations — missing fields render as blank.
+When `?lang=` is set, the loader resolves in order: CDN (if `TRANSLATIONS_CDN` is configured), then the bundle, then falls back to English. Schema validation is skipped for CDN fetches so translators can preview incomplete translations.
+
+When no `?lang=` param is present, English is loaded from the bundle.
 
 ## `locale.basePath` — subpath deployments
 
@@ -184,11 +195,9 @@ export function meta({ loaderData }: Route.MetaArgs) {
 lib/static-i18n/
   schema.ts           # Valibot schema (customize per project)
   config.ts           # React Router config helper (static build vs preview deploy)
-  loader.ts           # Translation loader (disk at build time, CDN at runtime)
-  context.tsx         # TranslationProvider (React context)
-  use-translation.ts  # useTranslation() hook
-  index.ts            # Public exports
+  loader.server.ts    # Translation loader (disk at build time, CDN at runtime)
+  context.tsx         # TranslationProvider + useTranslation hook
   build.ts            # Build orchestrator (validate + parallel builds + zip)
-  translations/       # Default translations folder (configurable via --translations)
+  translations/       # Default translations folder (configurable via TRANSLATIONS_DIR)
   README.md
 ```
