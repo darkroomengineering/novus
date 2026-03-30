@@ -127,5 +127,7 @@ export function SheetProvider({
 }
 
 export function useCurrentSheet() {
-  return useContext(SheetContext);
+  const currentSheet = useContext(SheetContext);
+  const defaultSheet = useSheet("default");
+  return currentSheet ?? defaultSheet;
 }

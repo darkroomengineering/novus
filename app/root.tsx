@@ -2,7 +2,7 @@ import { Suspense, lazy } from "react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, useRouteError } from "react-router";
 import { Link } from "~/components/link";
 import { middleware as passwordMiddleware } from "~/lib/password-protection";
-import { RAF } from "~/components/raf";
+import { ReactTempus } from "tempus/react";
 import { RealViewport } from "~/components/real-viewport";
 import { ThemeProvider } from "~/components/theme";
 import "~/styles/css/index.css";
@@ -35,7 +35,7 @@ export default function App() {
     <ThemeProvider theme="dark" global>
       <Outlet />
       <RealViewport />
-      <RAF />
+      <ReactTempus />
       <Suspense fallback={null}>
         <GlobalCanvas />
       </Suspense>

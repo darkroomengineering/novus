@@ -98,6 +98,15 @@ React Compiler handles optimization. Never use `useMemo`, `useCallback`, or `Rea
 
 `verbatimModuleSyntax: true` in tsconfig.
 
+### `@theatre/core` — CJS Default Import Only
+
+`@theatre/core` ships as CJS. Named imports fail in Vite's ESM SSR environment. Use the default import pattern:
+
+```tsx
+import theatreCore from "@theatre/core";
+const { types } = theatreCore;
+```
+
 ## Component Pattern
 
 ```tsx
