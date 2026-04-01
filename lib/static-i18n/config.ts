@@ -5,8 +5,8 @@ import type { Config } from "@react-router/dev/config";
  *
  * Returns a different config depending on the environment:
  *
- * - **Static build** (`BUILD_LANG` set): SPA + prerendering into `dist/<lang>/`,
- *   with optional `basename` from `BUILD_BASENAME`. Loaders run at build time.
+ * - **Static build** (`BUILD_LANG` set): SPA + prerendering all routes into
+ *   `dist/<lang>/`, with optional `basename` from `BUILD_BASENAME`.
  * - **Preview deploy** (no `BUILD_LANG`): SSR enabled so the root loader can
  *   fetch translations from CDN at runtime. No prerendering.
  *
@@ -21,7 +21,6 @@ import type { Config } from "@react-router/dev/config";
  *
  * export default staticI18nConfig({
  *   appDirectory: "app",
- *   prerender: ["/", "/about", "/contact"],
  *   ssr: {
  *     presets: [vercelPreset()],
  *     future: { v8_middleware: true },
@@ -31,7 +30,6 @@ import type { Config } from "@react-router/dev/config";
  */
 export function staticI18nConfig(options: {
   appDirectory: string;
-  prerender: string[];
   ssr?: Omit<Config, "ssr" | "appDirectory">;
 }): Config {
   const lang = process.env.BUILD_LANG;
@@ -45,12 +43,12 @@ export function staticI18nConfig(options: {
     } satisfies Config;
   }
 
-  // Static build — SPA + prerender into dist/<lang>/ (client-only output)
+  // Static build — SPA + prerender all routes into dist/<lang>/
   const basename = process.env.BUILD_BASENAME || "/";
 
   return {
     ssr: false,
-    prerender: options.prerender,
+    prerender: true,
     buildDirectory: `dist/${lang}`,
     appDirectory: options.appDirectory,
     ...(basename !== "/" && { basename }),

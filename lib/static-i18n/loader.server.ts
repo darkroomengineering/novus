@@ -1,4 +1,6 @@
+import * as v from "valibot";
 import type { Translation } from "./schema";
+import { TranslationSchema } from "./schema";
 
 /**
  * Translations bundled via import.meta.glob — no filesystem access at runtime.
@@ -63,7 +65,7 @@ function getFromBundle(lang: string): Translation {
     );
   }
 
-  return translation;
+  return v.parse(TranslationSchema, translation);
 }
 
 /**

@@ -106,7 +106,6 @@ import { vercelPreset } from "@vercel/react-router/vite";
 
 export default staticI18nConfig({
   appDirectory: "translated",
-  prerender: ["/", "/about", "/contact"],
   ssr: {
     presets: [vercelPreset()],
     future: { v8_middleware: true },
@@ -114,7 +113,7 @@ export default staticI18nConfig({
 });
 ```
 
-When `BUILD_LANG` is set, this produces a static SPA build with prerendering into `dist/<lang>/`. The `ssr` bag is only applied to preview deploys — static builds ignore it.
+When `BUILD_LANG` is set, this produces a static SPA build that prerenders all routes into `dist/<lang>/`. The `ssr` bag is only applied to preview deploys — static builds ignore it.
 
 ### 6. Build
 
@@ -187,6 +186,31 @@ export function meta({ loaderData }: Route.MetaArgs) {
     { name: "description", content: t.home.meta.description },
   ];
 }
+```
+
+## Conditional routes for static builds
+
+Static builds use `ssr: false`, which validates all registered routes — any route with `action` or server-only exports will fail the build even if it wouldn't be reached. Use conditional routes in `routes.ts` to only register safe routes during static builds:
+
+```ts
+// routes.ts
+// process.env directly — routes.ts runs at Vite config time, not in the app server
+const isStaticBuild = !!process.env.BUILD_LANG;
+
+const staticRoutes: RouteConfig = [
+  index("routes/home/page.tsx"),
+  route("not-found", "routes/not-found.tsx"),
+];
+
+const routes: RouteConfig = isStaticBuild
+  ? staticRoutes
+  : [
+      ...staticRoutes,
+      route("*", "routes/catchall.tsx"),
+      // ... other SSR-only routes
+    ];
+
+export default routes;
 ```
 
 ## Files
