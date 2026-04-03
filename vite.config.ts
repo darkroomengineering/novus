@@ -2,12 +2,25 @@ import { reactRouter } from "@react-router/dev/vite";
 import tailwindcss from "@tailwindcss/vite";
 import { composeVisitors } from "lightningcss";
 import { defineConfig } from "vite";
+import babel from "vite-plugin-babel";
 import svgr from "vite-plugin-svgr";
 import { darkroomStyling } from "./styles/scripts/vite/darkroom-styling.ts";
 import { lightningcssFunctions } from "./styles/scripts/vite/lightningcss-functions.ts";
 
 export default defineConfig({
-  plugins: [tailwindcss(), reactRouter(), svgr(), darkroomStyling()],
+  plugins: [
+    tailwindcss(),
+    reactRouter(),
+    babel({
+      filter: /^(?!.*node_modules).*\.[jt]sx?$/,
+      babelConfig: {
+        presets: ["@babel/preset-typescript"],
+        plugins: [["babel-plugin-react-compiler"]],
+      },
+    }),
+    svgr(),
+    darkroomStyling(),
+  ],
   envPrefix: "PUBLIC_",
   build: {
     // Bundle all CSS into a single file instead of per-route chunks.
