@@ -35,14 +35,20 @@ function getStorage() {
   return _storage;
 }
 
-export function getSession(...args: Parameters<ReturnType<typeof createCookieSessionStorage<SessionData>>["getSession"]>) {
+export function getSession(
+  ...args: Parameters<ReturnType<typeof createCookieSessionStorage<SessionData>>["getSession"]>
+) {
   return getStorage().getSession(...args);
 }
 
-export function commitSession(...args: Parameters<ReturnType<typeof createCookieSessionStorage<SessionData>>["commitSession"]>) {
+export function commitSession(
+  ...args: Parameters<ReturnType<typeof createCookieSessionStorage<SessionData>>["commitSession"]>
+) {
   return getStorage().commitSession(...args);
 }
 
-export function destroySession(...args: Parameters<ReturnType<typeof createCookieSessionStorage<SessionData>>["destroySession"]>) {
+export function destroySession(
+  ...args: Parameters<ReturnType<typeof createCookieSessionStorage<SessionData>>["destroySession"]>
+) {
   return getStorage().destroySession(...args);
 }

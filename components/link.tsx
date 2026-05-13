@@ -38,11 +38,11 @@ export function Link({
     return <div className={className}>{children}</div>;
   }
 
-  // External link
-  if (isExternalHref(href as string)) {
+  // External link — only strings can be external; Path objects are always internal.
+  if (typeof href === "string" && isExternalHref(href)) {
     return (
       <a
-        href={href as string}
+        href={href}
         target="_blank"
         rel="noopener noreferrer"
         data-external

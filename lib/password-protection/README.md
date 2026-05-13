@@ -48,11 +48,11 @@ This Vercel Edge Middleware runs before the CDN serves any file. It checks for t
 
 **How the two middlewares work together:**
 
-| Request type | Vercel Edge Middleware | React Router Middleware |
-|---|---|---|
-| Route (`/about`) | Passes through (not a static file) | Checks session, shows password form |
-| Static file (`/logo.png`) | Checks cookie, redirects if missing | Never runs (static files skip RR) |
-| After login (any request) | Sees cookie, passes through | Sees session, passes through |
+| Request type              | Vercel Edge Middleware              | React Router Middleware             |
+| ------------------------- | ----------------------------------- | ----------------------------------- |
+| Route (`/about`)          | Passes through (not a static file)  | Checks session, shows password form |
+| Static file (`/logo.png`) | Checks cookie, redirects if missing | Never runs (static files skip RR)   |
+| After login (any request) | Sees cookie, passes through         | Sees session, passes through        |
 
 ## How it works
 

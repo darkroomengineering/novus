@@ -1,5 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
-import { redirect } from "react-router";
+import { type MiddlewareFunction, redirect } from "react-router";
 import { env } from "~/env";
 import { getSession, commitSession } from "./session.server";
 
@@ -30,10 +30,7 @@ const HEADERS = {
  * export const middleware: Route.MiddlewareFunction[] = [passwordMiddleware];
  * ```
  */
-export async function passwordMiddleware(
-  { request }: { request: Request },
-  next: () => Promise<Response>,
-) {
+export const passwordMiddleware: MiddlewareFunction<Response> = async ({ request }, next) => {
   if (!env.SITE_PASSWORD) return next();
 
   const session = await getSession(request.headers.get("Cookie"));
@@ -67,7 +64,7 @@ export async function passwordMiddleware(
     status: 401,
     headers: HEADERS,
   });
-}
+};
 
 function renderPage(error: boolean) {
   return `<!DOCTYPE html>

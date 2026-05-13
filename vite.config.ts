@@ -9,9 +9,6 @@ import { lightningcssFunctions } from "./styles/scripts/vite/lightningcss-functi
 export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), svgr(), darkroomStyling()],
   envPrefix: "PUBLIC_",
-  resolve: {
-    tsconfigPaths: true,
-  },
   build: {
     // Bundle all CSS into a single file instead of per-route chunks.
     // Prevents React Router's <Links> from removing route stylesheets

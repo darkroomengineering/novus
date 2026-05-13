@@ -32,7 +32,10 @@ export async function loadTranslation(request: Request): Promise<Translation> {
   }
 
   const url = new URL(request.url);
-  const lang = url.searchParams.get("lang");
+  const rawLang = url.searchParams.get("lang");
+  // Allowlist: BCP 47 short tags only (e.g. "en", "fr-CA"). Prevents path
+  // traversal and arbitrary URL injection through TRANSLATIONS_CDN.
+  const lang = rawLang && /^[a-z]{2}(-[A-Z]{2})?$/.test(rawLang) ? rawLang : null;
 
   if (lang) {
     const cdnBase = process.env.TRANSLATIONS_CDN;
@@ -60,9 +63,7 @@ function getFromBundle(lang: string): Translation {
     const available = Object.keys(translationModules)
       .map((k) => k.replace("./translations/", "").replace(".json", ""))
       .join(", ");
-    throw new Error(
-      `Translation "${lang}" not found in bundle. Available: ${available}`,
-    );
+    throw new Error(`Translation "${lang}" not found in bundle. Available: ${available}`);
   }
 
   return v.parse(TranslationSchema, translation);

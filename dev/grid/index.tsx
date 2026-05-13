@@ -20,9 +20,7 @@ export default function GridDebugger({ gridClassName = "dr-layout-grid" }: GridD
     <div className="pointer-events-none fixed inset-0 z-10000">
       <div className={cn(gridClassName, "absolute inset-0", s.debugger)}>
         {Array.from({ length: columns }).map((_, index) => (
-          <span
-            key={`column-${index}`}
-          />
+          <span key={`column-${index}`} />
         ))}
       </div>
     </div>

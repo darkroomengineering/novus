@@ -34,11 +34,10 @@ export function ThemeProvider({
   global?: boolean;
 }) {
   const { pathname } = useLocation();
+  // `theme` is the initial value only — consumers can override via setTheme.
+  // Re-syncing from the prop would clobber user changes; use a route-level
+  // `key` on <ThemeProvider> if you need it to reset on navigation.
   const [currentTheme, setCurrentTheme] = useState(theme);
-
-  useEffect(() => {
-    setCurrentTheme(theme);
-  }, [theme]);
 
   useEffect(() => {
     if (global) {
@@ -60,8 +59,10 @@ export function ThemeProvider({
     <>
       {global && (
         <script
+          // JSON.stringify quotes + escapes — defense in depth in case
+          // `currentTheme` ever becomes user/URL-derived.
           dangerouslySetInnerHTML={{
-            __html: `document.documentElement.setAttribute('data-theme','${currentTheme}');`,
+            __html: `document.documentElement.setAttribute('data-theme',${JSON.stringify(currentTheme)});`,
           }}
         />
       )}

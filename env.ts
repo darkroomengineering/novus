@@ -31,6 +31,9 @@ export const env = createEnv({
 
     // Sanity
     SANITY_API_READ_TOKEN: v.optional(v.string()),
+    // Required when using Sanity preview / draft mode (signs the __sanity_preview cookie).
+    // Generate with: openssl rand -hex 32
+    SANITY_SESSION_SECRET: v.optional(v.string()),
 
     // Shopify
     // SHOPIFY_STORE_DOMAIN: v.string(),

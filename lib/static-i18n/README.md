@@ -181,10 +181,7 @@ import type { Route } from "./+types/home";
 
 export function meta({ loaderData }: Route.MetaArgs) {
   const t = loaderData.translation;
-  return [
-    { title: t.home.meta.title },
-    { name: "description", content: t.home.meta.description },
-  ];
+  return [{ title: t.home.meta.title }, { name: "description", content: t.home.meta.description }];
 }
 ```
 

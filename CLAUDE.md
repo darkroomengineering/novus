@@ -18,10 +18,12 @@ hooks/                  # Custom hooks + Zustand store
 utils/                  # Pure utilities (math, easings, animation, raf, fetch, strings, viewport)
 styles/                 # Design system config, generated CSS, Vite plugin, Lightning CSS functions
 integrations/sanity/    # Sanity client, queries, image utils, session, loader
+lib/                    # Opt-in modules: password-protection, transitions, static-i18n
 dev/                    # Debug tools (Orchestra, grid, stats, minimap, Theatre.js)
 webgl/                  # 3D graphics system (R3F, global canvas, tunnels)
-env.ts                  # Client env (t3-env + valibot, PUBLIC_ prefix)
-env.server.ts           # Server env (t3-env + valibot)
+example/                # Reference implementation (home, features, about, nav, preloader,
+                        # transitions). Copy what you need into app/ — not wired by default.
+env.ts                  # Env (t3-env + valibot, PUBLIC_ prefix for client, plain for server)
 vite.config.ts          # Vite config, Tailwind, Lightning CSS, darkroom-styling plugin
 ```
 
@@ -93,6 +95,8 @@ const MyComponent = lazy(() => import("./my-component"));
 ### No Manual Memoization
 
 React Compiler handles optimization. Never use `useMemo`, `useCallback`, or `React.memo`.
+
+Exception: `dev/` is excluded from the Compiler (debug tools — perf isn't critical and explicit memoization keeps intent clear). Manual `useMemo`/`useCallback` is permitted there.
 
 ### `import type` for Type-Only Imports
 
