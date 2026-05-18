@@ -34,10 +34,11 @@ export function ThemeProvider({
   global?: boolean;
 }) {
   const { pathname } = useLocation();
-  // `theme` is the initial value only — consumers can override via setTheme.
-  // Re-syncing from the prop would clobber user changes; use a route-level
-  // `key` on <ThemeProvider> if you need it to reset on navigation.
   const [currentTheme, setCurrentTheme] = useState(theme);
+
+  useEffect(() => {
+    setCurrentTheme(theme);
+  }, [theme]);
 
   useEffect(() => {
     if (global) {

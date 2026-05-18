@@ -2,17 +2,10 @@ import type { loadQuery } from "@sanity/react-loader";
 import { createCookieSessionStorage } from "react-router";
 import { env } from "~/env";
 
-function getSecrets(): [string] {
-  if (env.SANITY_SESSION_SECRET) return [env.SANITY_SESSION_SECRET];
-
-  if (env.NODE_ENV === "production") {
-    throw new Error(
-      "SANITY_SESSION_SECRET is required in production. Generate with: openssl rand -hex 32",
-    );
-  }
-
-  // Dev-only fallback — stable across module reloads, never used in production.
-  return ["dev-only-insecure-sanity-secret"];
+if (!env.SANITY_SESSION_SECRET) {
+  throw new Error(
+    "SANITY_SESSION_SECRET is required to use Sanity preview mode. Generate with: openssl rand -hex 32",
+  );
 }
 
 const { getSession, commitSession, destroySession } = createCookieSessionStorage({
@@ -20,11 +13,11 @@ const { getSession, commitSession, destroySession } = createCookieSessionStorage
     httpOnly: true,
     name: "__sanity_preview",
     path: "/",
-    // "lax" is correct unless Sanity Studio runs on a different origin and
-    // needs to send cookies on cross-origin POSTs. Switch to "none" + secure
-    // only when documented in the project README.
+    // "lax" assumes Studio is same-origin (e.g. mounted at /studio). If Studio
+    // is hosted on a separate domain and posts preview cookies cross-origin,
+    // switch to `sameSite: "none"` (which requires `secure: true`).
     sameSite: "lax",
-    secrets: getSecrets(),
+    secrets: [env.SANITY_SESSION_SECRET],
     secure: env.NODE_ENV === "production",
   },
 });
