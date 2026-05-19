@@ -56,6 +56,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/three": "^0.183.1",
     "babel-plugin-react-compiler": "^1.0.0",
+    "browserslist": "^4.28.2",
     "lightningcss": "^1.32.0",
     "oxfmt": "^0.43.0",
     "oxlint": "^1.58.0",
@@ -64,7 +65,15 @@
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.2",
     "vite": "^8.0.3",
-    "vite-plugin-babel": "^1.6.0",
+    "vite-plugin-babel": "^1.7.1",
     "vite-plugin-svgr": "^5.2.0"
-  }
+  },
+  "browserslist": [
+    ">= 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "iOS >= 16",
+    "Safari >= 16",
+    "not dead"
+  ]
 }

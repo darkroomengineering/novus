@@ -1,6 +1,7 @@
 import { reactRouter } from "@react-router/dev/vite";
 import tailwindcss from "@tailwindcss/vite";
-import { composeVisitors } from "lightningcss";
+import browserslist from "browserslist";
+import { browserslistToTargets, composeVisitors } from "lightningcss";
 import { defineConfig } from "vite";
 import babel from "vite-plugin-babel";
 import svgr from "vite-plugin-svgr";
@@ -8,11 +9,15 @@ import { darkroomStyling } from "./styles/scripts/vite/darkroom-styling.ts";
 import { lightningcssFunctions } from "./styles/scripts/vite/lightningcss-functions.ts";
 
 export default defineConfig({
+  define: {
+    __INCLUDE_DEV_TOOLS__: "true",
+  },
   plugins: [
     tailwindcss(),
     reactRouter(),
     babel({
-      filter: /^(?!.*node_modules).*\.[jt]sx?$/,
+      include: /\.[jt]sx?$/,
+      exclude: /node_modules/,
       babelConfig: {
         presets: ["@babel/preset-typescript"],
         plugins: [["babel-plugin-react-compiler"]],
@@ -31,6 +36,10 @@ export default defineConfig({
   css: {
     transformer: "lightningcss",
     lightningcss: {
+      // Resolved from the `browserslist` field in package.json. Drives
+      // auto-prefixing for properties like backdrop-filter (Safari < 18
+      // needs -webkit-).
+      targets: browserslistToTargets(browserslist()),
       drafts: {
         customMedia: true,
       },
