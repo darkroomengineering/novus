@@ -7,10 +7,7 @@ export type SubsetPreset =
   | "greek-ext"
   | "vietnamese";
 
-export type SubsetConfig =
-  | SubsetPreset
-  | { unicodeRange: string }
-  | { chars: string };
+export type SubsetConfig = SubsetPreset | { unicodeRange: string } | { chars: string };
 
 export interface FontSrc {
   path: string;

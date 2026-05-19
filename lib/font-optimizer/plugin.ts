@@ -5,12 +5,7 @@ import { cacheKey, readCache, writeCache } from "./cache.ts";
 import { PRESET_RANGES } from "./presets.ts";
 import { clearRegistry, registerFont } from "./registry.ts";
 import { subsetFont } from "./subset.ts";
-import type {
-  FontDefinition,
-  FontSrc,
-  ResolvedFontSrc,
-  SubsetConfig,
-} from "./types.ts";
+import type { FontDefinition, FontSrc, ResolvedFontSrc, SubsetConfig } from "./types.ts";
 
 export interface FontOptimizerOptions {
   fonts: FontDefinition[];
@@ -31,9 +26,7 @@ function resolveUnicodeRange(subset: SubsetConfig | undefined): string | null {
   const cps = [...new Set([...subset.chars])]
     .map((c) => c.codePointAt(0))
     .filter((cp): cp is number => cp !== undefined);
-  return cps
-    .map((cp) => `U+${cp.toString(16).toUpperCase().padStart(4, "0")}`)
-    .join(", ");
+  return cps.map((cp) => `U+${cp.toString(16).toUpperCase().padStart(4, "0")}`).join(", ");
 }
 
 function mirroredPath(srcRelToProject: string, srcDir: string): string {

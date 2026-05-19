@@ -77,12 +77,7 @@ function makeImports(memoryRef: { current: WebAssembly.Memory | null }): WebAsse
 
   // wasi_snapshot_preview1 stubs — Emscripten links these even when unused.
   const wasi_snapshot_preview1 = {
-    fd_write(
-      _fd: number,
-      _iovs: number,
-      _iovs_len: number,
-      _nwritten: number,
-    ): number {
+    fd_write(_fd: number, _iovs: number, _iovs_len: number, _nwritten: number): number {
       return 0;
     },
     fd_close(_fd: number): number {
@@ -131,10 +126,7 @@ function getInstance(): Promise<HbExports> {
   return instancePromise;
 }
 
-export async function subsetTtf(
-  input: Uint8Array,
-  codepoints: number[],
-): Promise<Uint8Array> {
+export async function subsetTtf(input: Uint8Array, codepoints: number[]): Promise<Uint8Array> {
   const hb = await getInstance();
 
   // Copy font bytes into WASM heap.
@@ -142,13 +134,7 @@ export async function subsetTtf(
   if (fontPtr === 0) throw new Error("harfbuzz: malloc failed for font buffer");
   new Uint8Array(hb.memory.buffer).set(input, fontPtr);
 
-  const blobIn = hb.hb_blob_create(
-    fontPtr,
-    input.byteLength,
-    HB_MEMORY_MODE_WRITABLE,
-    0,
-    0,
-  );
+  const blobIn = hb.hb_blob_create(fontPtr, input.byteLength, HB_MEMORY_MODE_WRITABLE, 0, 0);
 
   if (blobIn === 0) {
     hb.free(fontPtr);
@@ -180,9 +166,7 @@ export async function subsetTtf(
   }
 
   if (subsetFace === 0) {
-    throw new Error(
-      "harfbuzz: hb_subset_or_fail returned null — subsetting failed",
-    );
+    throw new Error("harfbuzz: hb_subset_or_fail returned null — subsetting failed");
   }
 
   try {

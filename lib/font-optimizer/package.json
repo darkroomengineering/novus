@@ -6,11 +6,11 @@
   "exports": {
     ".": "./index.ts"
   },
-  "peerDependencies": {
-    "vite": ">=5.0.0"
-  },
   "dependencies": {
     "harfbuzzjs": "1.2.0",
     "ttf2woff2": "^8.0.1"
+  },
+  "peerDependencies": {
+    "vite": ">=5.0.0"
   }
 }
