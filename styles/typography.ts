@@ -1,12 +1,8 @@
 import type { CSSProperties } from "react";
 
-const fonts = {
-  mono: "'ServerMono', ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace",
-} as const;
-
 const typography: TypeStyles = {
   "test-mono": {
-    "font-family": "var(--font-mono)",
+    "font-family": "var(--font-server-mono)",
     "font-style": "normal",
     "font-weight": 400,
     "line-height": "90%",
@@ -15,9 +11,8 @@ const typography: TypeStyles = {
   },
 } as const;
 
-export { fonts, typography };
+export { typography };
 
-export type Fonts = typeof fonts;
 export type Typography = TypeStyles;
 
 type TypeStyles = Record<

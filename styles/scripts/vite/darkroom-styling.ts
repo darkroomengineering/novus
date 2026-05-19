@@ -3,8 +3,11 @@ import path from "node:path";
 import type { Plugin } from "vite";
 import { colors, themes } from "../../colors.ts";
 import { easings } from "../../easings.ts";
+import { fonts } from "../../fonts.ts";
 import { breakpoints, customSizes, layout, screens } from "../../layout.ts";
-import { fonts, typography } from "../../typography.ts";
+import { typography } from "../../typography.ts";
+import { generateFontOverrides } from "../generate-font-overrides.ts";
+import { generateFonts } from "../generate-fonts.ts";
 import { generateMedia } from "../generate-media.ts";
 import { generateRoot } from "../generate-root.ts";
 import { generateScale } from "../generate-scale.ts";
@@ -17,7 +20,13 @@ interface DarkroomStylingOptions {
 
 const defaults: Required<DarkroomStylingOptions> = {
   prependCss: "./styles/css/media.css",
-  watchFiles: ["styles/colors.ts", "styles/typography.ts", "styles/easings.ts", "styles/layout.ts"],
+  watchFiles: [
+    "styles/colors.ts",
+    "styles/typography.ts",
+    "styles/easings.ts",
+    "styles/layout.ts",
+    "styles/fonts.ts",
+  ],
 };
 
 const banner = `/*
@@ -26,6 +35,11 @@ const banner = `/*
  */`;
 
 function generate() {
+  // `BUILD_LANG` is set by `lib/static-i18n/build` for per-locale static
+  // zips. When set, generateFonts emits only the matching language's
+  // font file and generateFontOverrides is skipped (single-file build).
+  const buildLang = process.env.BUILD_LANG;
+
   const tw = generateTailwind({
     breakpoints,
     colors,
@@ -38,10 +52,16 @@ function generate() {
   const root = generateRoot({ colors, customSizes, easings, layout, screens });
   const scale = generateScale();
   const media = generateMedia({ breakpoints });
+  const fontFaces = generateFonts({ fonts, buildLang });
+  const fontOverrides = buildLang ? "" : generateFontOverrides({ fonts });
 
   writeFileSync("./styles/css/tailwind.css", [banner, tw, scale].join("\n\n"));
-  writeFileSync("./styles/css/root.css", [banner, root].join("\n\n"));
+  writeFileSync(
+    "./styles/css/root.css",
+    [banner, root, fontOverrides].filter(Boolean).join("\n\n"),
+  );
   writeFileSync("./styles/css/media.css", [banner, media].join("\n\n"));
+  writeFileSync("./styles/css/fonts.css", [banner, fontFaces].join("\n\n"));
 
   console.log("✓ Style config generated");
 }

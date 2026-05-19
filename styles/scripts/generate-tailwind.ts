@@ -1,8 +1,18 @@
 import type { Colors, Themes } from "../colors";
 import type { Easings } from "../easings";
+import type { Fonts } from "../fonts";
 import type { Breakpoints, CustomSizes } from "../layout";
-import type { Fonts, Typography } from "../typography";
-import { atRule, block, comment, mapEntries, prop, scalingCalc, variables } from "./css.ts";
+import type { Typography } from "../typography";
+import {
+  atRule,
+  block,
+  comment,
+  type FontDefinition,
+  mapEntries,
+  prop,
+  scalingCalc,
+  variables,
+} from "./css.ts";
 
 export function generateTailwind({
   breakpoints,
@@ -43,7 +53,12 @@ export function generateTailwind({
     "",
     // Fonts
     "--font-*: initial;",
-    ...mapEntries(fonts, (name, value) => `--font-${name}: ${value};`),
+    ...fonts
+      .filter((f: FontDefinition) => f.css !== false)
+      .map(
+        (f: FontDefinition) =>
+          `${f.variable}: '${f.family}'${f.fallback ? `, ${f.fallback}` : ""};`,
+      ),
     "",
     // Easings
     "--ease-*: initial;",

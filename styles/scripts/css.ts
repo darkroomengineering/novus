@@ -63,3 +63,33 @@ export function variables(obj: Record<string, string | number>, prefix?: string)
     prefix ? variable(`${prefix}-${key}`, value) : variable(key, value),
   );
 }
+
+// Font definitions — typed config for @font-face generation and CSS variable reference
+
+export interface FontSrc {
+  path: string;
+  weight: string;
+  style?: string;
+}
+
+/**
+ * Language-specific font source overrides for non-Latin scripts. Keys are
+ * BCP-47 lang subtags (e.g. `ko`, `ja`, `zh-Hans`). Project-defined; no
+ * compile-time validation against a market list.
+ */
+export type FontLangMap = { default: string } & Record<string, string>;
+
+export interface FontDefinition {
+  family: string;
+  src: string | FontSrc[] | FontLangMap;
+  weight?: string;
+  display?: "swap" | "optional" | "block" | "fallback" | "auto";
+  variable: `--font-${string}`;
+  fallback?: string;
+  /** Set to false to skip @font-face and CSS variable generation (e.g. WebGL-only fonts). */
+  css?: boolean;
+}
+
+export function defineFont(config: FontDefinition): FontDefinition {
+  return config;
+}
