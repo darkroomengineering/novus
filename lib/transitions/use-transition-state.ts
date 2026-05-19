@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import {
   TransitionContext,
-  type TransitionPhase,
   type TransitionDirection,
   type TransitionMode,
   type TransitionPageState,
+  type TransitionPhase,
 } from "./context";
 
 export interface TransitionState {
@@ -15,6 +15,8 @@ export interface TransitionState {
   mode: TransitionMode;
   pages: TransitionPageState[];
   isTransitioning: boolean;
+  /** The owning outlet's `name` prop, or null if unnamed. */
+  name: string | null;
 }
 
 /**
@@ -33,5 +35,6 @@ export function useTransitionState(): TransitionState {
     mode: context?.mode ?? "swap",
     pages: context?.pages ?? [],
     isTransitioning: phase !== "idle",
+    name: context?.name ?? null,
   };
 }

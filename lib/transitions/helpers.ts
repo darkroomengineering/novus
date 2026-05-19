@@ -1,10 +1,10 @@
 import type {
-  ExitFunction,
-  EnterFunction,
   CleanupFunction,
+  EnterFunction,
+  ExitFunction,
+  TransitionCtx,
   TransitionEventCallbacks,
   TransitionInfo,
-  TransitionCtx,
 } from "./context";
 
 // ---------------------------------------------------------------------------
@@ -23,6 +23,7 @@ export function wrapExit(
   info: TransitionInfo,
   enter: () => void,
   ctx: TransitionCtx,
+  block: (promise: Promise<unknown>) => void,
 ): ExitHandle {
   let cleanup: CleanupFunction | null = null;
 
@@ -40,17 +41,26 @@ export function wrapExit(
     resolvers.set(id, done);
 
     try {
-      const result = fn({ done, enter, info, ctx });
+      const result = fn({
+        done,
+        enter,
+        info,
+        ctx,
+        block,
+      });
       if (typeof result === "function") {
         cleanup = result;
       }
     } catch (err) {
-      console.warn("[TransitionRouter] Exit error:", err);
+      console.warn("[TransitionOutlet] Exit error:", err);
       done();
     }
   });
 
-  return { promise, cleanup };
+  return {
+    promise,
+    cleanup,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -68,6 +78,9 @@ export function wrapEnter(
   resolvers: Map<string, () => void>,
   info: TransitionInfo,
   ctx: TransitionCtx,
+  exit: () => void,
+  block: (promise: Promise<unknown>) => void,
+  awaitBlocks: () => Promise<void>,
 ): EnterHandle {
   let cleanup: CleanupFunction | null = null;
 
@@ -85,17 +98,27 @@ export function wrapEnter(
     resolvers.set(id, done);
 
     try {
-      const result = fn({ done, info, ctx });
+      const result = fn({
+        done,
+        exit,
+        info,
+        ctx,
+        block,
+        awaitBlocks,
+      });
       if (typeof result === "function") {
         cleanup = result;
       }
     } catch (err) {
-      console.warn("[TransitionRouter] Enter error:", err);
+      console.warn("[TransitionOutlet] Enter error:", err);
       done();
     }
   });
 
-  return { promise, cleanup };
+  return {
+    promise,
+    cleanup,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -114,19 +137,20 @@ export function collectExits(
   info: TransitionInfo,
   enter: () => void,
   ctx: TransitionCtx,
+  block: (promise: Promise<unknown>) => void,
 ): CollectedHandle {
   const cleanups: CleanupFunction[] = [];
   const promises: Array<Promise<void>> = [];
 
   for (const [id, fn] of exitMap) {
-    const h = wrapExit(id, fn, resolvers, info, enter, ctx);
+    const h = wrapExit(id, fn, resolvers, info, enter, ctx, block);
     promises.push(h.promise);
     if (h.cleanup) cleanups.push(h.cleanup);
   }
 
   for (const [id, config] of eventMap) {
     if (config.onExit) {
-      const h = wrapExit(`evt:${id}`, config.onExit, resolvers, info, enter, ctx);
+      const h = wrapExit(`evt:${id}`, config.onExit, resolvers, info, enter, ctx, block);
       promises.push(h.promise);
       if (h.cleanup) cleanups.push(h.cleanup);
     }
@@ -134,7 +158,10 @@ export function collectExits(
 
   const promise = promises.length > 0 ? Promise.all(promises).then(() => {}) : Promise.resolve();
 
-  return { promise, cleanups };
+  return {
+    promise,
+    cleanups,
+  };
 }
 
 export function collectEnters(
@@ -143,19 +170,31 @@ export function collectEnters(
   resolvers: Map<string, () => void>,
   info: TransitionInfo,
   ctx: TransitionCtx,
+  exit: () => void,
+  block: (promise: Promise<unknown>) => void,
+  awaitBlocks: () => Promise<void>,
 ): CollectedHandle {
   const cleanups: CleanupFunction[] = [];
   const promises: Array<Promise<void>> = [];
 
   for (const [id, fn] of enterMap) {
-    const h = wrapEnter(id, fn, resolvers, info, ctx);
+    const h = wrapEnter(id, fn, resolvers, info, ctx, exit, block, awaitBlocks);
     promises.push(h.promise);
     if (h.cleanup) cleanups.push(h.cleanup);
   }
 
   for (const [id, config] of eventMap) {
     if (config.onEnter) {
-      const h = wrapEnter(`evt:${id}`, config.onEnter, resolvers, info, ctx);
+      const h = wrapEnter(
+        `evt:${id}`,
+        config.onEnter,
+        resolvers,
+        info,
+        ctx,
+        exit,
+        block,
+        awaitBlocks,
+      );
       promises.push(h.promise);
       if (h.cleanup) cleanups.push(h.cleanup);
     }
@@ -163,7 +202,10 @@ export function collectEnters(
 
   const promise = promises.length > 0 ? Promise.all(promises).then(() => {}) : Promise.resolve();
 
-  return { promise, cleanups };
+  return {
+    promise,
+    cleanups,
+  };
 }
 
 /** Run all cleanup functions synchronously. */
@@ -172,7 +214,7 @@ export function runCleanups(cleanups: CleanupFunction[]): void {
     try {
       fn();
     } catch (err) {
-      console.warn("[TransitionRouter] Cleanup error:", err);
+      console.warn("[TransitionOutlet] Cleanup error:", err);
     }
   }
 }

@@ -3,7 +3,7 @@ import { useLenis } from "lenis/react";
 import { useLayoutEffect, useRef } from "react";
 import { ProgressText } from "~/components/progress-text";
 import { Wrapper } from "~/components/wrapper";
-import { useRouteTransition } from "~/lib/transitions";
+import { usePageTransition } from "~/lib/transitions";
 import { PALETTES, useShaderStore } from "../store";
 import s from "./about/about.module.css";
 import type { Route } from "./+types/about";
@@ -32,7 +32,7 @@ export default function About() {
     setTargetPalette(PALETTES.about);
   }, [setTargetPalette]);
 
-  useRouteTransition({
+  usePageTransition({
     initial: () => {
       animate(pageRef.current!, { opacity: 0, y: 50, duration: 0 });
       animate(titleRef.current!, { opacity: 0, y: 80, duration: 0 });

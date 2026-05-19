@@ -1,4 +1,4 @@
-import { Component, type ReactNode, type ErrorInfo } from "react";
+import { Component, type ErrorInfo, type ReactNode } from "react";
 
 interface TransitionErrorBoundaryProps {
   children: ReactNode;
@@ -13,14 +13,18 @@ export class TransitionErrorBoundary extends Component<
   TransitionErrorBoundaryProps,
   TransitionErrorBoundaryState
 > {
-  override state: TransitionErrorBoundaryState = { hasError: false };
+  override state: TransitionErrorBoundaryState = {
+    hasError: false,
+  };
 
   static getDerivedStateFromError(): TransitionErrorBoundaryState {
-    return { hasError: true };
+    return {
+      hasError: true,
+    };
   }
 
   override componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.warn("[TransitionRouter] Exiting page error:", error, errorInfo);
+    console.warn("[TransitionOutlet] Exiting page error:", error, errorInfo);
     this.props.onError();
   }
 

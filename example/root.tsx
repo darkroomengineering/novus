@@ -5,7 +5,7 @@ import { middleware as passwordMiddleware } from "~/lib/password-protection";
 import { ReactTempus } from "tempus/react";
 import { RealViewport } from "~/components/real-viewport";
 import { ThemeProvider } from "~/components/theme";
-import { TransitionRouter } from "~/lib/transitions";
+import { TransitionOutlet } from "~/lib/transitions";
 import { WebGLTunnel } from "~/webgl/components/tunnel";
 import "~/styles/css/index.css";
 import "~/styles/css/media.css";
@@ -46,14 +46,14 @@ export default function App() {
   return (
     <ThemeProvider theme="dark" global>
       <Nav />
-      <TransitionRouter
+      <TransitionOutlet
+        name="root"
         mode="stack"
         appear
         ready={ready}
         preventTransition={(_from, _to, { trigger }) => trigger === "browser"}
-      >
-        <TransitionDebug />
-      </TransitionRouter>
+      />
+      <TransitionDebug />
       <Preloader onLoaded={() => setReady(true)} />
       <Footer />
       <Lenis root options={{}} />

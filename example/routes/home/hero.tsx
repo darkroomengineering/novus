@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { Marquee } from "~/components/marquee";
 import { SplitText } from "~/components/split-text";
 import type { SplitTextRef } from "~/components/split-text";
-import { useRouteTransition } from "~/lib/transitions";
+import { usePageTransition } from "~/lib/transitions";
 import s from "./hero.module.css";
 
 export function Hero() {
@@ -14,7 +14,7 @@ export function Hero() {
   const marqueeRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
 
-  useRouteTransition({
+  usePageTransition({
     initial: () => {
       animate(sectionRef.current!, { opacity: 0, y: 40, duration: 0 });
     },

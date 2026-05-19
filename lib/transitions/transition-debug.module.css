@@ -1,0 +1,149 @@
+.panel {
+  display: none;
+  background: rgba(0, 0, 0, 0.82);
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  /* Fixed width — keeps the panel from growing/shrinking when content
+     varies (paths, phase length). Long paths truncate via ellipsis. */
+  width: 340px;
+  pointer-events: auto;
+  backdrop-filter: blur(4px);
+}
+
+@media (--desktop) {
+  .panel {
+    display: block;
+  }
+}
+
+.panelHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 4px;
+  overflow: hidden;
+}
+
+.panelTitle {
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.panelPath {
+  color: #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* Outlet section — one per active TransitionOutlet. */
+.section {
+  padding: 3px 0;
+}
+
+.section + .section {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 2px;
+}
+
+.outletHeader {
+  display: grid;
+  /* Fixed columns so the router name and phase land at the same x across
+     sections, regardless of which is mid-transition. */
+  grid-template-columns: 12px 60px 64px 1fr;
+  gap: 6px;
+  align-items: baseline;
+  overflow: hidden;
+}
+
+.outletMarker {
+  color: var(--phase-color, #aaa);
+  text-align: center;
+}
+
+.outletName {
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 10px;
+}
+
+.outletPhase {
+  color: var(--phase-color, #aaa);
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.outletDir {
+  color: #888;
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  grid-column: 4;
+}
+
+.arrow {
+  color: #666;
+}
+
+/* Pages list — only shown for the orchestrating router (>1 page). */
+.pages {
+  margin-top: 2px;
+  margin-left: 4px;
+  padding-left: 6px;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.pageRow {
+  display: grid;
+  /* Mirror the router header's column layout so page rows align under it. */
+  grid-template-columns: 12px 60px 64px 1fr;
+  gap: 6px;
+  align-items: baseline;
+  padding: 1px 0;
+}
+
+.pageMarker {
+  color: #555;
+  text-align: center;
+}
+
+.pageMarkerPresent {
+  color: var(--phase-color, #0ff);
+  text-align: center;
+}
+
+.pageKey {
+  color: #777;
+  font-size: 10px;
+}
+
+.pagePhase {
+  color: var(--phase-color, #aaa);
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.pagePathname {
+  color: #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}

@@ -1,10 +1,10 @@
 import type {
-  ExitFunction,
   EnterFunction,
+  ExitFunction,
   TransitionEventCallbacks,
   TransitionRegistry,
 } from "./context";
-import { collectExits, collectEnters } from "./helpers";
+import { collectEnters, collectExits } from "./helpers";
 
 export function createRegistry(): TransitionRegistry {
   const exitMap = new Map<string, ExitFunction>();
@@ -40,11 +40,11 @@ export function createRegistry(): TransitionRegistry {
         enterResolvers.delete(`evt:${id}`);
       };
     },
-    runExits(info, enter, ctx) {
-      return collectExits(exitMap, eventMap, exitResolvers, info, enter, ctx);
+    runExits(info, enter, ctx, block) {
+      return collectExits(exitMap, eventMap, exitResolvers, info, enter, ctx, block);
     },
-    runEnters(info, ctx) {
-      return collectEnters(enterMap, eventMap, enterResolvers, info, ctx);
+    runEnters(info, ctx, exit, block, awaitBlocks) {
+      return collectEnters(enterMap, eventMap, enterResolvers, info, ctx, exit, block, awaitBlocks);
     },
     hasExits() {
       if (exitMap.size > 0) return true;

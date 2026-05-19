@@ -109,6 +109,7 @@ export function BackgroundShader() {
   }, []);
 
   useTransitionEvent({
+    name: "root",
     onExit: ({ done }) => {
       const store = storeRef.current;
       const obj = { distortion: 0, colorMix: 0 };

@@ -17,6 +17,7 @@ export function Nav() {
   const navRef = useRef<HTMLElement>(null);
 
   useTransitionEvent({
+    name: "root",
     onExit: ({ done }) => {
       const tl = createTimeline({ onComplete: done });
       tl.add(navRef.current!, {

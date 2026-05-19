@@ -2,7 +2,7 @@ import { animate, createTimeline, stagger } from "animejs";
 import { useLenis } from "lenis/react";
 import { useLayoutEffect, useRef } from "react";
 import { Wrapper } from "~/components/wrapper";
-import { useRouteTransition } from "~/lib/transitions";
+import { usePageTransition } from "~/lib/transitions";
 import { PALETTES, useShaderStore } from "../store";
 import s from "./features/features.module.css";
 import type { Route } from "./+types/features";
@@ -50,7 +50,7 @@ export default function Features() {
     setTargetPalette(PALETTES.features);
   }, [setTargetPalette]);
 
-  useRouteTransition({
+  usePageTransition({
     initial: () => {
       animate(pageRef.current!, { opacity: 0, y: 60, duration: 0 });
       animate(titleRef.current!, { opacity: 0, y: 40, duration: 0 });
