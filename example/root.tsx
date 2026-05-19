@@ -12,7 +12,6 @@ import "~/styles/css/media.css";
 import { BackgroundShader } from "./components/background-shader";
 import { Footer } from "./components/footer";
 import { Nav } from "./components/nav";
-import { TransitionDebug } from "./components/transition-debug";
 import { PersistentWebGL } from "./components/persistent-webgl";
 import { Preloader } from "./components/preloader";
 import type { Route } from "./+types/root";
@@ -51,9 +50,9 @@ export default function App() {
         mode="stack"
         appear
         ready={ready}
+        debug={import.meta.env.DEV}
         preventTransition={(_from, _to, { trigger }) => trigger === "browser"}
       />
-      <TransitionDebug />
       <Preloader onLoaded={() => setReady(true)} />
       <Footer />
       <Lenis root options={{}} />

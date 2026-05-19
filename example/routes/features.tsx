@@ -1,4 +1,4 @@
-import { animate, createTimeline, stagger } from "animejs";
+import { animate, createTimeline } from "animejs";
 import { useLenis } from "lenis/react";
 import { useLayoutEffect, useRef } from "react";
 import { Wrapper } from "~/components/wrapper";
@@ -52,32 +52,15 @@ export default function Features() {
 
   usePageTransition({
     initial: () => {
-      animate(pageRef.current!, { opacity: 0, y: 60, duration: 0 });
-      animate(titleRef.current!, { opacity: 0, y: 40, duration: 0 });
-      if (gridRef.current?.children) {
-        animate(gridRef.current.children, { opacity: 0, y: 80, scale: 0.9, duration: 0 });
-      }
+      animate(pageRef.current!, { opacity: 0, y: 30, duration: 0 });
+      animate(titleRef.current!, { opacity: 0, y: 30, duration: 0 });
     },
     exit: ({ done, enter }) => {
       const runExit = () => {
         const tl = createTimeline({ onComplete: done });
-        tl.call(() => enter(), 250);
-        if (gridRef.current?.children) {
-          tl.add(
-            Array.from(gridRef.current.children).reverse(),
-            {
-              opacity: 0,
-              y: -40,
-              scale: 0.9,
-              duration: 500,
-              ease: "inCubic",
-              delay: stagger(40),
-            },
-            0,
-          );
-        }
-        tl.add(titleRef.current!, { opacity: 0, y: -30, duration: 500, ease: "inQuart" }, 50);
-        tl.add(pageRef.current!, { opacity: 0, duration: 400 }, 400);
+        tl.call(() => enter(), 150);
+        tl.add(titleRef.current!, { opacity: 0, y: -30, duration: 400, ease: "inCubic" }, 0);
+        tl.add(pageRef.current!, { opacity: 0, duration: 400, ease: "inCubic" }, 0);
         return tl;
       };
 
@@ -101,22 +84,8 @@ export default function Features() {
       }
 
       const tl = createTimeline({ onComplete: done });
-      tl.add(pageRef.current!, { opacity: 1, y: 0, duration: 600, ease: "outCubic" });
-      tl.add(titleRef.current!, { opacity: 1, y: 0, duration: 1000, ease: "outQuart" }, 100);
-      if (gridRef.current?.children) {
-        tl.add(
-          gridRef.current.children,
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 1000,
-            ease: "outQuart",
-            delay: stagger(60),
-          },
-          150,
-        );
-      }
+      tl.add(pageRef.current!, { opacity: 1, y: 0, duration: 400, ease: "outCubic" }, 0);
+      tl.add(titleRef.current!, { opacity: 1, y: 0, duration: 400, ease: "outCubic" }, 0);
       return () => tl.revert();
     },
   });

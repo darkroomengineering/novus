@@ -5,7 +5,7 @@ export const serverMono = defineFont({
   src: "/fonts/ServerMono/ServerMono-Regular.woff2",
   weight: "400",
   display: "swap",
-  variable: "--font-server-mono",
+  variable: "--font-mono",
   fallback: "ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace",
 });
 

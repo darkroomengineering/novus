@@ -1,8 +1,10 @@
 import type { CSSProperties } from "react";
+import { serverMono } from "./fonts.ts";
+import type { FontDefinition } from "./scripts/css.ts";
 
 const typography: TypeStyles = {
   "test-mono": {
-    "font-family": "var(--font-server-mono)",
+    font: serverMono,
     "font-style": "normal",
     "font-weight": 400,
     "line-height": "90%",
@@ -18,7 +20,7 @@ export type Typography = TypeStyles;
 type TypeStyles = Record<
   string,
   {
-    "font-family": string;
+    font: FontDefinition;
     "font-style": CSSProperties["fontStyle"];
     "font-weight": CSSProperties["fontWeight"];
     "line-height": `${number}%` | { mobile: `${number}%`; desktop: `${number}%` };

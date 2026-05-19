@@ -78,6 +78,10 @@ export function generateTailwind({
     const declarations = Object.entries(style as Record<string, unknown>)
       .filter(([, v]) => v !== undefined && v !== null)
       .flatMap(([key, value]) => {
+        if (key === "font") {
+          const f = value as FontDefinition;
+          return [prop("font-family", `var(${f.variable})`)];
+        }
         if (key === "font-size") {
           if (typeof value === "number") return [`@apply dr-text-${value};`];
           const v = value as { mobile: number; desktop: number };

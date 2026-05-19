@@ -37,20 +37,15 @@ export default function About() {
       animate(pageRef.current!, { opacity: 0, y: 50, duration: 0 });
       animate(titleRef.current!, { opacity: 0, y: 80, duration: 0 });
     },
-    exit: ({ done, enter, info, ctx }) => {
+    exit: ({ done, enter, ctx }) => {
       // Share the title's position with the entering page via ctx
       ctx.titleRect = titleRef.current!.getBoundingClientRect();
 
-      // Route-aware sequencing:
-      // - To home: overlap (enter() triggers next page mid-exit)
-      // - To features: sequential (exit completes fully before next page enters)
-      const overlap = info.to === "/";
-
       const runExit = () => {
         const tl = createTimeline({ onComplete: done });
-        if (overlap) tl.call(() => enter(), 150);
-        tl.add(titleRef.current!, { opacity: 0, y: -50, duration: 700, ease: "inQuart" }, 0);
-        tl.add(pageRef.current!, { opacity: 0, duration: 500 }, 150);
+        tl.call(() => enter(), 150);
+        tl.add(titleRef.current!, { opacity: 0, y: -30, duration: 400, ease: "inCubic" }, 0);
+        tl.add(pageRef.current!, { opacity: 0, duration: 400, ease: "inCubic" }, 0);
         return tl;
       };
 
@@ -69,8 +64,8 @@ export default function About() {
     },
     enter: ({ done }) => {
       const tl = createTimeline({ onComplete: done });
-      tl.add(pageRef.current!, { opacity: 1, y: 0, duration: 800, ease: "outCubic" });
-      tl.add(titleRef.current!, { opacity: 1, y: 0, duration: 1200, ease: "outQuart" }, 100);
+      tl.add(pageRef.current!, { opacity: 1, y: 0, duration: 400, ease: "outCubic" }, 0);
+      tl.add(titleRef.current!, { opacity: 1, y: 0, duration: 400, ease: "outCubic" }, 0);
       return () => tl.revert();
     },
   });

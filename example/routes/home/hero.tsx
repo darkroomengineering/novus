@@ -23,24 +23,18 @@ export function Hero() {
         const tl = createTimeline({ onComplete: done });
         const chars = titleRef.current?.getSplitText()?.chars;
 
-        tl.call(() => enter(), 300);
+        tl.call(() => enter(), 150);
 
         if (chars?.length) {
           tl.add(
             chars,
-            {
-              y: -80,
-              opacity: 0,
-              duration: 700,
-              ease: "inQuart",
-              delay: stagger(30),
-            },
+            { y: -40, opacity: 0, duration: 400, ease: "inCubic", delay: stagger(15) },
             0,
           );
         }
-        tl.add(subtitleRef.current!, { opacity: 0, y: -30, duration: 500, ease: "inCubic" }, 50);
-        tl.add(marqueeRef.current!, { opacity: 0, y: -20, duration: 400, ease: "inCubic" }, 100);
-        tl.add(sectionRef.current!, { opacity: 0, duration: 400 }, 500);
+        tl.add(subtitleRef.current!, { opacity: 0, y: -20, duration: 400, ease: "inCubic" }, 0);
+        tl.add(marqueeRef.current!, { opacity: 0, y: -20, duration: 400, ease: "inCubic" }, 0);
+        tl.add(sectionRef.current!, { opacity: 0, duration: 400 }, 0);
         return tl;
       };
 
@@ -59,24 +53,14 @@ export function Hero() {
     },
     enter: ({ done }) => {
       const tl = createTimeline({ onComplete: done });
-      tl.add(sectionRef.current!, { opacity: 1, y: 0, duration: 600, ease: "outCubic" });
+      tl.add(sectionRef.current!, { opacity: 1, y: 0, duration: 400, ease: "outCubic" }, 0);
       const chars = titleRef.current?.getSplitText()?.chars;
       if (chars?.length) {
-        animate(chars, { y: 100, opacity: 0, duration: 0 });
-        tl.add(
-          chars,
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1400,
-            ease: "outQuart",
-            delay: stagger(40),
-          },
-          100,
-        );
+        animate(chars, { y: 40, opacity: 0, duration: 0 });
+        tl.add(chars, { y: 0, opacity: 1, duration: 400, ease: "outCubic", delay: stagger(15) }, 0);
       }
-      tl.add(subtitleRef.current!, { opacity: 1, y: 0, duration: 1000, ease: "outCubic" }, 300);
-      tl.add(marqueeRef.current!, { opacity: 1, duration: 800 }, 500);
+      tl.add(subtitleRef.current!, { opacity: 1, y: 0, duration: 400, ease: "outCubic" }, 0);
+      tl.add(marqueeRef.current!, { opacity: 1, duration: 400, ease: "outCubic" }, 0);
       return () => tl.revert();
     },
   });
