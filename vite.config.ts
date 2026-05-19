@@ -6,6 +6,8 @@ import { browserslistToTargets, composeVisitors } from "lightningcss";
 import { defineConfig } from "vite";
 import babel from "vite-plugin-babel";
 import svgr from "vite-plugin-svgr";
+import { fontOptimizer } from "./lib/font-optimizer/index.ts";
+import { fonts } from "./styles/fonts.ts";
 import { darkroomStyling } from "./styles/scripts/vite/darkroom-styling.ts";
 import { lightningcssFunctions } from "./styles/scripts/vite/lightningcss-functions.ts";
 
@@ -14,6 +16,7 @@ export default defineConfig({
     __INCLUDE_DEV_TOOLS__: "true",
   },
   plugins: [
+    fontOptimizer({ fonts: [...fonts] }),
     tailwindcss(),
     reactRouter(),
     babel({

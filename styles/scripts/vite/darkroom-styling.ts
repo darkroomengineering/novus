@@ -2,7 +2,6 @@ import { existsSync, renameSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { Plugin } from "vite";
 import { generateFontOverrides } from "../generate-font-overrides.ts";
-import { generateFonts } from "../generate-fonts.ts";
 import { generateMedia } from "../generate-media.ts";
 import { generateRoot } from "../generate-root.ts";
 import { generateScale } from "../generate-scale.ts";
@@ -60,11 +59,6 @@ async function generate() {
   const { breakpoints, colors, customSizes, easings, fonts, layout, screens, themes, typography } =
     await loadStyleConfig();
 
-  // `BUILD_LANG` is set by `lib/static-i18n/build` for per-locale static
-  // zips. When set, generateFonts emits only the matching language's
-  // font file and generateFontOverrides is skipped (single-file build).
-  const buildLang = process.env.BUILD_LANG;
-
   const tw = generateTailwind({
     breakpoints,
     colors,
@@ -77,8 +71,7 @@ async function generate() {
   const root = generateRoot({ colors, customSizes, easings, layout, screens });
   const scale = generateScale();
   const media = generateMedia({ breakpoints });
-  const fontFaces = generateFonts({ fonts, buildLang });
-  const fontOverrides = buildLang ? "" : generateFontOverrides({ fonts });
+  const fontOverrides = generateFontOverrides({ fonts });
 
   // Atomic writes: write to temp file then rename, so Vite's watcher
   // never observes a half-written CSS file.
@@ -90,7 +83,6 @@ async function generate() {
   writeAtomic("./styles/css/tailwind.css", [banner, tw, scale].join("\n\n"));
   writeAtomic("./styles/css/root.css", [banner, root, fontOverrides].filter(Boolean).join("\n\n"));
   writeAtomic("./styles/css/media.css", [banner, media].join("\n\n"));
-  writeAtomic("./styles/css/fonts.css", [banner, fontFaces].join("\n\n"));
 
   const time = new Date().toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -135,9 +127,11 @@ export function darkroomStyling(options?: DarkroomStylingOptions): Plugin {
       });
     },
 
-    // Prepend @import for custom media queries into all CSS files
+    // Prepend @import for custom media queries into all CSS files.
+    // Skip virtual modules (id starts with \0) — they have no filesystem
+    // location so a relative @import would fail to resolve.
     transform(code, id) {
-      if (!existsSync(prependResolved) || !id.endsWith(".css")) return;
+      if (!existsSync(prependResolved) || !id.endsWith(".css") || id.startsWith("\0")) return;
 
       const parts = code.split("\n");
       let insertIndex = 0;

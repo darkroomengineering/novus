@@ -26,6 +26,8 @@ export interface FontDefinition {
   variable: `--font-${string}`;
   fallback?: string;
   subset?: SubsetConfig;
+  /** Set to false to skip @font-face and CSS variable generation (e.g. WebGL-only fonts). */
+  css?: boolean;
 }
 
 export interface ResolvedFontSrc extends FontSrc {

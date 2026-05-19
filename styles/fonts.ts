@@ -1,12 +1,13 @@
-import { defineFont } from "./scripts/css.ts";
+import { defineFont } from "../lib/font-optimizer/index.ts";
 
 export const serverMono = defineFont({
   family: "ServerMono",
-  src: "/fonts/ServerMono/ServerMono-Regular.woff2",
+  src: "assets/fonts/ServerMono-Regular.otf",
   weight: "400",
   display: "swap",
   variable: "--font-mono",
   fallback: "ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace",
+  subset: "latin",
 });
 
 /** All font definitions for generation */

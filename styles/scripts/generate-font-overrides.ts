@@ -1,32 +1,10 @@
-import type { FontDefinition, FontLangMap } from "./css.ts";
-
-function isLangMap(src: FontDefinition["src"]): src is FontLangMap {
-  return typeof src === "object" && !Array.isArray(src) && "default" in src;
-}
+import type { FontDefinition } from "./css.ts";
 
 /**
- * Generate [lang="xx"] CSS variable overrides for fonts with language maps.
- * Only needed for SSR/dev — static builds use a single font file.
+ * Per-language CSS variable overrides for fonts with language maps.
+ * Language maps are out of scope for v1; this always returns empty string.
+ * Kept as a typed stub so callers in darkroom-styling.ts need no changes.
  */
-export function generateFontOverrides({ fonts }: { fonts: readonly FontDefinition[] }): string {
-  const overrides: string[] = [];
-
-  for (const f of fonts) {
-    if (f.css === false) continue;
-    if (!isLangMap(f.src)) continue;
-
-    const varName = f.variable;
-    const fallback = f.fallback ? `, ${f.fallback}` : "";
-
-    for (const [lang, _src] of Object.entries(f.src) as [string, string][]) {
-      if (lang === "default") continue;
-
-      const family = `${f.family}-${lang}`;
-      // `[lang|="ko"]` matches both `lang="ko"` and `lang="ko-KR"` per the
-      // BCP-47 hyphen-prefix rule; plain `[lang="ko"]` is exact-match only.
-      overrides.push(`[lang|="${lang}"] { ${varName}: '${family}'${fallback}; }`);
-    }
-  }
-
-  return overrides.join("\n");
+export function generateFontOverrides({ fonts: _ }: { fonts: readonly FontDefinition[] }): string {
+  return "";
 }
