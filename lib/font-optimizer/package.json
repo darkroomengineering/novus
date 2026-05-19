@@ -1,0 +1,16 @@
+{
+  "name": "@darkroom/font-optimizer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "peerDependencies": {
+    "vite": ">=5.0.0"
+  },
+  "dependencies": {
+    "harfbuzzjs": "1.2.0",
+    "ttf2woff2": "^8.0.1"
+  }
+}
