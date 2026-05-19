@@ -1,17 +1,39 @@
-import { existsSync, writeFileSync } from "node:fs";
+import { existsSync, renameSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { Plugin } from "vite";
-import { colors, themes } from "../../colors.ts";
-import { easings } from "../../easings.ts";
-import { fonts } from "../../fonts.ts";
-import { breakpoints, customSizes, layout, screens } from "../../layout.ts";
-import { typography } from "../../typography.ts";
 import { generateFontOverrides } from "../generate-font-overrides.ts";
 import { generateFonts } from "../generate-fonts.ts";
 import { generateMedia } from "../generate-media.ts";
 import { generateRoot } from "../generate-root.ts";
 import { generateScale } from "../generate-scale.ts";
 import { generateTailwind } from "../generate-tailwind.ts";
+
+// Dynamic imports keep these out of Vite's config-dep graph, so editing
+// them triggers in-place regen via the plugin's watcher instead of a
+// full Vite server restart. The `?t=<timestamp>` query busts the module
+// cache so each regen sees fresh values.
+async function loadStyleConfig() {
+  const t = Date.now();
+  const url = (file: string) => `${new URL(`../../${file}`, import.meta.url).href}?t=${t}`;
+  const [colorsMod, easingsMod, fontsMod, layoutMod, typographyMod] = await Promise.all([
+    import(url("colors.ts")),
+    import(url("easings.ts")),
+    import(url("fonts.ts")),
+    import(url("layout.ts")),
+    import(url("typography.ts")),
+  ]);
+  return {
+    colors: colorsMod.colors,
+    themes: colorsMod.themes,
+    easings: easingsMod.easings,
+    fonts: fontsMod.fonts,
+    breakpoints: layoutMod.breakpoints,
+    customSizes: layoutMod.customSizes,
+    layout: layoutMod.layout,
+    screens: layoutMod.screens,
+    typography: typographyMod.typography,
+  };
+}
 
 interface DarkroomStylingOptions {
   prependCss?: string;
@@ -22,10 +44,10 @@ const defaults: Required<DarkroomStylingOptions> = {
   prependCss: "./styles/css/media.css",
   watchFiles: [
     "styles/colors.ts",
+    "styles/fonts.ts",
     "styles/typography.ts",
     "styles/easings.ts",
     "styles/layout.ts",
-    "styles/fonts.ts",
   ],
 };
 
@@ -34,7 +56,10 @@ const banner = `/*
  * DO NOT EDIT IT DIRECTLY.
  */`;
 
-function generate() {
+async function generate() {
+  const { breakpoints, colors, customSizes, easings, fonts, layout, screens, themes, typography } =
+    await loadStyleConfig();
+
   // `BUILD_LANG` is set by `lib/static-i18n/build` for per-locale static
   // zips. When set, generateFonts emits only the matching language's
   // font file and generateFontOverrides is skipped (single-file build).
@@ -55,15 +80,36 @@ function generate() {
   const fontFaces = generateFonts({ fonts, buildLang });
   const fontOverrides = buildLang ? "" : generateFontOverrides({ fonts });
 
-  writeFileSync("./styles/css/tailwind.css", [banner, tw, scale].join("\n\n"));
-  writeFileSync(
-    "./styles/css/root.css",
-    [banner, root, fontOverrides].filter(Boolean).join("\n\n"),
-  );
-  writeFileSync("./styles/css/media.css", [banner, media].join("\n\n"));
-  writeFileSync("./styles/css/fonts.css", [banner, fontFaces].join("\n\n"));
+  // Atomic writes: write to temp file then rename, so Vite's watcher
+  // never observes a half-written CSS file.
+  const writeAtomic = (file: string, contents: string) => {
+    const tmp = `${file}.${process.pid}.${Date.now()}.tmp`;
+    writeFileSync(tmp, contents);
+    renameSync(tmp, file);
+  };
+  writeAtomic("./styles/css/tailwind.css", [banner, tw, scale].join("\n\n"));
+  writeAtomic("./styles/css/root.css", [banner, root, fontOverrides].filter(Boolean).join("\n\n"));
+  writeAtomic("./styles/css/media.css", [banner, media].join("\n\n"));
+  writeAtomic("./styles/css/fonts.css", [banner, fontFaces].join("\n\n"));
 
-  console.log("✓ Style config generated");
+  const time = new Date().toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  });
+  console.log(`\x1b[2m${time}\x1b[0m \x1b[1m\x1b[31m[drkrm]\x1b[0m style config generated`);
+}
+
+// Shared across plugin instances (e.g. client + ssr environments) so
+// concurrent change events collapse into a single regen.
+let inFlight: Promise<void> | null = null;
+function runGenerate() {
+  if (inFlight) return inFlight;
+  inFlight = generate().finally(() => {
+    inFlight = null;
+  });
+  return inFlight;
 }
 
 export function darkroomStyling(options?: DarkroomStylingOptions): Plugin {
@@ -75,16 +121,16 @@ export function darkroomStyling(options?: DarkroomStylingOptions): Plugin {
     enforce: "pre",
 
     // Generate CSS files once before anything else
-    configResolved() {
-      generate();
+    async configResolved() {
+      await runGenerate();
     },
 
     // In dev: watch config files and regenerate on change
     configureServer(server) {
       server.watcher.add(config.watchFiles);
-      server.watcher.on("change", (filePath) => {
+      server.watcher.on("change", async (filePath) => {
         if (config.watchFiles.some((file) => filePath.includes(file))) {
-          generate();
+          await runGenerate();
         }
       });
     },
