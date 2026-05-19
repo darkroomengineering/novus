@@ -23,10 +23,14 @@ function resolveUnicodeRange(subset: SubsetConfig | undefined): string | null {
   if (!subset) return null;
   if (typeof subset === "string") return PRESET_RANGES[subset] ?? null;
   if ("unicodeRange" in subset) return subset.unicodeRange;
-  const cps = [...new Set([...subset.chars])]
-    .map((c) => c.codePointAt(0))
-    .filter((cp): cp is number => cp !== undefined);
-  return cps.map((cp) => `U+${cp.toString(16).toUpperCase().padStart(4, "0")}`).join(", ");
+  const cps = new Set<number>();
+  for (const c of subset.chars) {
+    const cp = c.codePointAt(0);
+    if (cp !== undefined) cps.add(cp);
+  }
+  return Array.from(cps)
+    .map((cp) => `U+${cp.toString(16).toUpperCase().padStart(4, "0")}`)
+    .join(", ");
 }
 
 function mirroredPath(srcRelToProject: string, srcDir: string): string {
