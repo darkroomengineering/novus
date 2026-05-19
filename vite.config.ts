@@ -1,4 +1,5 @@
 import { reactRouter } from "@react-router/dev/vite";
+import { responsiveImage } from "@responsive-image/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import browserslist from "browserslist";
 import { browserslistToTargets, composeVisitors } from "lightningcss";
@@ -24,9 +25,18 @@ export default defineConfig({
       },
     }),
     svgr(),
+    responsiveImage({
+      w: [768, 1600],
+      format: ["webp", "avif"],
+    }),
     darkroomStyling(),
   ],
   envPrefix: "PUBLIC_",
+  ssr: {
+    // The package ships a CSS side-effect import that Node can't resolve;
+    // process it through Vite's transform pipeline during SSR.
+    noExternal: ["@responsive-image/react"],
+  },
   build: {
     // Bundle all CSS into a single file instead of per-route chunks.
     // Prevents React Router's <Links> from removing route stylesheets

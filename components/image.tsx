@@ -1,52 +1,174 @@
+import type { ImageData } from "@responsive-image/core";
+import { ResponsiveImage } from "@responsive-image/react";
 import cn from "clsx";
-import type { ComponentProps } from "react";
+import type { ComponentProps, CSSProperties } from "react";
 import { breakpoints } from "~/styles/layout";
 import s from "./image.module.css";
 
-export interface ImageProps extends ComponentProps<"img"> {
-  /** CSS object-fit property */
-  objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
-  /** Size on mobile (e.g., "100vw", "50vw") */
+type ObjectFit = "cover" | "contain" | "fill" | "none" | "scale-down";
+
+type CommonProps = {
+  /** CSS object-fit applied via class (style is unreliable through ResponsiveImage) */
+  objectFit?: ObjectFit;
+  /** Sizes hint on mobile (drives srcset selection) */
   mobileSize?: `${number}vw`;
-  /** Size on desktop (e.g., "33vw", "25vw") */
+  /** Sizes hint on desktop */
   desktopSize?: `${number}vw`;
-  /** Aspect ratio for layout stability */
-  aspectRatio?: number;
-  /** Preload for LCP images */
+  /** loading="eager" + fetchpriority="high" for LCP images */
   preload?: boolean;
+};
+
+type StringSrcProps = CommonProps &
+  Omit<ComponentProps<"img">, "src"> & {
+    src: string;
+    aspectRatio?: number;
+    placeholder?: string;
+    widths?: readonly number[];
+    variant?: (src: string, width: number) => string;
+  };
+
+export type ImageDataSrcProps = CommonProps &
+  Omit<ComponentProps<"img">, "src" | "style"> & {
+    src: ImageData;
+    /** Fixed layout: width in px (renders 1x/2x variants) */
+    width?: number;
+    /** Fixed layout: height in px */
+    height?: number;
+    /** Single-value sizes shortcut: 80 → "80vw" */
+    size?: number;
+  };
+
+export type ImageProps = StringSrcProps | ImageDataSrcProps;
+
+const OBJECT_FIT_CLASS: Record<ObjectFit, string | undefined> = {
+  cover: s.cover,
+  contain: s.contain,
+  fill: s.fill,
+  none: s.none,
+  "scale-down": s.scaleDown,
+};
+
+export function Image({ className, ...props }: ImageProps) {
+  if (typeof props.src === "string") {
+    return <RawImage className={className} {...(props as StringSrcProps)} />;
+  }
+  return <ResponsiveImageInner className={className} {...(props as ImageDataSrcProps)} />;
 }
 
-export function Image({
+function isPlaceholderUrl(value: string): boolean {
+  return value.startsWith("data:") || value.startsWith("http") || value.startsWith("/");
+}
+
+function buildSrcSet(
+  src: string,
+  widths: readonly number[],
+  variant: (src: string, width: number) => string,
+): string {
+  return widths.map((w) => `${variant(src, w)} ${w}w`).join(", ");
+}
+
+function RawImage({
   style,
   className,
   loading,
+  fetchPriority,
+  decoding,
   objectFit = "cover",
   alt = "",
   mobileSize = "100vw",
   desktopSize = "100vw",
   sizes,
   src,
+  srcSet,
   aspectRatio,
   preload = false,
+  placeholder,
+  widths,
+  variant,
   ...props
-}: ImageProps) {
-  const finalLoading = loading ?? (preload ? "eager" : "lazy");
-  const finalSizes = sizes || `(max-width: ${breakpoints.dt}px) ${mobileSize}, ${desktopSize}`;
-
+}: StringSrcProps) {
   if (!src) return null;
+
+  const finalLoading = loading ?? (preload ? "eager" : "lazy");
+  const finalFetchPriority = fetchPriority ?? (preload ? "high" : "auto");
+  const finalDecoding = decoding ?? "async";
+  const finalSizes = sizes ?? `(max-width: ${breakpoints.dt}px) ${mobileSize}, ${desktopSize}`;
+  const finalSrcSet = srcSet ?? (widths && variant ? buildSrcSet(src, widths, variant) : undefined);
+
+  const placeholderStyle: CSSProperties | undefined = placeholder
+    ? isPlaceholderUrl(placeholder)
+      ? {
+          backgroundImage: `url(${placeholder})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }
+      : { backgroundColor: placeholder }
+    : undefined;
 
   return (
     <img
       src={src}
+      srcSet={finalSrcSet}
+      sizes={finalSizes}
       alt={alt}
       loading={finalLoading}
-      sizes={finalSizes}
+      fetchPriority={finalFetchPriority}
+      decoding={finalDecoding}
       style={{
-        objectFit,
         ...(aspectRatio ? { aspectRatio } : {}),
+        ...placeholderStyle,
         ...style,
       }}
-      className={cn(s.image, className)}
+      className={cn(s.image, OBJECT_FIT_CLASS[objectFit], className)}
+      draggable={false}
+      onDragStart={(e) => e.preventDefault()}
+      {...props}
+    />
+  );
+}
+
+function ResponsiveImageInner({
+  className,
+  loading,
+  fetchPriority,
+  decoding,
+  objectFit = "cover",
+  alt = "",
+  mobileSize = "100vw",
+  desktopSize = "100vw",
+  sizes,
+  size,
+  src,
+  width,
+  height,
+  preload = false,
+  ...props
+}: ImageDataSrcProps) {
+  const finalLoading = loading ?? (preload ? "eager" : "lazy");
+  const finalFetchPriority = fetchPriority ?? (preload ? "high" : "auto");
+  const finalDecoding = decoding ?? "async";
+
+  const isFixed = width !== undefined || height !== undefined;
+  const finalSizes =
+    sizes ??
+    (isFixed
+      ? undefined
+      : size !== undefined
+        ? `${size}vw`
+        : `(max-width: ${breakpoints.dt}px) ${mobileSize}, ${desktopSize}`);
+
+  return (
+    <ResponsiveImage
+      src={src}
+      sizes={finalSizes}
+      width={width}
+      height={height}
+      alt={alt}
+      loading={finalLoading}
+      fetchPriority={finalFetchPriority}
+      decoding={finalDecoding}
+      className={cn(s.image, OBJECT_FIT_CLASS[objectFit], className)}
       draggable={false}
       onDragStart={(e) => e.preventDefault()}
       {...props}
