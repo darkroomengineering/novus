@@ -32,6 +32,9 @@ export default defineConfig({
     darkroomStyling(),
   ],
   envPrefix: "PUBLIC_",
+  resolve: {
+    tsconfigPaths: true,
+  },
   ssr: {
     // The package ships a CSS side-effect import that Node can't resolve;
     // process it through Vite's transform pipeline during SSR.
