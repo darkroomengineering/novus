@@ -7,6 +7,8 @@ import { RealViewport } from "~/components/real-viewport";
 import { ThemeProvider } from "~/components/theme";
 import { TransitionOutlet } from "~/lib/transitions";
 import { WebGLTunnel } from "~/webgl/components/tunnel";
+import "virtual:font-optimizer/fonts.css";
+import "~/lib/font-optimizer/runtime";
 import "~/styles/css/index.css";
 import "~/styles/css/media.css";
 import { BackgroundShader } from "./components/background-shader";
