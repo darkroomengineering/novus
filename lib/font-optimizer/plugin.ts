@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { join, resolve } from "node:path";
 import type { Plugin } from "vite";
-import { cacheKey, readCache, writeCache } from "./cache.ts";
+import { cacheKey, readCache, setCacheDir, writeCache } from "./cache.ts";
 import { PRESET_RANGES } from "./presets.ts";
 import { clearRegistry, registerFont } from "./registry.ts";
 import { subsetFont } from "./subset.ts";
@@ -138,6 +138,7 @@ export function fontOptimizer(options: FontOptimizerOptions): Plugin {
     configResolved(config) {
       root = config.root;
       isBuild = config.command === "build";
+      setCacheDir(join(config.cacheDir, ".font-optimizer"));
     },
 
     async buildStart() {

@@ -3,11 +3,15 @@ import { createRequire } from "node:module";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const CACHE_DIR = "node_modules/.cache/font-optimizer";
+let cacheDir = "node_modules/.vite/.font-optimizer";
+
+export function setCacheDir(dir: string) {
+  cacheDir = dir;
+}
 
 function ensureCacheDir() {
-  if (!existsSync(CACHE_DIR)) {
-    mkdirSync(CACHE_DIR, { recursive: true });
+  if (!existsSync(cacheDir)) {
+    mkdirSync(cacheDir, { recursive: true });
   }
 }
 
@@ -41,7 +45,7 @@ export function cacheKey(sourceBytes: Uint8Array, canonicalQuery: string): strin
 }
 
 export function readCache(key: string): Uint8Array | null {
-  const path = join(CACHE_DIR, `${key}.woff2`);
+  const path = join(cacheDir, `${key}.woff2`);
   if (existsSync(path)) {
     return new Uint8Array(readFileSync(path));
   }
@@ -50,5 +54,5 @@ export function readCache(key: string): Uint8Array | null {
 
 export function writeCache(key: string, bytes: Uint8Array) {
   ensureCacheDir();
-  writeFileSync(join(CACHE_DIR, `${key}.woff2`), bytes);
+  writeFileSync(join(cacheDir, `${key}.woff2`), bytes);
 }
