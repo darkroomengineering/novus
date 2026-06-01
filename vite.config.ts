@@ -1,11 +1,11 @@
 import { reactRouter } from "@react-router/dev/vite";
-import { responsiveImage } from "@responsive-image/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import browserslist from "browserslist";
 import { browserslistToTargets, composeVisitors } from "lightningcss";
 import { defineConfig } from "vite";
 import babel from "vite-plugin-babel";
 import svgr from "vite-plugin-svgr";
+import { imageOptimizer } from "./lib/image-optimizer/index.ts";
 import { fontOptimizer } from "./lib/font-optimizer/index.ts";
 import { fonts } from "./styles/fonts.ts";
 import { darkroomStyling } from "./styles/scripts/vite/darkroom-styling.ts";
@@ -28,10 +28,7 @@ export default defineConfig({
       },
     }),
     svgr(),
-    responsiveImage({
-      w: [768, 1600],
-      format: ["webp", "avif"],
-    }),
+    imageOptimizer(),
     darkroomStyling(),
   ],
   envPrefix: "PUBLIC_",

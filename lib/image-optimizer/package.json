@@ -1,0 +1,15 @@
+{
+  "name": "@darkroom/image-optimizer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "dependencies": {
+    "wasm-vips": "^0.0.17"
+  },
+  "peerDependencies": {
+    "vite": ">=5.0.0"
+  }
+}
