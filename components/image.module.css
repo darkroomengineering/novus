@@ -1,33 +1,30 @@
-/* Always-on baseline + object-fit variants live inside `:where()` so their
- * specificity collapses to (0,0,0). Any Tailwind utility a caller passes
- * via `className` (`hidden`, `dt:block`, `object-cover`, …) wins without
- * needing !important or doubled selectors. Without this, `s.image`'s
- * `display: block` and a caller's `hidden` both have specificity (0,0,1,0)
- * and source order picks the winner — and that order is not stable
- * between dev (separate sheets per module) and prod (one bundled sheet).
- *
- * Same trick as `components/button/button-shell.module.css`. */
-:where(.image) {
+/* Base styles are UNLAYERED, so they win over any Tailwind utility a caller
+ * passes via `className` (`hidden`, `object-cover`, …) — utilities live in the
+ * `utilities` cascade layer (see styles/css/index.css), and an unlayered rule
+ * beats any layered rule regardless of specificity or source order. This is
+ * stable across dev and prod. To override a base value per-instance, use a
+ * module variant class or a prop, not a utility. */
+.image {
   display: block;
 }
 
-:where(.cover) {
+.cover {
   object-fit: cover;
 }
 
-:where(.contain) {
+.contain {
   object-fit: contain;
 }
 
-:where(.fill) {
+.fill {
   object-fit: fill;
 }
 
-:where(.none) {
+.none {
   object-fit: none;
 }
 
-:where(.scaleDown) {
+.scaleDown {
   object-fit: scale-down;
 }
 
