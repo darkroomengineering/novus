@@ -1,9 +1,7 @@
 import type { ImageData } from "@responsive-image/core";
 import { ResponsiveImage } from "@responsive-image/react";
-import cn from "clsx";
 import type { ComponentProps, CSSProperties } from "react";
 import { breakpoints } from "~/styles/layout";
-import s from "./image.module.css";
 
 type CommonProps = {
   /** Sizes hint on mobile (drives srcset selection) */
@@ -107,7 +105,7 @@ function RawImage({
         ...placeholderStyle,
         ...style,
       }}
-      className={cn(s.image, className)}
+      className={className}
       draggable={false}
       onDragStart={(e) => e.preventDefault()}
       {...props}
@@ -154,7 +152,7 @@ function ResponsiveImageInner({
       loading={finalLoading}
       fetchPriority={finalFetchPriority}
       decoding={finalDecoding}
-      className={cn(s.image, className)}
+      className={className}
       draggable={false}
       onDragStart={(e) => e.preventDefault()}
       {...props}

@@ -1,11 +1,18 @@
 /* GLOBAL CSS FILE - Contains global styles that shouldn't be reset */
 
-/* The reset leaves <img> untouched, so images would otherwise be inline and
- * pick up a baseline descender gap. Block by default. Lives in the `base`
- * layer (see styles/css/index.css) so Tailwind utilities and CSS modules can
- * both override it per-instance. */
+/* The reset leaves <img> untouched, so images would otherwise be inline (with a
+ * baseline descender gap) and default to object-fit:fill. Set sane defaults
+ * here. In the `base` layer (see styles/css/index.css), so Tailwind utilities
+ * (`inline`, `hidden`, `object-contain`, …) and CSS modules both override them. */
 img {
   display: block;
+  object-fit: cover;
+}
+
+/* <picture> is a non-visual wrapper (e.g. from @responsive-image); collapse it
+ * out of the layout so the inner <img> participates directly. */
+picture {
+  display: contents;
 }
 
 html {
