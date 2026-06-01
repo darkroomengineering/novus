@@ -1,24 +1,26 @@
 /* INDEX CSS FILE - Barrel file for importing all the css files */
 
 /*
- * Cascade layer order (low -> high priority): reset < utilities.
+ * Cascade layer order (low -> high priority): reset < base < utilities.
  *
  * Tailwind utilities are wrapped in the `utilities` layer (the bare
  * `tailwindcss/utilities.css` import would otherwise be UNLAYERED, since
  * Tailwind only applies `layer(utilities)` from its own index.css — which
- * this barrel bypasses). CSS modules, app globals and design tokens are
- * left UNLAYERED, so they sit above every layer: an unlayered rule beats
- * any layered rule regardless of specificity or source order.
+ * this barrel bypasses). Reset and app globals sit in lower layers so
+ * utilities override them. CSS modules and design tokens are left
+ * UNLAYERED, so they sit above every layer: an unlayered rule beats any
+ * layered rule regardless of specificity or source order.
  *
- * Net effect: CSS modules always override Tailwind, deterministically in
- * both dev (separate sheets per module) and prod (one bundled sheet).
- * Reset stays at the bottom so utilities (and everything above) win over it.
+ * Net effect (low -> high): reset < base (globals) < utilities < modules.
+ * Both Tailwind and CSS modules can override global defaults; CSS modules
+ * always win over Tailwind. Deterministic in dev (separate sheets per
+ * module) and prod (one bundled sheet).
  */
-@layer reset, utilities;
+@layer reset, base, utilities;
 
 @import "tailwindcss/utilities.css" layer(utilities);
 @import "./reset.css" layer(reset);
 @import "./media.css";
 @import "./tailwind.css";
 @import "./root.css";
-@import "./global.css";
+@import "./global.css" layer(base);

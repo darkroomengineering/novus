@@ -1,33 +1,9 @@
-/* Base styles are UNLAYERED, so they win over any Tailwind utility a caller
- * passes via `className` (`hidden`, `object-cover`, …) — utilities live in the
- * `utilities` cascade layer (see styles/css/index.css), and an unlayered rule
- * beats any layered rule regardless of specificity or source order. This is
- * stable across dev and prod. To override a base value per-instance, use a
- * module variant class or a prop, not a utility. */
-.image {
-  display: block;
-}
-
-.cover {
-  object-fit: cover;
-}
-
-.contain {
-  object-fit: contain;
-}
-
-.fill {
-  object-fit: fill;
-}
-
-.none {
-  object-fit: none;
-}
-
-.scaleDown {
-  object-fit: scale-down;
-}
-
+/* @responsive-image/react wraps the rendered <img> in a <picture>. That
+ * wrapper defaults to display:inline and isn't reachable via the component's
+ * className (which lands on the <img>), so collapse it out of the layout here.
+ * `.image` is the marker class the component puts on the <img>. The image's
+ * baseline `display: block` lives in styles/css/global.css (base layer) so
+ * callers can override it with Tailwind or a module. */
 :global(picture):has(> .image) {
   display: contents;
 }

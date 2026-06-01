@@ -5,11 +5,7 @@ import type { ComponentProps, CSSProperties } from "react";
 import { breakpoints } from "~/styles/layout";
 import s from "./image.module.css";
 
-type ObjectFit = "cover" | "contain" | "fill" | "none" | "scale-down";
-
 type CommonProps = {
-  /** CSS object-fit applied via class (style is unreliable through ResponsiveImage) */
-  objectFit?: ObjectFit;
   /** Sizes hint on mobile (drives srcset selection) */
   mobileSize?: `${number}vw`;
   /** Sizes hint on desktop */
@@ -40,14 +36,6 @@ export type ImageDataSrcProps = CommonProps &
 
 export type ImageProps = StringSrcProps | ImageDataSrcProps;
 
-const OBJECT_FIT_CLASS: Record<ObjectFit, string | undefined> = {
-  cover: s.cover,
-  contain: s.contain,
-  fill: s.fill,
-  none: s.none,
-  "scale-down": s.scaleDown,
-};
-
 export function Image({ className, ...props }: ImageProps) {
   if (typeof props.src === "string") {
     return <RawImage className={className} {...(props as StringSrcProps)} />;
@@ -73,7 +61,6 @@ function RawImage({
   loading,
   fetchPriority,
   decoding,
-  objectFit = "cover",
   alt = "",
   mobileSize = "100vw",
   desktopSize = "100vw",
@@ -120,7 +107,7 @@ function RawImage({
         ...placeholderStyle,
         ...style,
       }}
-      className={cn(s.image, OBJECT_FIT_CLASS[objectFit], className)}
+      className={cn(s.image, className)}
       draggable={false}
       onDragStart={(e) => e.preventDefault()}
       {...props}
@@ -133,7 +120,6 @@ function ResponsiveImageInner({
   loading,
   fetchPriority,
   decoding,
-  objectFit = "cover",
   alt = "",
   mobileSize = "100vw",
   desktopSize = "100vw",
@@ -168,7 +154,7 @@ function ResponsiveImageInner({
       loading={finalLoading}
       fetchPriority={finalFetchPriority}
       decoding={finalDecoding}
-      className={cn(s.image, OBJECT_FIT_CLASS[objectFit], className)}
+      className={cn(s.image, className)}
       draggable={false}
       onDragStart={(e) => e.preventDefault()}
       {...props}
