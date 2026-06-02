@@ -1,4 +1,5 @@
 import { defineFont } from "@novus/font-optimizer";
+import type { Fonts } from "@novus/styling";
 
 export const serverMono = defineFont({
   family: "ServerMono",
@@ -11,6 +12,4 @@ export const serverMono = defineFont({
 });
 
 /** All font definitions for generation */
-export const fonts = [serverMono] as const;
-
-export type Fonts = typeof fonts;
+export const fonts = [serverMono] as const satisfies Fonts;

@@ -1,18 +1,14 @@
-import type { Colors, Themes } from "../colors";
-import type { Easings } from "../easings";
-import type { Fonts } from "../fonts";
-import type { Breakpoints, CustomSizes } from "../layout";
-import type { Typography } from "../typography";
-import {
-  atRule,
-  block,
-  comment,
-  type FontDefinition,
-  mapEntries,
-  prop,
-  scalingCalc,
-  variables,
-} from "./css.ts";
+import type {
+  Breakpoints,
+  Colors,
+  CustomSizes,
+  Easings,
+  Fonts,
+  FontToken,
+  Themes,
+  Typography,
+} from "./types.ts";
+import { atRule, block, comment, mapEntries, prop, scalingCalc, variables } from "./css.ts";
 
 export function generateTailwind({
   breakpoints,
@@ -54,11 +50,8 @@ export function generateTailwind({
     // Fonts
     "--font-*: initial;",
     ...fonts
-      .filter((f: FontDefinition) => f.css !== false)
-      .map(
-        (f: FontDefinition) =>
-          `${f.variable}: '${f.family}'${f.fallback ? `, ${f.fallback}` : ""};`,
-      ),
+      .filter((f: FontToken) => f.css !== false)
+      .map((f: FontToken) => `${f.variable}: '${f.family}'${f.fallback ? `, ${f.fallback}` : ""};`),
     "",
     // Easings
     "--ease-*: initial;",
@@ -79,7 +72,7 @@ export function generateTailwind({
       .filter(([, v]) => v !== undefined && v !== null)
       .flatMap(([key, value]) => {
         if (key === "font") {
-          const f = value as FontDefinition;
+          const f = value as FontToken;
           return [prop("font-family", `var(${f.variable})`)];
         }
         if (key === "font-size") {

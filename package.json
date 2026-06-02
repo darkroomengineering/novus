@@ -59,6 +59,7 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.28.5",
     "@novus/image-optimizer": "workspace:*",
+    "@novus/styling": "workspace:*",
     "@react-router/dev": "^7.14.0",
     "@tailwindcss/vite": "^4.2.2",
     "@types/bun": "^1.3.11",

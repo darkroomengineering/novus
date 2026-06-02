@@ -1,6 +1,4 @@
-import type { Colors } from "../colors";
-import type { Easings } from "../easings";
-import type { CustomSizes, Layout, Screens } from "../layout";
+import type { Colors, CustomSizes, Easings, Layout, Screens } from "./types.ts";
 import { atRule, block, mapEntries, prop, scalingCalc, variable } from "./css.ts";
 
 export function generateRoot({

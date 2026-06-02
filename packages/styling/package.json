@@ -1,0 +1,14 @@
+{
+  "name": "@novus/styling",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./vite": "./vite.ts"
+  },
+  "peerDependencies": {
+    "lightningcss": ">=1.30",
+    "vite": ">=5"
+  }
+}

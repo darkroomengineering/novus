@@ -63,7 +63,3 @@ export function variables(obj: Record<string, string | number>, prefix?: string)
     prefix ? variable(`${prefix}-${key}`, value) : variable(key, value),
   );
 }
-
-// Re-export FontDefinition from the canonical source so generator scripts
-// can import it from one place without taking a hard dep on lib/.
-export type { FontDefinition } from "@novus/font-optimizer";
