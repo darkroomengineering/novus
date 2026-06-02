@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { reactRouter } from "@react-router/dev/vite";
 import tailwindcss from "@tailwindcss/vite";
 import browserslist from "browserslist";
@@ -7,9 +8,8 @@ import babel from "vite-plugin-babel";
 import svgr from "vite-plugin-svgr";
 import { imageOptimizer } from "@novus/image-optimizer";
 import { fontOptimizer } from "@novus/font-optimizer";
+import { darkroomStyling, lightningcssFunctions } from "@novus/styling/vite";
 import { fonts } from "./styles/fonts.ts";
-import { darkroomStyling } from "./styles/scripts/vite/darkroom-styling.ts";
-import { lightningcssFunctions } from "./styles/scripts/vite/lightningcss-functions.ts";
 
 export default defineConfig({
   define: {
@@ -29,7 +29,11 @@ export default defineConfig({
     }),
     svgr(),
     imageOptimizer(),
-    darkroomStyling(),
+    darkroomStyling({
+      configDir: resolve("styles"),
+      outDir: resolve("styles/css"),
+      prependCss: "./styles/css/media.css",
+    }),
   ],
   envPrefix: "PUBLIC_",
   resolve: {

@@ -1,8 +1,12 @@
-import type { Colors, Themes } from "../colors";
-import type { Easings } from "../easings";
-import type { Fonts } from "../fonts";
-import type { Breakpoints, CustomSizes } from "../layout";
-import type { Typography } from "../typography";
+import type {
+  Breakpoints,
+  Colors,
+  CustomSizes,
+  Easings,
+  Fonts,
+  Themes,
+  Typography,
+} from "./types.ts";
 import {
   atRule,
   block,

@@ -1,3 +1,5 @@
+import type { Colors as ColorsContract, Themes as ThemesContract } from "@novus/styling";
+
 const colors = {
   black: "#000000",
   white: "#ffffff",
@@ -6,7 +8,7 @@ const colors = {
   green: "#00ff88",
   purple: "#7928ca",
   pink: "#ff0080",
-} as const;
+} as const satisfies ColorsContract;
 
 const themeNames = ["light", "dark", "red", "evil"] as const;
 const colorNames = ["primary", "secondary", "contrast"] as const;
@@ -32,11 +34,10 @@ const themes = {
     secondary: colors.black,
     contrast: colors.white,
   },
-} as const satisfies Themes;
+} as const satisfies ThemesContract;
 
 export { colors, themeNames, themes };
 
-export type Colors = typeof colors;
 export type ThemeName = keyof typeof themes;
 export type Themes = Record<
   (typeof themeNames)[number],
