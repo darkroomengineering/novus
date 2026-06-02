@@ -1,0 +1,13 @@
+{
+  "name": "@novus/password-protection",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./vercel": "./vercel.ts"
+  },
+  "peerDependencies": {
+    "react-router": ">=7"
+  }
+}

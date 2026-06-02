@@ -3,7 +3,7 @@ import { useLenis } from "lenis/react";
 import { useLayoutEffect, useRef } from "react";
 import { ProgressText } from "~/components/progress-text";
 import { Wrapper } from "~/components/wrapper";
-import { usePageTransition } from "~/lib/transitions";
+import { usePageTransition } from "@novus/transitions";
 import { PALETTES, useShaderStore } from "../store";
 import s from "./about/about.module.css";
 import type { Route } from "./+types/about";

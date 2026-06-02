@@ -1,0 +1,22 @@
+{
+  "name": "@novus/static-i18n",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./config.ts",
+    "./context": "./context.tsx",
+    "./loader.server": "./loader.server.ts",
+    "./schema": "./schema.ts",
+    "./build": "./build.ts"
+  },
+  "dependencies": {
+    "valibot": "^1.3.1"
+  },
+  "peerDependencies": {
+    "@react-router/dev": ">=7",
+    "@vercel/react-router": ">=1",
+    "react": ">=19",
+    "react-router": ">=7"
+  }
+}

@@ -1,14 +1,14 @@
 import { Suspense, lazy, useState, type PropsWithChildren } from "react";
 import { Link, Links, Meta, Scripts, ScrollRestoration } from "react-router";
 import { Lenis } from "~/components/lenis";
-import { middleware as passwordMiddleware } from "~/lib/password-protection";
+import { middleware as passwordMiddleware } from "@novus/password-protection";
 import { ReactTempus } from "tempus/react";
 import { RealViewport } from "~/components/real-viewport";
 import { ThemeProvider } from "~/components/theme";
-import { TransitionOutlet } from "~/lib/transitions";
+import { TransitionOutlet } from "@novus/transitions";
 import { WebGLTunnel } from "~/webgl/components/tunnel";
 import "virtual:font-optimizer/fonts.css";
-import "~/lib/font-optimizer/runtime";
+import "@novus/font-optimizer/runtime";
 import "~/styles/css/index.css";
 import "~/styles/css/media.css";
 import { BackgroundShader } from "./components/background-shader";
