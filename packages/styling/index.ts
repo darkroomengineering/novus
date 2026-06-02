@@ -2,8 +2,8 @@
  * `@novus/styling` — design-token → CSS engine.
  *
  * The main entrypoint exposes the token-shape contracts an app's config files
- * conform to, the CSS string helpers, and a `FontDefinition` re-export. The
- * Vite plugin + Lightning CSS functions live under `@novus/styling/vite`.
+ * conform to and the CSS string helpers. The Vite plugin + Lightning CSS
+ * functions live under `@novus/styling/vite`.
  */
 export type {
   Breakpoints,
@@ -11,6 +11,7 @@ export type {
   CustomSizes,
   Easings,
   Fonts,
+  FontToken,
   Layout,
   Responsive,
   Screens,
@@ -18,7 +19,6 @@ export type {
   Typography,
   TypeStyle,
 } from "./types.ts";
-export type { FontDefinition } from "./css.ts";
 export {
   atRule,
   block,

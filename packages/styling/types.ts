@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react";
-import type { FontDefinition } from "@novus/font-optimizer";
 
 /**
  * Token-shape contracts for the styling engine.
@@ -50,15 +49,32 @@ export interface Layout {
 /** Named custom sizes (e.g. `header-height`), responsive px. */
 export type CustomSizes = Record<string, Responsive<number>>;
 
+/**
+ * The subset of a font definition the styling engine reads (it only needs the
+ * CSS-variable name + family + fallback). Any object with these fields satisfies
+ * it — e.g. `@novus/font-optimizer`'s `FontDefinition` is structurally a
+ * superset — so the two packages need no dependency between them.
+ */
+export interface FontToken {
+  /** CSS custom property the font is exposed as, e.g. `--font-mono`. */
+  variable: string;
+  /** `font-family` name. */
+  family: string;
+  /** Optional fallback stack appended after the family. */
+  fallback?: string;
+  /** Set to `false` to skip CSS-variable generation (e.g. WebGL-only fonts). */
+  css?: boolean;
+}
+
 /** All font definitions for generation. */
-export type Fonts = readonly FontDefinition[];
+export type Fonts = readonly FontToken[];
 
 /**
  * A single named typography style. A `type` (not `interface`) so it carries an
  * implicit index signature — the generator iterates it via `Object.entries`.
  */
 export type TypeStyle = {
-  font: FontDefinition;
+  font: FontToken;
   "font-style": CSSProperties["fontStyle"];
   "font-weight": CSSProperties["fontWeight"];
   "line-height": `${number}%` | { mobile: `${number}%`; desktop: `${number}%` };
