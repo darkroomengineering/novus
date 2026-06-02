@@ -9,9 +9,9 @@ import { generateScale } from "./generate-scale.ts";
 import { generateTailwind } from "./generate-tailwind.ts";
 
 export interface DarkroomStylingOptions {
-  /** Absolute path to the dir holding the token files (colors/easings/fonts/layout/typography.ts). */
+  /** Dir holding the token files (colors/easings/fonts/layout/typography.ts). Resolved against the project root. */
   configDir: string;
-  /** Absolute path to the dir where tailwind.css / root.css / media.css are written. */
+  /** Dir where tailwind.css / root.css / media.css are written. Resolved against the project root. */
   outDir: string;
   /** CSS `@import`-prepended into every stylesheet (custom-media defs). Default `<outDir>/media.css`. */
   prependCss?: string;
@@ -107,7 +107,11 @@ function runGenerate(configDir: string, outDir: string) {
 }
 
 export function darkroomStyling(options: DarkroomStylingOptions): Plugin {
-  const { configDir, outDir } = options;
+  // Resolve here (against cwd = project root under Vite) so callers can pass
+  // plain relative paths. `prependCss` is intentionally NOT resolved — it is
+  // injected verbatim as a CSS `@import` specifier.
+  const configDir = path.resolve(options.configDir);
+  const outDir = path.resolve(options.outDir);
   const prependCss = options.prependCss ?? path.join(outDir, "media.css");
   const watchFiles = options.watchFiles ?? TOKEN_FILES.map((file) => path.join(configDir, file));
   const prependResolved = path.resolve(prependCss);

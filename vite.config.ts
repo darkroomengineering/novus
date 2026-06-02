@@ -1,4 +1,3 @@
-import { resolve } from "node:path";
 import { reactRouter } from "@react-router/dev/vite";
 import tailwindcss from "@tailwindcss/vite";
 import browserslist from "browserslist";
@@ -30,8 +29,8 @@ export default defineConfig({
     svgr(),
     imageOptimizer(),
     darkroomStyling({
-      configDir: resolve("styles"),
-      outDir: resolve("styles/css"),
+      configDir: "styles",
+      outDir: "styles/css",
       prependCss: "./styles/css/media.css",
     }),
   ],
