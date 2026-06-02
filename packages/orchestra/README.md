@@ -28,14 +28,17 @@ const OrchestraTools = lazy(() => import("@novus/orchestra"));
 
 The Theatre runtime is consumed at app **runtime** (e.g. the WebGL layer drives meshes off sheets), not just in dev — only the studio editor is dev-gated.
 
+### `window.THEATRE_PROJECT_ID`
+
+Importing the Theatre runtime augments `Window` with a typed `THEATRE_PROJECT_ID?: string`. It's set at runtime once a Theatre project loads, so anywhere in the app can read the active project id off `window.THEATRE_PROJECT_ID` without re-declaring the global.
+
 ## Peer dependencies
 
-- **`react` >= 19** (required).
-- **`three` >= 0.180** and **`@react-three/fiber` >= 9** (optional) — only needed for the internal Theatre-controlled R3F `Group` helper (`./theatre/r3f`); the panel and the rest of the Theatre runtime don't touch them.
+- **`react` >= 19** and **`react-dom` >= 19** (required) — the panel renders through `createPortal`.
+- **`three` >= 0.180** and **`@react-three/fiber` >= 9** (optional) — only needed for the Theatre-controlled R3F `Group` helper (`./theatre/r3f`); the panel and the rest of the Theatre runtime don't touch them.
 
-## Soft expectations of the host app
+The panel ships its own styles (CSS Modules — no Tailwind) and has no UI-primitive dependency, so it drops into any React app.
 
-These are debug-tool conveniences, not hard requirements — the package won't crash without them, but the overlays look right only when the host provides:
+## Grid overlay
 
-- **Tailwind v4** with the starter's `primary` / `secondary` color tokens — the command palette UI is styled with utility classes.
-- **`--columns` CSS variable** and a grid utility class (defaults to `dr-layout-grid`, overridable via `GridDebugger`'s `gridClassName` prop) — the grid overlay reads the active column count from `--columns`.
+`GridDebugger` reads the active column count from a `--columns` CSS variable and paints over a grid class (defaults to `dr-layout-grid`, overridable via the `gridClassName` prop). If the host app doesn't define `--columns`, the overlay simply renders no columns — everything else works without it.

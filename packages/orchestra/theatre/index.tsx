@@ -17,6 +17,13 @@ import {
   useState,
 } from "react";
 
+declare global {
+  interface Window {
+    /** Active Theatre.js project id, set once a project loads. */
+    THEATRE_PROJECT_ID?: string;
+  }
+}
+
 const TheatreProjectContext = createContext<IProject | undefined>(undefined);
 
 type TheatreProjectProviderProps = {
@@ -35,9 +42,7 @@ export function TheatreProjectProvider({
   useEffect(() => {
     if (project) {
       isLoadingRef.current = false;
-      // Cast rather than rely on a global ambient declaration so the package
-      // stays self-contained (matches the read in ./studio).
-      (window as { THEATRE_PROJECT_ID?: string }).THEATRE_PROJECT_ID = project.address.projectId;
+      window.THEATRE_PROJECT_ID = project.address.projectId;
       console.log(`Theatre: project ${id} loaded`);
     }
   }, [project, id]);
