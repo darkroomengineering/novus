@@ -1,5 +1,3 @@
-import type { CSSProperties } from "react";
-
 /**
  * Token-shape contracts for the styling engine.
  *
@@ -75,8 +73,8 @@ export type Fonts = readonly FontToken[];
  */
 export type TypeStyle = {
   font: FontToken;
-  "font-style": CSSProperties["fontStyle"];
-  "font-weight": CSSProperties["fontWeight"];
+  "font-style": "normal" | "italic" | "oblique";
+  "font-weight": number | "normal" | "bold" | "lighter" | "bolder";
   "line-height": `${number}%` | { mobile: `${number}%`; desktop: `${number}%` };
   "letter-spacing": `${number}em` | { mobile: `${number}em`; desktop: `${number}em` };
   "font-feature-settings"?: string;
