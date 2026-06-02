@@ -4,7 +4,7 @@ import { OrthographicCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import cn from "clsx";
 import { Suspense, useContext } from "react";
-import { SheetProvider } from "../../../dev/theatre";
+import { SheetProvider } from "@novus/orchestra/theatre";
 import { FlowmapProvider } from "../flowmap-provider";
 import { PostProcessing } from "../postprocessing";
 import { Preload } from "../preload";

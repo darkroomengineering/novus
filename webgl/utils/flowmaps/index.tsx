@@ -2,8 +2,8 @@ import { useFrame, useThree } from "@react-three/fiber";
 import theatreCore from "@theatre/core";
 const { types } = theatreCore;
 import { useEffect, useRef } from "react";
-import { useCurrentSheet } from "../../../dev/theatre";
-import { useTheatre } from "../../../dev/theatre/hooks/use-theatre";
+import { useCurrentSheet } from "@novus/orchestra/theatre";
+import { useTheatre } from "@novus/orchestra/theatre/hooks/use-theatre";
 import { Flowmap } from "./flowmap-sim";
 
 export function useFlowmapSim() {
