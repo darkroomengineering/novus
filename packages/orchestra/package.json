@@ -16,10 +16,19 @@
     "hamo": "1.0.0-dev.13",
     "stats-gl": "^4.1.0",
     "tempus": "1.0.0-dev.17",
-    "three": "^0.183.2",
     "zustand": "^5.0.12"
   },
   "peerDependencies": {
-    "react": ">=19"
+    "@react-three/fiber": ">=9",
+    "react": ">=19",
+    "three": ">=0.180"
+  },
+  "peerDependenciesMeta": {
+    "@react-three/fiber": {
+      "optional": true
+    },
+    "three": {
+      "optional": true
+    }
   }
 }

@@ -35,7 +35,9 @@ export function TheatreProjectProvider({
   useEffect(() => {
     if (project) {
       isLoadingRef.current = false;
-      window.THEATRE_PROJECT_ID = project.address.projectId;
+      // Cast rather than rely on a global ambient declaration so the package
+      // stays self-contained (matches the read in ./studio).
+      (window as { THEATRE_PROJECT_ID?: string }).THEATRE_PROJECT_ID = project.address.projectId;
       console.log(`Theatre: project ${id} loaded`);
     }
   }, [project, id]);

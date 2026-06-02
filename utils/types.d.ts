@@ -8,10 +8,6 @@ declare module "react" {
 }
 
 declare global {
-  interface Window {
-    THEATRE_PROJECT_ID?: string;
-  }
-
   /**
    * Build-time constant injected by `vite.config.ts` via `define`. Used by
    * `components/dev-only` to drop dev-only modules from production bundles
