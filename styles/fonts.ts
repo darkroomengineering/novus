@@ -1,4 +1,4 @@
-import { defineFont } from "../lib/font-optimizer/index.ts";
+import { defineFont } from "@novus/font-optimizer";
 
 export const serverMono = defineFont({
   family: "ServerMono",

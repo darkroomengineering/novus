@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { Marquee } from "~/components/marquee";
 import { SplitText } from "~/components/split-text";
 import type { SplitTextRef } from "~/components/split-text";
-import { usePageTransition } from "~/lib/transitions";
+import { usePageTransition } from "@novus/transitions";
 import s from "./hero.module.css";
 
 export function Hero() {

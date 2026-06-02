@@ -3,7 +3,7 @@ import { createTimeline } from "animejs";
 import { useLayoutEffect, useRef } from "react";
 import type { Texture } from "three";
 import { Color, ShaderMaterial, Vector2 } from "three";
-import { useTransitionEvent } from "~/lib/transitions";
+import { useTransitionEvent } from "@novus/transitions";
 import { useFlowmap } from "~/webgl/components/flowmap-provider";
 import { BLEND } from "~/webgl/utils/blend";
 import { FUNCTIONS } from "~/webgl/utils/functions";

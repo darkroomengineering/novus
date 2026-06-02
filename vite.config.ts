@@ -5,8 +5,8 @@ import { browserslistToTargets, composeVisitors } from "lightningcss";
 import { defineConfig } from "vite";
 import babel from "vite-plugin-babel";
 import svgr from "vite-plugin-svgr";
-import { imageOptimizer } from "./lib/image-optimizer/index.ts";
-import { fontOptimizer } from "./lib/font-optimizer/index.ts";
+import { imageOptimizer } from "@novus/image-optimizer";
+import { fontOptimizer } from "@novus/font-optimizer";
 import { fonts } from "./styles/fonts.ts";
 import { darkroomStyling } from "./styles/scripts/vite/darkroom-styling.ts";
 import { lightningcssFunctions } from "./styles/scripts/vite/lightningcss-functions.ts";
@@ -36,9 +36,11 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   ssr: {
-    // The package ships a CSS side-effect import that Node can't resolve;
-    // process it through Vite's transform pipeline during SSR.
-    noExternal: ["@responsive-image/react"],
+    // `@responsive-image/react` ships a CSS side-effect import Node can't
+    // resolve; the `@novus/*` workspace packages ship raw `.ts` (resolved via
+    // node_modules symlinks, so Vite would otherwise externalize them and hand
+    // Node `.ts` it can't run). Both must go through Vite's transform pipeline.
+    noExternal: ["@responsive-image/react", /^@novus\//],
   },
   build: {
     // Bundle all CSS into a single file instead of per-route chunks.

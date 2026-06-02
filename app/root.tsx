@@ -10,12 +10,12 @@ import {
   useRouteError,
 } from "react-router";
 import { Link } from "~/components/link";
-import { middleware as passwordMiddleware } from "~/lib/password-protection";
+import { middleware as passwordMiddleware } from "@novus/password-protection";
 import { ReactTempus } from "tempus/react";
 import { RealViewport } from "~/components/real-viewport";
 import { ThemeProvider } from "~/components/theme";
 import "virtual:font-optimizer/fonts.css";
-import "~/lib/font-optimizer/runtime";
+import "@novus/font-optimizer/runtime";
 import "~/styles/css/index.css";
 import "~/styles/css/media.css";
 

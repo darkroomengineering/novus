@@ -2,6 +2,9 @@
 
 # dependencies
 /node_modules
+# Bun creates a node_modules/ inside each workspace package (symlinks to the
+# shared store). Ignore them at any depth so they're neither tracked nor linted.
+**/node_modules/
 /.pnp
 .pnp.js
 .turbo

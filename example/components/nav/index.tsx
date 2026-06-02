@@ -3,7 +3,7 @@ import { createTimeline } from "animejs";
 import { useRef } from "react";
 import { useLocation } from "react-router";
 import { Link } from "~/components/link";
-import { useTransitionEvent } from "~/lib/transitions";
+import { useTransitionEvent } from "@novus/transitions";
 import s from "./nav.module.css";
 
 const PAGES = [
