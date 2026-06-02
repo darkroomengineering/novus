@@ -14,7 +14,7 @@
 import { useContextBridge } from "@react-three/drei";
 import { Fragment, type PropsWithChildren, useId } from "react";
 import { TransformContext } from "~/hooks/use-transform";
-import { SheetContext, SheetProvider, useSheet } from "../../../dev/theatre";
+import { SheetContext, SheetProvider, useSheet } from "@novus/orchestra/theatre";
 import { useCanvas } from "../canvas";
 
 /**

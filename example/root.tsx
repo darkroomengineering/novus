@@ -20,7 +20,7 @@ import type { Route } from "./+types/root";
 
 export const middleware: Route.MiddlewareFunction[] = [passwordMiddleware];
 
-const OrchestraTools = lazy(() => import("../dev"));
+const OrchestraTools = lazy(() => import("@novus/orchestra"));
 const GlobalCanvas = lazy(() => import("../webgl/components/global-canvas"));
 
 export function Layout({ children }: PropsWithChildren) {

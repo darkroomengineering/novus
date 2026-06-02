@@ -4,7 +4,7 @@ import { OrthographicCamera } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import cn from "clsx";
 import { Suspense, useState } from "react";
-import { SheetProvider } from "../../../dev/theatre";
+import { SheetProvider } from "@novus/orchestra/theatre";
 import { useWebGLStore } from "../../store";
 import { createRenderer } from "../../utils/create-renderer";
 import { detectGPUCapability } from "../../utils/gpu-detection";
