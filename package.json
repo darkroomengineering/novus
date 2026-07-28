@@ -47,7 +47,7 @@
     "postprocessing": "^6.39.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "react-router": "^7.14.0",
+    "react-router": "^8.3.0",
     "tempus": "1.0.0-dev.17",
     "three": "^0.183.2",
     "tunnel-rat": "^0.1.2",
