@@ -1,5 +1,5 @@
 {
-  "name": "@darkroom.engineering/satus",
+  "name": "@darkroom.engineering/novus",
   "version": "2.0.0",
   "private": true,
   "description": "React Router starter by darkroom.engineering",
@@ -85,5 +85,9 @@
     "iOS >= 16",
     "Safari >= 16",
     "not dead"
-  ]
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "packageManager": "bun@1.3.5"
 }
