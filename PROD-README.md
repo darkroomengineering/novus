@@ -47,4 +47,4 @@ Push to `main` branch for Vercel deployment.
 
 ---
 
-Built with [Satus](https://github.com/darkroomengineering/satus) by [darkroom.engineering](https://darkroom.engineering)
+Built with [Novus](https://github.com/darkroomengineering/novus) by [darkroom.engineering](https://darkroom.engineering)

@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "@darkroom.engineering/satus",
+      "name": "@darkroom.engineering/novus",
       "dependencies": {
         "@novus/font-optimizer": "workspace:*",
         "@novus/orchestra": "workspace:*",

@@ -1,233 +1,57 @@
 # Cursor Rules Documentation
 
-This directory contains consolidated Cursor AI rules for the Satus project. The rules are organized into 5 focused files for easy maintenance and efficient AI context loading.
+This directory contains Cursor AI rules for the **Novus** project (React
+Router 7 starter by darkroom.engineering), organized into 5 focused files.
 
-## 📁 File Structure
+## File Structure
 
-### 1. `main.mdc` - Project Overview & Cross-Cutting Concerns
+### 1. `main.mdc` — Project Overview & Cross-Cutting Concerns
 
-**Purpose**: High-level overview and concerns that apply across the entire project
+Technology stack (React Router 7, React 19, TypeScript, Tailwind v4, Bun),
+path alias (`~/`), file organization, critical rules (Wrapper, image/link
+components, no manual memoization, `import type`, env pattern).
 
-**Contents**:
+### 2. `architecture.mdc` — Architecture Patterns & Best Practices
 
-- Technology stack (Next.js 16+, React 19+, Tailwind v4, Biome, Bun)
-- React 19+ new features (`<Activity />`, `useEffectEvent`, `cacheSignal`)
-- Next.js 16 Cache Components gotchas and best practices
-- File organization
-- React Compiler & memoization guidelines (single source of truth)
-- Image optimization guidelines (single source of truth)
-- Development vs production guidelines (single source of truth)
-- Core utility libraries (`@/utils`)
+Type safety, state management (React state, Zustand), routing & data loading
+(React Router loaders), root layout pattern (`app/root.tsx`), workspace
+packages (`packages/*`), security (env validation), code quality, dev workflow.
 
-**When to reference**: Starting a new project, understanding the tech stack, cross-cutting concerns
+### 3. `components.mdc` — React Component Patterns & WebGL
 
----
+Component structure, CSS Modules, props interfaces, lazy loading, the list of
+reusable `components/`, and the WebGL system (`webgl/`: Canvas, Tunnel, R3F,
+Drei, post-processing).
 
-### 2. `components.mdc` - React Component Patterns & WebGL
+### 4. `styling.mdc` — CSS Modules, Tailwind CSS v4 & Custom Utilities
 
-**Purpose**: All React component patterns including standard components and WebGL/Three.js
+CSS Modules conventions, design tokens (`styles/*.ts`), Lightning CSS custom
+functions (`mobile-vw()`, `desktop-vw()`, `columns()`), Tailwind v4 basics, and
+the generated `dr-*` utility classes from `@novus/styling`.
 
-**Contents**:
+### 5. `integrations.mdc` — Third-Party Integrations
 
-- Component structure and imports
-- Props interfaces and React 19 ref handling
-- Forms and responsive design
-- Performance best practices (code splitting)
-- Error handling
-- WebGL/Three.js setup and patterns
-- React Three Fiber
-- Drei components
-- Custom shaders
-- Animation and interaction
-- Post-processing
+Sanity CMS only: client setup, env vars (`PUBLIC_SANITY_*`), GROQ queries,
+data fetching via loaders, images, SEO, schema conventions. Also notes the
+opt-in `lib/` and `packages/*` modules (password-protection, static-i18n,
+transitions).
 
-**When to reference**: Building React components, creating WebGL experiences, working with Three.js
+## Quick Reference
 
----
+- **Start a new feature** → `main.mdc`, then `architecture.mdc`
+- **Build a component** → `components.mdc`
+- **Add WebGL/Three.js** → `components.mdc` § WebGL Components
+- **Style a component** → `styling.mdc`
+- **Fetch Sanity content** → `integrations.mdc`
+- **State management / routing** → `architecture.mdc`
 
-### 3. `styling.mdc` - CSS Modules & Tailwind CSS v4
+## Maintenance
 
-**Purpose**: All styling approaches including CSS Modules and Tailwind CSS v4
+- Keep claims verified against the actual codebase, not assumed from other
+  darkroom.engineering starters (e.g. `satus`, which is built on a different
+  meta-framework — its rules do not apply here).
+- Update the "Last updated" date at the bottom of a file when editing it.
+- If `packages/*` workspace extraction moves more `lib/` modules, update
+  `architecture.mdc` § Workspace Packages and `integrations.mdc` accordingly.
 
-**Contents**:
-
-- CSS Modules (file naming, class naming, imports)
-- Responsive design (viewport functions, breakpoints, grid system)
-- Typography and colors
-- Animations and transitions
-- Tailwind CSS v4 (CSS-first configuration, theme variables, new features)
-- 3D transforms, gradients, shadows
-- New variants (composable, `starting`, `not-*`, `nth-*`)
-- Custom extensions (`@utility`, `@variant`, `@plugin`)
-- Breaking changes and migration
-- Project-specific custom utilities (`dr-*` classes)
-- PostCSS functions
-
-**When to reference**: Styling components, using Tailwind, creating responsive designs
-
----
-
-### 4. `integrations.mdc` - Third-Party Integrations
-
-**Purpose**: Guidelines for all third-party service integrations
-
-**Contents**:
-
-- **Sanity CMS**: Configuration, schema management, GROQ queries, visual editing, TypeScript generation, cacheSignal integration
-- **Shopify**: API configuration, product management, cart operations, cacheSignal integration
-- **HubSpot**: Form integration, newsletter subscriptions
-- General best practices (environment variables, API resilience, error handling)
-- Cache Components gotchas for integrations (user-specific data, real-time data)
-- Type safety and performance
-- Security and integration management
-- Webhook handling
-
-**When to reference**: Integrating with Sanity, Shopify, HubSpot, or other third-party services
-
----
-
-### 5. `architecture.mdc` - Architecture Patterns & Best Practices
-
-**Purpose**: Architectural patterns, state management, routing, and code quality guidelines
-
-**Contents**:
-
-- Type safety (TypeScript configuration)
-- State management (React state, Zustand)
-- Routing & navigation (Next.js App Router, Link component)
-- Metadata & SEO
-- Performance (server components, code splitting, caching)
-- Cache Components (Next.js 16) - Suspense, invalidation, gotchas
-- Security (environment variables, input validation, authentication)
-- Testing & debugging (unit tests, debugging tools, error boundaries)
-- Code quality (linting, formatting, code organization)
-- Development workflow (package manager, git workflow, client/server boundaries)
-
-**When to reference**: Architectural decisions, state management, routing patterns, code quality
-
----
-
-## 🎯 Quick Reference Guide
-
-### I want to...
-
-- **Start a new feature** → Read `main.mdc` for overview, then `architecture.mdc` for patterns
-- **Build a React component** → `components.mdc`
-- **Add WebGL/Three.js** → `components.mdc` § WebGL Components & Activity Integration
-- **Style with CSS Modules** → `styling.mdc` § CSS Modules
-- **Style with Tailwind** → `styling.mdc` § Tailwind CSS v4
-- **Use custom utilities** → `styling.mdc` § Project-Specific Custom Utilities
-- **Integrate Sanity CMS** → `integrations.mdc` § Sanity CMS Integration
-- **Integrate Shopify** → `integrations.mdc` § Shopify Integration
-- **Integrate HubSpot** → `integrations.mdc` § HubSpot Forms
-- **Manage state** → `architecture.mdc` § State Management
-- **Add routing** → `architecture.mdc` § Routing & Navigation
-- **Optimize performance** → `architecture.mdc` § Performance
-- **Handle security** → `architecture.mdc` § Security
-- **Debug issues** → `architecture.mdc` § Testing & Debugging
-- **Understand React Compiler** → `main.mdc` § React Compiler & Memoization
-- **Handle images** → `main.mdc` § Image Optimization (`@/components/ui/image`)
-- **Dev vs prod differences** → `main.mdc` § Development vs Production
-- **Use utility functions** → `main.mdc` § Core Utility Libraries (`@/utils`)
-
----
-
-## 🔄 Migration from Old Structure
-
-### What Changed?
-
-**Before (7 files)**:
-
-1. `main.mdc` - Overview
-2. `components.mdc` - React components
-3. `webgl.mdc` - WebGL/Three.js
-4. `styling.mdc` - CSS Modules
-5. `tailwind-css-v4.mdc` - Tailwind
-6. `integrations.mdc` - General integrations
-7. `sanity-opinionated.mdc` - Sanity-specific
-
-**After (5 files)**:
-
-1. `main.mdc` - Overview + cross-cutting concerns
-2. `components.mdc` - React + WebGL (merged)
-3. `styling.mdc` - CSS Modules + Tailwind (merged)
-4. `integrations.mdc` - All third-party integrations (merged Sanity)
-5. `architecture.mdc` - NEW: Architecture patterns
-
-### Benefits of Consolidation
-
-✅ **Reduced duplication**: React Compiler, Image optimization, Dev/Prod guidelines now in ONE place
-✅ **Easier to find**: Related content is together (e.g., all styling in one file)
-✅ **Better context for AI**: Fewer files means more efficient context loading
-✅ **Easier maintenance**: Less jumping between files, clearer organization
-✅ **Clearer separation**: Each file has a distinct purpose
-
----
-
-## 📝 Maintenance Guidelines
-
-### When Editing Rules
-
-1. **Avoid Duplication**: If content applies to multiple areas, put it in `main.mdc` and reference it
-2. **Use Cross-References**: Link to other sections instead of duplicating content
-3. **Keep It Focused**: Each file should maintain its specific purpose
-4. **Update Dates**: Update the "Last updated" date when making changes
-5. **Check Dependencies**: When updating one file, check if related files need updates
-
-### Example Cross-Reference Pattern
-
-```markdown
-<!-- In components.mdc -->
-
-## Performance Optimization
-
-See main.mdc § React Compiler & Memoization for optimization guidelines.
-```
-
-### Adding New Content
-
-**Ask yourself**:
-
-- Is this component-specific? → `components.mdc`
-- Is this styling-related? → `styling.mdc`
-- Is this an integration? → `integrations.mdc`
-- Is this architectural? → `architecture.mdc`
-- Is this cross-cutting? → `main.mdc`
-
----
-
-## 🚀 For Developers
-
-### Quick Setup
-
-1. These rules are automatically loaded by Cursor AI
-2. All files have `alwaysApply: true` in frontmatter
-3. Files apply to: `*.tsx, *.jsx, *.css, *.js, *.ts`
-
-### Contributing
-
-When adding new guidelines:
-
-1. Choose the appropriate file
-2. Follow existing formatting patterns
-3. Add clear examples
-4. Update this README if needed
-5. Keep content focused and actionable
-
----
-
-## 📊 File Statistics
-
-| File               | Purpose                  | Key Topics                                                                         |
-| ------------------ | ------------------------ | ---------------------------------------------------------------------------------- |
-| `main.mdc`         | Overview & Cross-cutting | Tech stack, React 19+ features, Cache Components, React Compiler, Images, Dev/Prod |
-| `components.mdc`   | React & WebGL            | Components, Forms, WebGL, Three.js, Shaders, Activity                              |
-| `styling.mdc`      | All Styling              | CSS Modules, Tailwind v4, Responsive, Custom utilities                             |
-| `integrations.mdc` | Third-party Services     | Sanity, Shopify, HubSpot, Cache Components, cacheSignal                            |
-| `architecture.mdc` | Patterns & Quality       | State, Routing, Performance, Cache Components, Security, Testing                   |
-
----
-
-Last updated: 2025-12-18
-
-For questions or suggestions about these rules, contact the development team.
+Last updated: 2026-08-03

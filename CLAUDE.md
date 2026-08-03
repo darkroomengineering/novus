@@ -1,4 +1,4 @@
-# Satus -- AI Agent Guide
+# Novus — AI Agent Guide
 
 React Router starter by [darkroom.engineering](https://darkroom.engineering).
 
@@ -22,7 +22,8 @@ lib/                    # Opt-in modules: password-protection, transitions, stat
 dev/                    # Debug tools (Orchestra, grid, stats, minimap, Theatre.js)
 webgl/                  # 3D graphics system (R3F, global canvas, tunnels)
 example/                # Reference implementation (home, features, about, nav, preloader,
-                        # transitions). Copy what you need into app/ — not wired by default.
+                        # transitions). The DEFAULT appDirectory (react-router.config.ts) —
+                        # switch to app/ and delete example/ to start a real project.
 env.ts                  # Env (t3-env + valibot, PUBLIC_ prefix for client, plain for server)
 vite.config.ts          # Vite config, Tailwind, Lightning CSS, darkroom-styling plugin
 ```
