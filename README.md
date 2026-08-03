@@ -1,8 +1,6 @@
-[![SATUS](https://assets.darkroom.engineering/satus/banner.gif)](https://github.com/darkroomengineering/satus)
+# Novus
 
-# Satus
-
-A React Router starter with React 19, Tailwind CSS v4, and optional WebGL. _Satus_ means "beginning" in Latin.
+A React Router starter with React 19, Tailwind CSS v4, and optional WebGL. _Novus_ means "new" in Latin.
 
 ## Requirements
 
@@ -18,6 +16,8 @@ bun install
 cp .env.example .env.local
 bun dev
 ```
+
+> `bun dev` serves the bundled `example/` marketing site by default. To start your own app, point `appDirectory` at `app/` in `react-router.config.ts` and delete `example/`.
 
 ## Tech Stack
 
@@ -40,6 +40,14 @@ styles/                 # Design system, Tailwind config, CSS generation
 integrations/           # Third-party services (Sanity)
 dev/                    # Debug tools (Orchestra, Theatre.js)
 webgl/                  # 3D graphics system (R3F)
+packages/               # Workspace packages
+  font-optimizer/       # Vite plugin: font subsetting/optimization
+  image-optimizer/      # Vite plugin: image processing
+  orchestra/            # Dev debug panel (grid, stats, minimap, Theatre.js studio)
+  password-protection/  # Site-wide password gate middleware
+  static-i18n/          # Static i18n build + loader
+  styling/              # darkroom-styling Vite plugin, CSS/design-token codegen
+  transitions/          # Page-transition system
 ```
 
 ## Commands
