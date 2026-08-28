@@ -4,10 +4,10 @@ A React Router starter with React 19, Tailwind CSS v4, and optional WebGL. _Novu
 
 ## Requirements
 
-| Tool    | Version   |
-| ------- | --------- |
-| Node.js | >= 22.0.0 |
-| Bun     | >= 1.3.5  |
+| Tool    | Version    |
+| ------- | ---------- |
+| Node.js | >= 24.20.0 |
+| Bun     | >= 1.3.5   |
 
 ## Quick Start
 
