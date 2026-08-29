@@ -1,5 +1,6 @@
 import { type HTMLAttributes, type RefObject, useEffect, useState } from "react";
 import Orchestra from "./orchestra";
+import s from "./toggle.module.css";
 
 type OrchestraToggleProps = Omit<
   HTMLAttributes<HTMLButtonElement>,
@@ -45,10 +46,7 @@ export function OrchestraToggle({
       onClick={() => {
         Orchestra.setState((state) => ({ [id]: !state[id] }));
       }}
-      style={{
-        backgroundColor: active ? "rgba(0, 255, 0, 0.5)" : "",
-      }}
-      className="grid size-20 place-items-center rounded-[8px] text-[64px]"
+      className={active ? `${s.toggle} ${s.active}` : s.toggle}
       title={id}
     >
       {children}

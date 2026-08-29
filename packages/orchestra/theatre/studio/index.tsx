@@ -5,7 +5,7 @@ import s from "./studio.module.css";
 type StudioInstance = any;
 
 function getProjectId(): string | undefined {
-  return (window as { THEATRE_PROJECT_ID?: string }).THEATRE_PROJECT_ID;
+  return window.THEATRE_PROJECT_ID;
 }
 
 function downloadState(studio: StudioInstance, projectId: string) {
