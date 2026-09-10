@@ -1,28 +1,20 @@
 name: Auto-merge Dependabot
 
+# Auto-merge stable patch/minor GitHub Actions updates once Test passes.
+# Application dependencies, major, 0.x, prerelease and unknown updates stay manual.
+
 on:
-  pull_request:
-    types: [opened, synchronize]
+  workflow_run:
+    workflows: ["Test"]
+    types: [completed]
 
 permissions:
-  pull-requests: write
+  actions: read
   contents: write
+  pull-requests: write
 
 jobs:
   auto-merge:
-    if: github.actor == 'dependabot[bot]'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Fetch Dependabot metadata
-        id: metadata
-        uses: dependabot/fetch-metadata@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      # Only auto-merge patch and minor updates (not major)
-      - name: Auto-merge safe updates
-        if: steps.metadata.outputs.update-type != 'version-update:semver-major'
-        run: gh pr merge ${{ github.event.pull_request.number }} --squash --admin
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    uses: darkroomengineering/.github/.github/workflows/dependabot-merge.yml@a75b42e03f56b5ca5b2808ac4f1b06c81998fbc6
+    with:
+      update-policy: actions-only
