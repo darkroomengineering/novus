@@ -12,7 +12,7 @@
     "dev": "react-router dev",
     "build": "react-router build",
     "preview": "bun run build && vercel dev",
-    "check": "bun run lint && bun run format && bun run typecheck",
+    "check": "bun run typecheck && bun run lint && oxfmt --check .",
     "lint": "oxlint",
     "format": "oxfmt --write .",
     "typecheck": "react-router typegen && tsc --noEmit",
