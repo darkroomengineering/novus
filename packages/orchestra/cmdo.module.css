@@ -1,0 +1,28 @@
+.root {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgb(0 0 0 / 0.2);
+  backdrop-filter: blur(2px);
+  cursor: pointer;
+}
+
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+  outline: 1px solid #e5e5e5;
+  background: #fff;
+  color: #111;
+}
