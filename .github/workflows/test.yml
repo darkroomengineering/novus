@@ -8,19 +8,20 @@ on:
   pull_request:
     branches: [main]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Build and check
-        uses: darkroomengineering/.github/actions/bun-web-ci@a75b42e03f56b5ca5b2808ac4f1b06c81998fbc6
-        with:
-          node-version-file: .node-version
+  # The whole run takes under a minute, so one job runs every step as a
+  # parallel process instead of paying for install in each of four jobs. The
+  # reusable workflow sets its own concurrency, so none is set here.
+  bun:
+    uses: darkroomengineering/.github/.github/workflows/bun-ci.yml@main
+    with:
+      runs-on: '"ubuntu-latest"'
+      single-job: true
+      setup: bun react-router typegen
+      lint: bun run lint && bun oxfmt --check .
+      typecheck: bun check --no-script
+      build: bun run build
+      # The starter has no tests yet.
+      test: ''
+      # Waiting for a newer push saves nothing on a run this short.
+      main-delay: 0
