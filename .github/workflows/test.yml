@@ -22,6 +22,6 @@ jobs:
       typecheck: bun check --no-script
       build: bun run build
       # The starter has no tests yet.
-      test: ''
+      test: ""
       # Waiting for a newer push saves nothing on a run this short.
       main-delay: 0
