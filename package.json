@@ -15,7 +15,7 @@
     "check": "bun run typecheck && bun run lint && oxfmt --check .",
     "lint": "oxlint",
     "format": "oxfmt --write .",
-    "typecheck": "react-router typegen && tsc --noEmit",
+    "typecheck": "react-router typegen && bun check --no-script",
     "clean": "rm -rf build node_modules/.cache .react-router"
   },
   "dependencies": {
