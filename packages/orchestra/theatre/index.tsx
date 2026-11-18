@@ -17,6 +17,13 @@ import {
   useState,
 } from "react";
 
+declare global {
+  interface Window {
+    /** Active Theatre.js project id, set once a project loads. */
+    THEATRE_PROJECT_ID?: string;
+  }
+}
+
 const TheatreProjectContext = createContext<IProject | undefined>(undefined);
 
 type TheatreProjectProviderProps = {
